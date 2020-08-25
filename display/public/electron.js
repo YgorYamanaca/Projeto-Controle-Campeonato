@@ -4,14 +4,16 @@ const isDev = require("electron-is-dev")
 function createWindow () {
   // Cria uma janela de navegação.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1080,
+    height: 750,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
+    resizable: false,
   })
-
+  win.setMenu(null)
   // e carrega o arquivo index.html do seu aplicativo.
+  win.webContents.openDevTools()
   win.loadURL(
       isDev? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`
       )

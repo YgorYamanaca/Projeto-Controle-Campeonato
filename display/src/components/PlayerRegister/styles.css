@@ -1,0 +1,70 @@
+div.PlayerRegisterContainer
+{
+    display: flex;
+    flex-direction: column;
+    min-width: 850px;
+    min-height: 500px;
+    background-color: #ffff;
+    color: #ffff;
+    margin: 10px;
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+    overflow: hidden;
+    font-family: "Roboto Condensed";
+    font-weight: 700;
+    font-size:20px;
+}
+div.Title
+{
+    display: flex;
+    background: #5BCFAA;
+    justify-content: center;
+    height: 35px;
+    align-items: center;
+}
+div.Content
+{
+    padding:10px;
+    display: flex;
+    flex-direction: column;
+}
+div.PlayerInfo
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+div.InputBox
+{
+    display: flex;
+    height: 35px;
+    background-color: #5BCFAA;  
+    border-radius: 10px;
+    padding:0 5px;
+    overflow: hidden;
+    margin:5px;
+    align-items: center;
+}
+label.Title
+{
+    font-weight: 500;
+    color: #ffff;
+    font-size:16px;
+}
+input.TextInput
+{
+    border-color: transparent;
+    background-color: #f1f1f1;
+    color:#081D16;
+    margin: 0 5px;
+    padding:1px 5px;
+    font-size:14px;
+    font-family: "Roboto Condensed", sans-serif;
+}
+input.TextInput:focus
+{
+    outline: none;
+}
+input.TextInput:focus::placeholder
+{
+    color: transparent;
+}
