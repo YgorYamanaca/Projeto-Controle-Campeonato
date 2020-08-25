@@ -9,7 +9,6 @@ div.PlayerRegisterContainer
     margin: 10px;
     border-radius: 10px;
     border: 3px solid #f1f1f1;
-    overflow: hidden;
     font-family: "Roboto Condensed";
     font-weight: 700;
     font-size:20px;
@@ -32,6 +31,11 @@ div.PlayerInfo
 {
     display: flex;
     flex-wrap: wrap;
+}
+div.PlayerTeamInfo
+{
+    display: flex;
+    flex-wrap: wrap; 
 }
 div.InputBox
 {

@@ -50,14 +50,15 @@ export default function PlayerRegister() {
                     </div>
                 </div>
                 <div className="PlayerTeamInfo">
-                    <div className="InputBox">
-                        <label className="Title">Posição:</label> 
-                        <AppStylizedSelect id="Postion" options = {[
+                        <AppStylizedSelect
+                        id="Postion" 
+                        title="Posição:"
+                        placeholder="Selecione o time..."
+                        options = {[
                         { value: 'chocolate', label: 'Chocolate' },
                         { value: 'strawberry', label: 'Strawberry' },
                         { value: 'vanilla', label: 'Vanilla' }
                         ]} />
-                    </div>
                 </div>
                 {/* <div className="InputBox">
                     <label className="Title">Posição:</label> <input className="TextInput" type="text"/>
