@@ -19,16 +19,20 @@ div.ComponentContainer
 {
     display: flex;
     position: relative;
-    margin-left:5px;
+    margin:0 5px;
     background-color: #f1f1f1; 
     padding:1px 5px;
     align-items: center;
-    color:#081D16;
+    color:#104130;
     height: 23px;
     width: 150px;
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
     font-weight: 500;
+}
+div.ComponentContainer:hover
+{
+    cursor: pointer;
 }
 
 div.OptionsContainer
@@ -47,7 +51,7 @@ div.OptionContainer
     display: flex;
     align-items: center;
     justify-content: center;
-    color:#081D16;
+    color:#104130;
     height: 25px;
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;

@@ -1,21 +1,23 @@
-import React, {useState} from 'react'
+import React, {useState,} from 'react'
 import './styles.css'
-export default function AppStylizedSelect({id, title, options, placeholder, defaultSelectedIndex}) {
-    const [selectedObject, setSelected] = useState({value:'', label:''});
-    const [expand, setExpand] = useState(true);
+
+export default function AppStylizedSelect({id, title, options, placeholder, disabled, handleFunction}) {
+    const [selectedObject, setSelected] = useState({label:''});
+    const [expand, setExpand] = useState(false);
 
     const selectObject = (option) => {
         setSelected(option)
+        handleFunction(option.label)
     }
-    console.log("selectedObject");
+
     return (
-            <div className="ComponentBox">
+            <div className="ComponentBox" style={{opacity:disabled ? '0.5': '1', pointerEvents: disabled ? 'none': ''}}>
                 <label className="ComponentTitle">{title}</label> 
                 <div className="ComponentContainer" onClick={() => setExpand(! expand)}>
                     <div className="ComponentDefaultSelected" style={{color:placeholder && selectedObject.label === ""? 'grey' : ""}}>
                         {placeholder && selectedObject.label === ""? placeholder : selectedObject.label}
                     </div>
-                
+
                 {expand ?
                     <div className="OptionsContainer">
                         {options.map((option, index) => 
@@ -24,7 +26,7 @@ export default function AppStylizedSelect({id, title, options, placeholder, defa
                     </div>
                     :
                     null} 
-                </div>        
+                </div>      
             </div>
     )
 }

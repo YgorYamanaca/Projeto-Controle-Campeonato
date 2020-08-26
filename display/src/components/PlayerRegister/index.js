@@ -2,13 +2,26 @@ import React, {useState} from 'react'
 import './styles.css'
 import MaskedInput from 'react-input-mask'
 import AppStylizedSelect from '../AppStylizedSelect/'
+import AppStylizedButton from '../AppStylizedButton/'
 
 export default function PlayerRegister() {
     const [name, setName] = useState("");
     const [nick, setNickName] = useState("");
     const [age, setAge] = useState("");
     const [tel, setTel] = useState("");
-    console.log("Teste", name, nick, age, tel)
+    const [position, setPosition] = useState();
+
+    const futebolPositionOptions = [
+        { label: 'Goleiro' },
+        { label: 'Zagueiro' },
+        { label: 'Lateral Direito' },
+        { label: 'Lateral Esquerdo' },
+        { label: 'Volante' },
+        { label: 'Meia' },
+        { label: 'Atacante' },
+        ]
+
+    console.log("Teste", position)
     return (
         <div className="PlayerRegisterContainer">
             <div className="Title">Cadastro de Jogador</div>
@@ -49,24 +62,33 @@ export default function PlayerRegister() {
                             />
                     </div>
                 </div>
+                
                 <div className="PlayerTeamInfo">
                         <AppStylizedSelect
                         id="Postion" 
                         title="Posição:"
+                        placeholder="Selecione a posição..."
+                        options = {futebolPositionOptions} 
+                        handleFunction = {setPosition}
+                        />
+
+                        <AppStylizedSelect
+                        id="Team" 
+                        title="Time:"
                         placeholder="Selecione o time..."
                         options = {[
                         { value: 'chocolate', label: 'Chocolate' },
                         { value: 'strawberry', label: 'Strawberry' },
                         { value: 'vanilla', label: 'Vanilla' }
-                        ]} />
+                        ]} 
+                        disabled={true}/>
                 </div>
-                {/* <div className="InputBox">
-                    <label className="Title">Posição:</label> <input className="TextInput" type="text"/>
-                </div>
+            </div>
 
-                <div className="InputBox">
-                    <label className="Title">Time:</label> <input className="TextInput" type="text"/>
-                </div> */}
+            <div className="Footer">
+                <div style={{marginLeft:'auto'}}>     
+                    <AppStylizedButton contentText="Cadastrar" disabled={name && nick && age && tel && position? false : true}/>
+                </div>
             </div>
         </div>
     )

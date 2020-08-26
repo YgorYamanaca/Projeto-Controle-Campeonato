@@ -12,11 +12,12 @@ div.PlayerRegisterContainer
     font-family: "Roboto Condensed";
     font-weight: 700;
     font-size:20px;
+    overflow: hidden;
 }
 div.Title
 {
     display: flex;
-    background: #5BCFAA;
+    background-color: #5BCFAA;
     justify-content: center;
     height: 35px;
     align-items: center;
@@ -26,16 +27,19 @@ div.Content
     padding:10px;
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 div.PlayerInfo
 {
     display: flex;
     flex-wrap: wrap;
+    margin: 10px 10px 15px 10px;
 }
 div.PlayerTeamInfo
 {
     display: flex;
     flex-wrap: wrap; 
+    margin: 10px 10px 15px 10px;
 }
 div.InputBox
 {
@@ -71,4 +75,12 @@ input.TextInput:focus
 input.TextInput:focus::placeholder
 {
     color: transparent;
+}
+
+div.Footer
+{
+    display:flex;
+    background-color: #5BCFAA;
+    margin-bottom: auto;
+    padding:10px;
 }
