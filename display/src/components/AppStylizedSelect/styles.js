@@ -1,22 +1,20 @@
-div.ComponentBox
-{
+import styled from 'styled-components';
+
+export const ComponentBox = styled.div`
     display: flex;
     height: 35px;
-    background-color: #5BCFAA;  
+    background-color: #00527E;  
     border-radius: 10px;
     padding:0 5px;
     margin:5px;
     align-items: center;
-}
-label.ComponentTitle
-{
+`;
+export const ComponentTitle = styled.label`
     font-weight: 500;
     color: #ffff;
     font-size:16px;
-}
-
-div.ComponentContainer
-{
+`;
+export const ComponentContainer = styled.div`
     display: flex;
     position: relative;
     margin:0 5px;
@@ -29,25 +27,23 @@ div.ComponentContainer
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
     font-weight: 500;
-}
-div.ComponentContainer:hover
-{
-    cursor: pointer;
-}
+    :hover
+    {
+        cursor: pointer;
+    }
+`;
 
-div.OptionsContainer
-{
+export const OptionsContainer = styled.div`
     position: absolute;
     flex-direction: column;
     background-color: #f1f1f1;
     left: 0;
     top: 25px;
     width: 150px; 
-    border:3px solid #5BCFAA;
-}
+    border:3px solid #00527E;
+`;
 
-div.OptionContainer
-{
+export const OptionContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,10 +51,9 @@ div.OptionContainer
     height: 25px;
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
-}
-
-div.OptionContainer:hover
-{
-    background-color: #5BCFAA;
-    cursor:pointer;
-}
+    :hover
+    {
+        background-color: #00527E;
+        cursor:pointer;
+    }
+`;

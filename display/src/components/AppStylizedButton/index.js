@@ -1,10 +1,10 @@
 import React from 'react'
-import './styles.css'
+import { AppButtonContainer } from './styles.js'
 
 export default function AppStylizedButton({contentText, disabled, onClick}) {
     return (
-        <button className="AppButtonContainer" style={{opacity:disabled? '0.5':'1', PointerEvent:disabled? 'none':''}} disabled={disabled} onClick={() => onClick()}>
+        <AppButtonContainer style={{opacity:disabled? '0.5':'1', PointerEvent:disabled? 'none':''}} disabled={disabled} onClick={(e) => onClick(e)}>
             {contentText}
-        </button>
+        </AppButtonContainer>
     )
 }

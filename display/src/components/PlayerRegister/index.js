@@ -1,17 +1,20 @@
 import React, {useState} from 'react'
-import './styles.css'
 import MaskedInput from 'react-input-mask'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
 import api from '../../services/api';
+import { PlayerRegisterContainer, PlayerRegisterTitle, PlayerRegisterContent,
+     PlayerInfo, InputBox, PlayerTeamInfo, PlayerRegisterFooter } from './styles';
 
 export default function PlayerRegister() {
     const [name, setName] = useState("");
     const [nick, setNickName] = useState("");
-    const [age, setAge] = useState("");
+    const [birth, setBirth] = useState("");
     const [tel, setTel] = useState("");
     const [position, setPosition] = useState();
-
+    const birthRegex = (/(0\d{1}|1[0-2])\/([0-2]\d{1}|3[0-1])\/(19|20)\d{2}/);
+    const telRegex = (/^\([0-9]{2}(?:\))\s?[0-9]{4}(?:-)[0-9]{4}$/);
+    const regexName = (/^[a-zA-Z ]+$/);
     const futebolPositionOptions = [
         { label: 'Goleiro' },
         { label: 'Zagueiro' },
@@ -26,7 +29,7 @@ export default function PlayerRegister() {
         const formData = {
             'nome' : name,
             'apelido' : nick,
-            'idade' : age.slice(0, 2),
+            'idade' : birth.slice(0, 2),
             'telefone' : tel,
             'time' : '',
             'posicao' : position.label,
@@ -34,50 +37,47 @@ export default function PlayerRegister() {
         api.post("/jogador", formData)
         .then(res => {
             //se ok voltar para tela de calender
-            console.log(res);
-                alert("Evento criado com sucesso!")
-
-                setName("");
-                setNickName("");
-                setPosition("");
-                setTel("");
-                setPosition("");
-                setAge("");
+            setName("");
+            setNickName("");
+            setPosition("");
+            setTel("");
+            setPosition("");
+            setBirth("");
         })
         .catch(error => {
             console.log(error);
         })
     }
-
     return (
-        <div className="PlayerRegisterContainer">
-            <div className="Title">Cadastro de Jogador</div>
-            <div className="Content">
-                <div className="PlayerInfo">
-                    <div className="InputBox">
-                        <label className="Title">Nome:</label> <input className="TextInput" id="NameInput" placeholder="Insira o nome..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
-                    </div>
+        <PlayerRegisterContainer>
+            <PlayerRegisterTitle>Cadastro de Jogador</PlayerRegisterTitle>
+            
+            <PlayerRegisterContent>
+                <PlayerInfo>
+                    <InputBox>
+                        <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
+                    </InputBox>
                     
-                    <div className="InputBox">
-                        <label className="Title">Apelido:</label> <input className="TextInput" id="NickInput" placeholder="Insira o apelido..." maxLength={10} type="text" value={nick} onChange={event => setNickName(event.target.value)} style={{width: '125px'}}/>
-                    </div>
+                    <InputBox>
+                        <label>Apelido:</label> <input id="NickInput" placeholder="Insira o apelido..." maxLength={10} type="text" value={nick} onChange={event => setNickName(event.target.value)} style={{width: '125px'}}/>
+                    </InputBox>
 
-                    <div className="InputBox">
-                        <label className="Title">Idade:</label>
+                    <InputBox>
+                        <label>Data de Nascimento:</label>
                         <MaskedInput
-                            mask="99 \anos"
+                            mask="99/99/9999"
                             className="TextInput"
-                            placeholder="Clique..."
-                            value={age}
+                            placeholder="Insira a data..."
+                            value={birth}
                             id="AgeInput"
                             maskChar={null}
-                            onChange={(event) => setAge(event.target.value)}
-                            style={{width: '75px'}}
+                            onChange={(event) => setBirth(event.target.value)}
+                            style={{width: '100px'}}
                             />
-                    </div>
+                    </InputBox>
                     
-                    <div className="InputBox">
-                        <label className="Title">Telefone:</label> 
+                    <InputBox>
+                        <label>Telefone:</label> 
                         <MaskedInput
                             mask="(99) 9999-9999"
                             className="TextInput"
@@ -87,10 +87,10 @@ export default function PlayerRegister() {
                             maskChar={null}
                             onChange={(event) => setTel(event.target.value)}
                             />
-                    </div>
-                </div>
+                    </InputBox>
+                </PlayerInfo>
                 
-                <div className="PlayerTeamInfo">
+                <PlayerTeamInfo>
                         <AppStylizedSelect
                         id="Postion" 
                         title="Posição:"
@@ -110,14 +110,14 @@ export default function PlayerRegister() {
                         { value: 'vanilla', label: 'Vanilla' }
                         ]} 
                         disabled={true}/>
-                </div>
-            </div>
+                </PlayerTeamInfo>
+            </PlayerRegisterContent>
 
-            <div className="Footer">
+            <PlayerRegisterFooter>
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={name && nick && age && tel && position? false : true} onClick={submitData}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && birthRegex.test(birth) && telRegex.test(tel) && position? false : true} onClick={submitData}/>
                 </div>
-            </div>
-        </div>
+            </PlayerRegisterFooter>
+        </PlayerRegisterContainer>
     )
 }

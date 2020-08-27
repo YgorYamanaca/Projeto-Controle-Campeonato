@@ -1,10 +1,14 @@
 import React from 'react'
 import PlayerRegister from './components/PlayerRegister/'
+import PlayerTable from './components/PlayerTable/'
+import GlobalStyle from './styles/global';
 
 export default function MainApp() {
     return (
-        <div id="MainApp">
+        <>
+            <GlobalStyle />
+            <PlayerTable />
             <PlayerRegister />
-        </div>
+        </>
     )
 }
