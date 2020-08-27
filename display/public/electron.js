@@ -15,7 +15,7 @@ function createWindow () {
   // e carrega o arquivo index.html do seu aplicativo.
   win.webContents.openDevTools()
   win.loadURL(
-      isDev? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`
+      isDev? "http://localhost:3001" : `file://${path.join(__dirname, "../build/index.html")}`
       )
 }
 

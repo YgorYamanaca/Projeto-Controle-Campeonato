@@ -3,7 +3,7 @@ div.PlayerRegisterContainer
     display: flex;
     flex-direction: column;
     min-width: 850px;
-    min-height: 500px;
+    min-height: 450px;
     background-color: #ffff;
     color: #ffff;
     margin: 10px;

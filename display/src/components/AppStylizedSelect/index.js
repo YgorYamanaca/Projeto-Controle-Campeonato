@@ -1,13 +1,24 @@
-import React, {useState,} from 'react'
+import React, {useState, useEffect, memo} from 'react'
 import './styles.css'
 
-export default function AppStylizedSelect({id, title, options, placeholder, disabled, handleFunction}) {
-    const [selectedObject, setSelected] = useState({label:''});
+function AppStylizedSelect({id, title, options, placeholder, disabled, handleFunction, defaultSelectedLabel}) {
+    const [selectedObject, setSelected] = useState("");
     const [expand, setExpand] = useState(false);
+
+    useEffect(() => {
+        if(defaultSelectedLabel)
+        {
+            setSelected(defaultSelectedLabel);
+        }
+        else
+        {
+            setSelected({label:''})
+        }
+    }, [defaultSelectedLabel])
 
     const selectObject = (option) => {
         setSelected(option)
-        handleFunction(option.label)
+        handleFunction(option)
     }
 
     return (
@@ -30,3 +41,5 @@ export default function AppStylizedSelect({id, title, options, placeholder, disa
             </div>
     )
 }
+
+export default memo(AppStylizedSelect);

@@ -3,6 +3,7 @@ import './styles.css'
 import MaskedInput from 'react-input-mask'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
+import api from '../../services/api';
 
 export default function PlayerRegister() {
     const [name, setName] = useState("");
@@ -19,9 +20,35 @@ export default function PlayerRegister() {
         { label: 'Volante' },
         { label: 'Meia' },
         { label: 'Atacante' },
-        ]
+    ]
 
-    console.log("Teste", position)
+    const submitData = () => {
+        const formData = {
+            'nome' : name,
+            'apelido' : nick,
+            'idade' : age.slice(0, 2),
+            'telefone' : tel,
+            'time' : '',
+            'posicao' : position.label,
+        }
+        api.post("/jogador", formData)
+        .then(res => {
+            //se ok voltar para tela de calender
+            console.log(res);
+                alert("Evento criado com sucesso!")
+
+                setName("");
+                setNickName("");
+                setPosition("");
+                setTel("");
+                setPosition("");
+                setAge("");
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
     return (
         <div className="PlayerRegisterContainer">
             <div className="Title">Cadastro de Jogador</div>
@@ -70,6 +97,7 @@ export default function PlayerRegister() {
                         placeholder="Selecione a posição..."
                         options = {futebolPositionOptions} 
                         handleFunction = {setPosition}
+                        defaultSelectedLabel={position}
                         />
 
                         <AppStylizedSelect
@@ -87,7 +115,7 @@ export default function PlayerRegister() {
 
             <div className="Footer">
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={name && nick && age && tel && position? false : true}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={name && nick && age && tel && position? false : true} onClick={submitData}/>
                 </div>
             </div>
         </div>
