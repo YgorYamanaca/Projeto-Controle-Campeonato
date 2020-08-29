@@ -2,52 +2,44 @@ import React, {useState} from 'react'
 import MaskedInput from 'react-input-mask'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
-import api from '../../services/api';
+import { useDispatch } from 'react-redux';
+import { addPlayerRequest } from '../../store/modules/playerData/actions';
 import { PlayerRegisterContainer, PlayerRegisterTitle, PlayerRegisterContent,
      PlayerInfo, InputBox, PlayerTeamInfo, PlayerRegisterFooter } from './styles';
 
 export default function PlayerRegister() {
+    const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [nick, setNickName] = useState("");
     const [birth, setBirth] = useState("");
     const [tel, setTel] = useState("");
     const [position, setPosition] = useState();
-    const birthRegex = (/(0\d{1}|1[0-2])\/([0-2]\d{1}|3[0-1])\/(19|20)\d{2}/);
+    const birthRegex = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const telRegex = (/^\([0-9]{2}(?:\))\s?[0-9]{4}(?:-)[0-9]{4}$/);
     const regexName = (/^[a-zA-Z ]+$/);
     const futebolPositionOptions = [
-        { label: 'Goleiro' },
-        { label: 'Zagueiro' },
-        { label: 'Lateral Direito' },
-        { label: 'Lateral Esquerdo' },
-        { label: 'Volante' },
-        { label: 'Meia' },
-        { label: 'Atacante' },
+        { label: 'Goleiro'},
+        { label: 'Zagueiro'},
+        { label: 'Lateral Direito'},
+        { label: 'Lateral Esquerdo'},
+        { label: 'Volante'},
+        { label: 'Meia'},
+        { label: 'Atacante'},
     ]
 
-    const submitData = () => {
+    const submitData = (e) => {
+        e.preventDefault()
         const formData = {
             'nome' : name,
             'apelido' : nick,
-            'idade' : birth.slice(0, 2),
+            'idade' : birth,
             'telefone' : tel,
             'time' : '',
             'posicao' : position.label,
         }
-        api.post("/jogador", formData)
-        .then(res => {
-            //se ok voltar para tela de calender
-            setName("");
-            setNickName("");
-            setPosition("");
-            setTel("");
-            setPosition("");
-            setBirth("");
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        dispatch(addPlayerRequest(formData))
     }
+    
     return (
         <PlayerRegisterContainer>
             <PlayerRegisterTitle>Cadastro de Jogador</PlayerRegisterTitle>

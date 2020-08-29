@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react'
-import api from '../../services/api';
+import React, {useEffect} from 'react'
+import api from '../../services/api'
+import { useDispatch, useSelector } from 'react-redux'
+import { addPlayerData } from '../../store/modules/playerData/actions';
 import {PlayerTableContainer, PlayerTableTitle, PlayerTableContent, PlayerHeader, PlayerCell,
     PlayerTableSty, PlayerTableFooter, PlayerRowEmpety} from './styles.js'
 
 export default function PlayerTable() {
-    const [playersData, setPlayerData] = useState([]);
-
+    const playersData = useSelector(state => state.playerData);
+    const dispatch = useDispatch();
     useEffect(() => {
         api.get("/jogador")
         .then(res => {
-            console.log(res);
-            //se ok voltar para tela de calender
-            setPlayerData(res.data);
+            dispatch(addPlayerData(res.data));
         })
         .catch(error => {
             console.log(error);
         })
-    }, []);
+    }, [dispatch]);
 
     return (
         <PlayerTableContainer>
