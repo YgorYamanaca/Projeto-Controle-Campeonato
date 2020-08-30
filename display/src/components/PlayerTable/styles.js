@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const PlayerTableContainer = styled.div`
     display: flex;
+    position:relative;
     flex-direction: column;
     min-width: 850px;
     background-color: #ffff;
@@ -34,7 +35,20 @@ export const PlayerTableFooter = styled.div`
     padding:10px;
     margin-top: 15px;
 `;
-export const PlayerTableSty = styled.div`
+export const PlayerTableRowSty = styled.div`
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    font-size:18px;
+    border-right: 1px solid #003049;
+    :hover
+    {
+        border: 1px solid #030056;
+        cursor: pointer
+    }
+`;
+export const PlayerTableHeader = styled.div`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     font-family: "Roboto Condensed";
@@ -42,6 +56,7 @@ export const PlayerTableSty = styled.div`
     font-size:18px;
     border-top: 1px solid #003049;
     border-right: 1px solid #003049;
+    cursor:default;
 `;
 export const PlayerHeader = styled.div`
     display: flex;
@@ -72,3 +87,37 @@ export const PlayerRowEmpety = styled.div`
     color:grey;
     font-weight:500;
 `;
+export const DialogSty = styled.div`
+    display: flex;
+    position: absolute;
+    background-color:rgba(0, 0, 0, 0.3);
+    z-index:999;
+    height:100%;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+`;
+
+export const DialogBoxSty = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: #f1f1f1;
+    justify-content:center;
+    align-items:center;
+    color: #003049;
+    height:50%;
+    width:50%;
+    border-radius: 10px;
+    box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.5);
+    padding:25px 10px;
+`;
+
+export const ContentSty = styled.div`
+    display: flex; 
+`;
+
+export const FooterSty = styled.div`
+    display: flex;
+    margin-top:25px;
+`;
+

@@ -38,6 +38,12 @@ export default function PlayerRegister() {
             'posicao' : position.label,
         }
         dispatch(addPlayerRequest(formData))
+
+        setName("");
+        setBirth("");
+        setNickName("");
+        setPosition("");
+        setTel("");
     }
     
     return (
