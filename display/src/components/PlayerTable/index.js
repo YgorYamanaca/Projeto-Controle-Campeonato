@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react'
 import api from '../../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import { addPlayerData } from '../../store/modules/playerData/actions';
+import AppStylizedButton from '../AppStylizedButton/'
 import {PlayerTableContainer, PlayerTableTitle, PlayerTableContent, PlayerHeader, PlayerCell,
     PlayerTableRowSty, PlayerTableFooter, PlayerRowEmpety, PlayerTableHeader, DialogSty, DialogBoxSty, ContentSty, FooterSty} from './styles.js'
 
@@ -50,12 +51,8 @@ export default function PlayerTable() {
                         Deseja exluir ou editar esse jogador.
                     </ContentSty>
                     <FooterSty>
-                        <div>
-                            Botão 1
-                        </div>
-                        <div>
-                            Botão 2 
-                        </div> 
+                        <AppStylizedButton contentText="Editar" />
+                        <AppStylizedButton contentText="Excluir"/>
                     </FooterSty>
                 </DialogBoxSty>
             </DialogSty>
