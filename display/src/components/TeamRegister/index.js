@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import MaskedInput from 'react-input-mask'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
 import { useDispatch } from 'react-redux';
@@ -11,7 +10,7 @@ export default function TeamRegister() {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [nivel, setNivel] = useState();
-    const regexName = (/^[a-zA-Z ]+$/);
+    const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/);
     const TeamOptions = [
         { label: 'Muito Bom'},
         { label: 'Bom'},

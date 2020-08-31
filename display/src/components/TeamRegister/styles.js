@@ -4,7 +4,7 @@ export const TeamRegisterContainer = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 850px;
-    min-height: 150px;
+    min-height: 200px;
     background-color: #ffff;
     color: #ffff;
     margin: 10px;

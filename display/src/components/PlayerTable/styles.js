@@ -5,6 +5,7 @@ export const PlayerTableContainer = styled.div`
     position:relative;
     flex-direction: column;
     min-width: 850px;
+    height: 500px;
     background-color: #ffff;
     color: #ffff;
     margin: 10px;
@@ -26,14 +27,12 @@ export const PlayerTableContent = styled.div`
     margin:15px 15px 0 15px;
     display: flex;
     flex-direction: column;
-    max-height: 400px;
 `;
 export const PlayerTableFooter = styled.div`
     display:flex;
     background-color: #00527E;
-    margin-bottom: auto;
+    margin-top: auto;
     padding:10px;
-    margin-top: 15px;
 `;
 export const PlayerTableRowSty = styled.div`
     display: grid;

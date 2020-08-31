@@ -19,7 +19,6 @@ export const HomeContentSty = styled.div`
 
 export const HomeTopSty = styled.div`
     display: flex;
-    margin-bottom: auto;
     background-color: #003049;
     padding:15px;
     justify-content:space-around;
@@ -29,6 +28,10 @@ export const HomeTopSty = styled.div`
         font-weight: 700;
         font-size:20px;
         color:#ffff;
+        :hover
+        {
+            color:#EAE2B7;
+        }
     }
     
 `;
