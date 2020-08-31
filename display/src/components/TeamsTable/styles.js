@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PlayerTableContainer = styled.div`
+export const TeamTableContainer = styled.div`
     display: flex;
     position:relative;
     flex-direction: column;
@@ -16,27 +16,27 @@ export const PlayerTableContainer = styled.div`
     font-size:20px;
     overflow: hidden;
 `;
-export const PlayerTableTitle = styled.div`
+export const TeamTableTitle = styled.div`
     display: flex;
     background-color: #00527E;
     justify-content: center;
     height: 35px;
     align-items: center;
 `;
-export const PlayerTableContent = styled.div`
+export const TeamTableContent = styled.div`
     margin:15px 15px 0 15px;
     display: flex;
     flex-direction: column;
 `;
-export const PlayerTableFooter = styled.div`
+export const TeamTableFooter = styled.div`
     display:flex;
     background-color: #00527E;
     margin-top: auto;
     padding:10px;
 `;
-export const PlayerTableRowSty = styled.div`
+export const TeamTableRowSty = styled.div`
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;
@@ -47,9 +47,9 @@ export const PlayerTableRowSty = styled.div`
         cursor: pointer
     }
 `;
-export const PlayerTableHeader = styled.div`
+export const TeamTableHeader = styled.div`
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;
@@ -57,7 +57,7 @@ export const PlayerTableHeader = styled.div`
     border-right: 1px solid #003049;
     cursor:default;
 `;
-export const PlayerHeader = styled.div`
+export const TeamHeader = styled.div`
     display: flex;
     justify-content: center;
     background-color: #00527E;
@@ -65,7 +65,7 @@ export const PlayerHeader = styled.div`
     border-bottom: 1px solid #003049;
     padding:2px 2px;
 `;
-export const PlayerCell = styled.div`
+export const TeamCell = styled.div`
     display: flex;
     justify-content: center;
     background-color: #f1f1f1;
@@ -74,7 +74,7 @@ export const PlayerCell = styled.div`
     padding:2px 2px;
     color:#081D16;
 `;
-export const PlayerRowEmpety = styled.div`
+export const TeamRowEmpety = styled.div`
     display: flex;
     justify-content: center;
     background-color: #f1f1f1;
