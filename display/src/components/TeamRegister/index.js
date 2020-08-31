@@ -46,6 +46,7 @@ export default function TeamRegister() {
                         handleFunction = {setNivel}
                         defaultSelectedLabel={nivel}
                         />
+                        
                 </TeamInfo>
                
             </TeamRegisterContent>
