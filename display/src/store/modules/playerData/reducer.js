@@ -9,6 +9,11 @@ export default function playerData(state = initialState, action)
             })
         case 'ADD_PLAYERS_DATA':
             return action.playersInfo
+
+        case 'REMOVE_PLAYER_DATA_SUCCESS':
+            return produce(state, draft => {
+                return draft.filter(player=> player.id_jogador !== action.playerID)
+            })
         default:
             return state;
     }

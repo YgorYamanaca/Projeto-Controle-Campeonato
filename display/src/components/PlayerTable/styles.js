@@ -68,7 +68,7 @@ export const PlayerHeader = styled.div`
 export const PlayerCell = styled.div`
     display: flex;
     justify-content: center;
-    background-color: #f1f1f1;
+    background-color: ${props => props.styless === 'Par'? '#ddd' : '#ccc'};
     border-left: 1px solid #003049;
     border-bottom: 1px solid #003049;
     padding:2px 2px;
@@ -117,6 +117,8 @@ export const ContentSty = styled.div`
 
 export const FooterSty = styled.div`
     display: flex;
+    justify-content: space-around;
+    width:100%;
     margin-top:25px;
 `;
 

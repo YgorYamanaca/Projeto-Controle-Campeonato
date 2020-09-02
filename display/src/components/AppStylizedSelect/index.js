@@ -45,7 +45,7 @@ function AppStylizedSelect({id, title, options, placeholder, disabled, handleFun
             handleFunction(option) 
         }
     }
-
+    
     return (
             <ComponentBox style={{opacity:disabled ? '0.5': '1', pointerEvents: disabled ? 'none': ''}}>
                 <ComponentTitle>{title}</ComponentTitle> 

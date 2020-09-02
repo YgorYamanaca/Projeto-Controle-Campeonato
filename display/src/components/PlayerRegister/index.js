@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import MaskedInput from 'react-input-mask'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addPlayerRequest } from '../../store/modules/playerData/actions';
 import { PlayerRegisterContainer, PlayerRegisterTitle, PlayerRegisterContent,
      PlayerInfo, InputBox, PlayerTeamInfo, PlayerRegisterFooter } from './styles';
+import { addTeamsData } from '../../store/modules/teamsData/actions';
+import api from '../../services/api'
 
 export default function PlayerRegister() {
     const dispatch = useDispatch();
@@ -13,6 +15,7 @@ export default function PlayerRegister() {
     const [nick, setNickName] = useState("");
     const [birth, setBirth] = useState("");
     const [tel, setTel] = useState("");
+    const [level, setLevel] = useState("");
     const [position, setPosition] = useState();
     const birthRegex = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const telRegex = (/^\([0-9]{2}(?:\))\s?[0-9]{4}(?:-)[0-9]{4}$/);
@@ -26,15 +29,25 @@ export default function PlayerRegister() {
         { label: 'Meia'},
         { label: 'Atacante'},
     ]
-
+    const teamsOption = useSelector(state => state.teamsData);
+    useEffect(() => {
+        api.get("/time")
+        .then(res => {
+            dispatch(addTeamsData(res.data));
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }, [dispatch]);
     const submitData = (e) => {
         e.preventDefault()
+        let [day, month, year] = birth.split("/")
         const formData = {
             'nome' : name,
             'apelido' : nick,
-            'idade' : birth,
+            'data_nasc' : new Date(year, month - 1, day),
             'telefone' : tel,
-            'time' : '',
+            'id_time' : level.value,
             'posicao' : position.label,
         }
         dispatch(addPlayerRequest(formData))
@@ -45,7 +58,13 @@ export default function PlayerRegister() {
         setPosition("");
         setTel("");
     }
-    
+    const generateTeamLabel = (teamValue) => {
+        var aux = teamValue.map(team => ({
+            label: team.nome,
+            value: team.id_time
+        }))
+        return aux;
+    }
     return (
         <PlayerRegisterContainer>
             <PlayerRegisterTitle>Cadastro de Jogador</PlayerRegisterTitle>
@@ -102,12 +121,9 @@ export default function PlayerRegister() {
                         id="Team" 
                         title="Time:"
                         placeholder="Selecione o time..."
-                        options = {[
-                        { value: 'chocolate', label: 'Chocolate' },
-                        { value: 'strawberry', label: 'Strawberry' },
-                        { value: 'vanilla', label: 'Vanilla' }
-                        ]} 
-                        disabled={true}/>
+                        handleFunction = {setLevel}
+                        options = {generateTeamLabel(teamsOption)} 
+                        />
                 </PlayerTeamInfo>
             </PlayerRegisterContent>
 

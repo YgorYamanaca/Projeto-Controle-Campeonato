@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
 import { useDispatch } from 'react-redux';
-import { addPlayerRequest } from '../../store/modules/playerData/actions';
+import { addTeamRequest } from '../../store/modules/teamsData/actions';
 import { TeamRegisterContainer, TeamRegisterTitle, TeamRegisterContent,
     TeamInfo, InputBox,  TeamRegisterFooter } from './styles';
 
@@ -10,24 +10,27 @@ export default function TeamRegister() {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [nivel, setNivel] = useState();
-    const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/);
+    const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ 0-9]+$/);
     const TeamOptions = [
-        { label: 'Muito Bom'},
-        { label: 'Bom'},
-        { label: 'Regular'},
-        { label: 'Ruim'}, 
+        { label: 'Muito Bom', value:1},
+        { label: 'Bom', value:2},
+        { label: 'Regular', value:3},
+        { label: 'Ruim', value:4}, 
     ]
-
+    
     const submitData = (e) => {
         e.preventDefault()
         const formData = {
             'nome' : name,
 
-            'nivel' : nivel.label,
+            'nivel' : nivel.value,
         }
-        dispatch(addPlayerRequest(formData))
+        dispatch(addTeamRequest(formData))
+
+        // setName("");
+        // setNivel("");
     }
-    
+
     return (
         <TeamRegisterContainer>
             <TeamRegisterTitle>Cadastro de Time</TeamRegisterTitle>

@@ -4,7 +4,6 @@ export const LogoEditor = styled.img`
     width:250px;
     height:250px;
     margin-top:90px;
-    ebkit-animation:spin 4s linear infinite;
     -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
     @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }

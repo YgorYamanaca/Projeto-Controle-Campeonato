@@ -1,14 +1,16 @@
 import React, {useEffect, useState, useRef} from 'react'
-import api from '../../services/api'
-import { useDispatch, useSelector } from 'react-redux'
-import { addPlayerData } from '../../store/modules/playerData/actions';
+import { useSelector } from 'react-redux'
 import AppStylizedButton from '../AppStylizedButton/'
+import api from '../../services/api'
+import { useDispatch} from 'react-redux'
+import { addPlayerData, removePlayerDataRequest } from '../../store/modules/playerData/actions';
 import {PlayerTableContainer, PlayerTableTitle, PlayerTableContent, PlayerHeader, PlayerCell,
     PlayerTableRowSty, PlayerTableFooter, PlayerRowEmpety, PlayerTableHeader, DialogSty, DialogBoxSty, ContentSty, FooterSty} from './styles.js'
 
 export default function PlayerTable() {
-    const [renderDialog, setDialog] = useState({playerID:'', status:false});
+    const [renderDialog, setDialog] = useState({player:'', status:false});
     const playersData = useSelector(state => state.playerData);
+
     const dispatch = useDispatch();
     useEffect(() => {
         api.get("/jogador")
@@ -19,10 +21,8 @@ export default function PlayerTable() {
             console.log(error);
         })
     }, [dispatch]);
-
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
-
     function useOutsideAlerter(ref) {
         useEffect(() => {
             /**
@@ -30,7 +30,7 @@ export default function PlayerTable() {
              */
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    setDialog({playerID:'', status:false});
+                    setDialog({player:'', status:false});
                 }
             }
     
@@ -43,25 +43,40 @@ export default function PlayerTable() {
         }, [ref]);
     }
 
-    const renderDialogComponent = (playerID) => {
+    const excludePlayer = (idJogar) =>
+    {
+        dispatch(removePlayerDataRequest(idJogar));
+        setDialog({player:'', status:false});
+    }
+
+    const renderDialogComponent = (player) => {
         return(
             <DialogSty>
                 <DialogBoxSty ref={wrapperRef}>
                     <ContentSty>
-                        Deseja exluir ou editar esse jogador.
+                        {`Deseja exluir ou editar ${player.nome}?`}
                     </ContentSty>
                     <FooterSty>
                         <AppStylizedButton contentText="Editar" />
-                        <AppStylizedButton contentText="Excluir"/>
+                        <AppStylizedButton contentText="Excluir" onClick={() => excludePlayer(player.id_jogador)}/>
                     </FooterSty>
                 </DialogBoxSty>
             </DialogSty>
         )
     }
 
+    const generateDataAge = (date) =>
+    {
+        let auxDate = new Date(date);
+        var ageDifMs = Date.now() - auxDate.getTime();
+        var ageDate = new Date(ageDifMs);
+        ageDate = Math.abs(ageDate.getUTCFullYear() - 1970);
+        return `${auxDate.getDate()}/${(auxDate.getMonth() + 1)}/${auxDate.getFullYear()} (${ageDate} Anos)`
+    }
+
     return (
         <PlayerTableContainer>
-            {renderDialog.status? renderDialogComponent(renderDialog.playerID) : null}
+            {renderDialog.status? renderDialogComponent(renderDialog.player) : null}
             <PlayerTableTitle>Jogadores Cadastrados</PlayerTableTitle>
             <PlayerTableContent>
                 <PlayerTableHeader>
@@ -86,23 +101,23 @@ export default function PlayerTable() {
                 </PlayerTableHeader>
                 {
                     playersData.map((player, index) => 
-                    <PlayerTableRowSty key={index} onClick={() => setDialog({playerID:player.id_jogador, status:true})}>  
-                        <PlayerCell key={player.name + index}>
+                    <PlayerTableRowSty key={index} onClick={() => setDialog({player:player, status:true})}>  
+                        <PlayerCell key={player.name + index} styless={index % 2 === 0? 'Par' : ''}>
                             {player.nome}
                         </PlayerCell>
-                        <PlayerCell key={player.apelido + index}>
+                        <PlayerCell key={player.apelido + index} styless={index % 2 === 0? 'Par' : ''}>
                             {player.apelido}
                         </PlayerCell>
-                        <PlayerCell key={player.idade + index}>
-                            {player.idade}
+                        <PlayerCell key={player.data_nasc + index} styless={index % 2 === 0? 'Par' : ''}>
+                            {generateDataAge(player.data_nasc)}
                         </PlayerCell>
-                        <PlayerCell key={player.telefone + index}>
+                        <PlayerCell key={player.telefone + index} styless={index % 2 === 0? 'Par' : ''}>
                             {player.telefone}
                         </PlayerCell>
-                        <PlayerCell key={player.time + index}>
-                            {player.time}
+                        <PlayerCell key={player.id_time + index} styless={index % 2 === 0? 'Par' : ''}>
+                            {player.id_time}
                         </PlayerCell>
-                        <PlayerCell key={player.posicao + index}>
+                        <PlayerCell key={player.posicao + index} styless={index % 2 === 0? 'Par' : ''}>
                             {player.posicao}
                         </PlayerCell>
                     </PlayerTableRowSty>)

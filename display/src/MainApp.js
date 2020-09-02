@@ -12,8 +12,6 @@ import {
     Route,
     Link,
     Switch,
-    Redirect,
-    useLocation
   } from "react-router-dom";
 
 export default function MainApp() {

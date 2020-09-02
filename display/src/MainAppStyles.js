@@ -4,7 +4,7 @@ export const HomePageSty = styled.div`
         display: flex;
         flex-direction: column;
         min-width: 850px;
-        min-height: 650px;
+        min-height: 750px;
         background-color: #ffff;
         color: #ffff;
         margin: 10px;
