@@ -1,12 +1,16 @@
 {
-  "name": "display",
+  "name": "footapp",
+  "productName":"Foot App",
   "version": "0.1.0",
   "private": true,
   "author": "ButtonSpinner",
   "description": "Projeto Fernando - Controlador de campeonatos",
   "main": "public/electron.js",
   "build": {
-    "appId": "display.menu"
+    "appId": "display.menu",
+    "win": {
+      "icon": "build/icon.png"
+    }
   },
   "homepage": "./",
   "dependencies": {
