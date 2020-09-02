@@ -29,15 +29,14 @@ export default function MainApp() {
 
                     <HomeContentSty>
                         <Switch>
-                            <Route path="/" exact component={ Home } />
+                            <Route path="/" component={ Home } />
                             <Route path="/teamTable" component={ TeamTablePage }/>
                             <Route path="/playerTable" component={ PlayerTablePage }/>
-                            <Route path="/register" component={ Register }/>
+                            <Route path="/register" component={ Register }/>       
                         </Switch>
                     </HomeContentSty>
                     </HomePageSty>
                 </Provider>
-            
             </Router>
     )
 }
