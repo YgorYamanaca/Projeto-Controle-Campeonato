@@ -8,10 +8,11 @@ import { HomePageSty, HomeTopSty, HomeContentSty} from './MainAppStyles.js';
 import { Provider } from 'react-redux';
 import store from './store'
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Route,
     Link,
     Switch,
+    Redirect,
   } from "react-router-dom";
 
 export default function MainApp() {
@@ -29,7 +30,8 @@ export default function MainApp() {
 
                     <HomeContentSty>
                         <Switch>
-                            <Route path="/" component={ Home } />
+                            <Route exact path="/" component={ Home }/>
+                            <Route path="/teamTable" component={ TeamTablePage }/>
                             <Route path="/teamTable" component={ TeamTablePage }/>
                             <Route path="/playerTable" component={ PlayerTablePage }/>
                             <Route path="/register" component={ Register }/>       
