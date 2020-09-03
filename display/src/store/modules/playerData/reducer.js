@@ -22,8 +22,8 @@ export default function playerData(state = initialState, action)
             {
                 draft[index].nome = action.name? action.name : action.player.nome
                 draft[index].telefone = action.tel? action.tel : action.player.telefone
-                draft[index].id_time = action.level? action.level : action.player.Time.id_time
-                draft[index].position = action.position? action.position : action.player.position
+                draft[index].Time = action.level? action.level : action.player.Time
+                draft[index].posicao = action.position? action.position.label : action.player.posicao
                 draft[index].apelido = action.nick? action.nick : action.player.apelido
                 draft[index].data_nasc = action.birth? action.birth : action.player.data_nasc
             }

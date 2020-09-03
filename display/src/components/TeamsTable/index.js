@@ -146,7 +146,7 @@ export default function TeamsTable() {
                                     <TeamEditCell key={team.nome} onClick={() => setRowEdit({rowType:'name', row:team, status:true})}>
                                         {team.nome}
                                     </TeamEditCell>
-                                    <TeamEditCell key={team.nivel} onClick={() => setRowEdit({rowType:"nivel", row:team, status:true})}>
+                                    <TeamEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"nivel", row:team, status:true})}>
                                         {generateTeamLabel(team.nivel)}
                                     </TeamEditCell>
                                 </TeamEditTableRowSty>

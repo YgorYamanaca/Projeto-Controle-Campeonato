@@ -11,8 +11,8 @@ export default async (player, name, tel, level, position, nick, birth) => {
         id_jogador:player.id_jogador,
         nome:name? name : player.nome,
         telefone:tel? tel : player.telefone,
-        id_time: level? level : player.Time.id_time,
-        position: position? position : player.position,
+        id_time: level? level.id_time : player.Time.id_time,
+        posicao: position? position.label : player.posicao,
         apelido: nick? nick : player.apelido,
         data_nasc: birth? birth : player.data_nasc
     })}).then(r =>  r.json().then(data => ({status: r.status, body: data})));

@@ -41,6 +41,7 @@ export const OptionsContainer = styled.div`
     top: 25px;
     width: 150px; 
     border:3px solid #00527E;
+    z-index: 10001;
 `;
 
 export const OptionContainer = styled.div`

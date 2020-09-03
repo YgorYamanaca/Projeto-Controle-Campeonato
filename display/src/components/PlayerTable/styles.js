@@ -166,7 +166,7 @@ export const Edit = styled.div`
     flex-direction: column;
     background-color: #f1f1f1;
     color: #ffff;
-    height:80%;
+    height:90%;
     width:98%;
     border-radius: 10px;
     box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.5);
