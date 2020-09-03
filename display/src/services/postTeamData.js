@@ -7,6 +7,6 @@ export default async (teamData) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body:JSON.stringify(teamData)});
+    body:JSON.stringify(teamData)}).then(r =>  r.json().then(data => ({status: r.status, body: data})));
   return response;
 }

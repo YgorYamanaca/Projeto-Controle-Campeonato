@@ -8,12 +8,12 @@ function createWindow () {
     height: 850,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false
     },
     resizable: false,
   })
   win.setMenu(null)
   // e carrega o arquivo index.html do seu aplicativo.
+  win.webContents.openDevTools()
   win.loadURL(
       isDev? "http://localhost:3001" : `file://${path.join(__dirname, "../build/index.html")}`
       )

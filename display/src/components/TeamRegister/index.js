@@ -22,13 +22,12 @@ export default function TeamRegister() {
         e.preventDefault()
         const formData = {
             'nome' : name,
-
             'nivel' : nivel.value,
         }
         dispatch(addTeamRequest(formData))
 
-        // setName("");
-        // setNivel("");
+        setName("");
+        setNivel("");
     }
 
     return (

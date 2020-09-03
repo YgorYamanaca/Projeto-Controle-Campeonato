@@ -43,7 +43,10 @@ export const PlayerTableRowSty = styled.div`
     border-right: 1px solid #003049;
     :hover
     {
-        border: 1px solid #030056;
+        border-top: 1px solid #003049;
+        border-right: 2px solid #003049;
+        border-left: 1px solid #003049;
+        border-bottom: 1px solid #003049;
         cursor: pointer
     }
 `;
@@ -73,6 +76,31 @@ export const PlayerCell = styled.div`
     border-bottom: 1px solid #003049;
     padding:2px 2px;
     color:#081D16;
+`;
+export const PlayerEditCell = styled.div`
+    display: flex;
+    justify-content: center;
+    background-color:#ddd;
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    padding:2px 2px;
+    color:#081D16;
+    :hover
+    {
+        border-left: 2px solid #003049;
+        border-bottom: 2px solid #003049;
+        border-top: 1px solid #003049;
+        border-right: 1px solid #003049;
+        cursor: pointer
+    }
+`;
+export const PlayerEditTableRowSty = styled.div`
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    font-size:18px;
+    border-right: 1px solid #003049;
 `;
 export const PlayerRowEmpety = styled.div`
     display: flex;
@@ -120,5 +148,80 @@ export const FooterSty = styled.div`
     justify-content: space-around;
     width:100%;
     margin-top:25px;
+`;
+
+export const EditBox = styled.div`
+    display:flex;
+    position:absolute;
+    background-color:rgba(0, 0, 0, 0.3);
+    z-index:999;
+    height:100%;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+`;
+
+export const Edit = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: #f1f1f1;
+    color: #ffff;
+    height:80%;
+    width:98%;
+    border-radius: 10px;
+    box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    font-family: "Roboto Condensed";
+    font-weight: 700;
+    font-size:20px;
+`;
+
+export const EditTitle = styled.div`
+    display: flex;
+    background-color: #00527E;
+    justify-content: center;
+    height: 35px;
+    align-items: center;
+`;
+
+export const EditContent = styled.div`
+    display: flex;
+    margin:15px;
+    color:#081D16;
+    font-size:19px;
+    font-family: "Roboto Condensed", sans-serif;
+`;
+
+export const InputBox = styled.div`
+    display: flex;
+    height: 35px;
+    background-color: #00527E;  
+    border-radius: 10px;
+    padding:0 5px;
+    overflow: hidden;
+    margin:5px;
+    align-items: center;
+
+    input
+    {
+        border-color: transparent;
+        background-color: #f1f1f1;
+        color:#081D16;
+        margin: 0 5px;
+        padding:1px 5px;
+        font-size:14px;
+        font-family: "Roboto Condensed", sans-serif;
+        :focus::placeholder
+        {
+            color:transparent
+        }
+    }
+
+    label
+    {
+        font-weight: 500;
+        color: #ffff;
+        font-size:16px;
+    }
 `;
 

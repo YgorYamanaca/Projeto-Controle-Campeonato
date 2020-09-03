@@ -12,7 +12,6 @@ import {
     Route,
     Link,
     Switch,
-    Redirect,
   } from "react-router-dom";
 
 export default function MainApp() {

@@ -47,7 +47,8 @@ export default function PlayerRegister() {
             'apelido' : nick,
             'data_nasc' : new Date(year, month - 1, day),
             'telefone' : tel,
-            'id_time' : level.value,
+            'id_time':level.value,
+            'Time' : teamsOption[teamsOption.findIndex(element => element.id_time === level.value)],
             'posicao' : position.label,
         }
         dispatch(addPlayerRequest(formData))
@@ -57,6 +58,7 @@ export default function PlayerRegister() {
         setNickName("");
         setPosition("");
         setTel("");
+        setLevel("");
     }
     const generateTeamLabel = (teamValue) => {
         var aux = teamValue.map(team => ({
@@ -123,13 +125,14 @@ export default function PlayerRegister() {
                         placeholder="Selecione o time..."
                         handleFunction = {setLevel}
                         options = {generateTeamLabel(teamsOption)} 
+                        defaultSelectedLabel={level}
                         />
                 </PlayerTeamInfo>
             </PlayerRegisterContent>
 
             <PlayerRegisterFooter>
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && birthRegex.test(birth) && telRegex.test(tel) && position? false : true} onClick={submitData}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && birthRegex.test(birth) && telRegex.test(tel) && position && level? false : true} onClick={submitData}/>
                 </div>
             </PlayerRegisterFooter>
         </PlayerRegisterContainer>
