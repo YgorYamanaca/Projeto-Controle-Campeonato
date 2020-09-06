@@ -2,10 +2,11 @@ import React, {useEffect, useState, useRef} from 'react'
 import AppStylizedSelect from '../AppStylizedSelect/index'
 import { useSelector } from 'react-redux'
 import AppStylizedButton from '../AppStylizedButton'
-import {TeamTableContainer, TeamTableTitle, TeamTableContent, TeamHeader, TeamCell,
-    TeamTableRowSty, TeamTableFooter, TeamRowEmpety, TeamTableHeader,
+import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableContent, ChampionshipHeader, ChampionshipCell,
+    ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,
     EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, EditTitle,
-    TeamEditTableRowSty, TeamEditCell, EditContent, InputBox} from './styles.js'
+    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox} from './styles.js'
+    
 import { addTeamsData, removeTeamDataRequest, editDataTeamRequest } from '../../store/modules/teamsData/actions';
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
@@ -18,13 +19,7 @@ export default function TeamsTable() {
     const teamsData = useSelector(state => state.teamsData);
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
-    const [nivel, setNivel] = useState();
-    const TeamOptions = [
-        { label: 'Muito Bom', value:1},
-        { label: 'Bom', value:2},
-        { label: 'Regular', value:3},
-        { label: 'Ruim', value:4}, 
-    ]
+    const [number, setNumber] = useState("");
 
     useEffect(() => {
         api.get("/time")
@@ -91,22 +86,19 @@ export default function TeamsTable() {
     {
         switch(row)
         {
-            case 'name':
+            case 'ChampionshipName':
             return (
                 <InputBox>
-                    <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do time..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
+                    <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do Campeonato..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
                 </InputBox>
             );
             
-            case 'nivel':
-            return (<AppStylizedSelect
-                id="Postion" 
-                title="Nível:"
-                placeholder="Selecione o nível..."
-                options = {TeamOptions} 
-                handleFunction = {setNivel}
-                defaultSelectedLabel={nivel}
-                />);
+            case 'num':
+            return (
+                <InputBox>
+                    <label>Numero de Times:</label> <input id="MaxInput" placeholder="Insira o numero de times..." type="number"  maxLength={100} value={number} onChange={event => setNumber(event.target.value)} style={{width: '250px'}}/>
+                </InputBox>
+                );
 
             default:
                 return '';
@@ -115,7 +107,7 @@ export default function TeamsTable() {
 
     const handleEditTeam = () =>
     {
-        dispatch(editDataTeamRequest(rowEdit.row, name, nivel))
+        dispatch(editDataTeamRequest(rowEdit.row, name, number))
         
         setDialog({team:'', status:false});
         setRowEdit({row:'', rowType:'', status:false})
@@ -123,7 +115,7 @@ export default function TeamsTable() {
 
     const clearEdit = () => {
         setName("");
-        setNivel("");
+        setNumber("");
     }
 
     const renderDialogComponent = (team) => {
@@ -133,24 +125,23 @@ export default function TeamsTable() {
                 <EditBox>
                     <Edit ref={editEnable? wrapperRef2 : null}>
                         <EditTitle>{`Editando ${team.nome}`}</EditTitle>
-                        <TeamTableContent>
-                            <TeamTableHeader>
-                                <TeamHeader key={"teamName"}>
-                                    Nome do time
-                                </TeamHeader>
-                                <TeamHeader key={"teamLevel"}>
-                                    Nível
-                                </TeamHeader> 
-                            </TeamTableHeader>
-                                <TeamEditTableRowSty >  
-                                    <TeamEditCell key={team.nome} onClick={() => setRowEdit({rowType:'name', row:team, status:true})}>
+                        <ChampionshipTableContent>
+                            <ChampionshipTableHeader>
+                                <ChampionshipHeader key={"ChampionshipName"}>
+                                    Nome do Camp
+                                </ChampionshipHeader>
+                                <ChampionshipHeader key={"num"}>
+                                    Times
+                                </ChampionshipHeader> 
+                            </ChampionshipTableHeader>
+                                <ChampionshipEditTableRowSty >  
+                                    <ChampionshipEditCell key={team.nome} onClick={() => setRowEdit({rowType:'ChampionshipName', row:team, status:true})}>
                                         {team.nome}
-                                    </TeamEditCell>
-                                    <TeamEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"nivel", row:team, status:true})}>
-                                        {generateTeamLabel(team.nivel)}
-                                    </TeamEditCell>
-                                </TeamEditTableRowSty>
-                        </TeamTableContent>
+                                    </ChampionshipEditCell>
+                                    <ChampionshipEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"num", row:team, status:true})}>
+                                    </ChampionshipEditCell>
+                                </ChampionshipEditTableRowSty>
+                        </ChampionshipTableContent>
                         <EditContent>
                             {rowEdit.status?
                             <div>
@@ -158,10 +149,10 @@ export default function TeamsTable() {
                                 {generateEditContent(rowEdit.rowType)}
                             </div> : null}
                         </EditContent>
-                        <TeamTableFooter>
+                        <ChampionshipTableFooter>
                             <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || nivel? false : true}/>
-                        </TeamTableFooter>
+                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || number%2==0? false : true}/>
+                        </ChampionshipTableFooter>
                     </Edit>
                 </EditBox> : null}
                 <DialogBoxSty ref={!editEnable? wrapperRef : null}>
@@ -177,48 +168,34 @@ export default function TeamsTable() {
         )
     }
 
-    const generateTeamLabel = (teamLevel) => {
-        switch (teamLevel) {
-            case 1:
-                return 'Muito Bom'
-            case 2:
-                return 'Bom'
-            case 3:
-                return 'Regular'
-            case 4:
-                return 'Ruim'
-            default:
-                break;
-        }
-    }
-
+  
+    
     return (
-        <TeamTableContainer>
+        <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.team) : null}
-            <TeamTableTitle>Times Cadastrados</TeamTableTitle>
-            <TeamTableContent>
-                <TeamTableHeader>
-                    <TeamHeader key={"teamName"}>
-                        Nome do time
-                    </TeamHeader>
-                    <TeamHeader key={"teamLevel"}>
-                        Nível
-                    </TeamHeader> 
-                </TeamTableHeader>
+            <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
+            <ChampionshipTableContent>
+                <ChampionshipTableHeader>
+                    <ChampionshipHeader key={"teamName"}>
+                        Nome do Campeonato
+                    </ChampionshipHeader>
+                    <ChampionshipHeader key={"teamNum"}>
+                        Número de times
+                    </ChampionshipHeader> 
+                </ChampionshipTableHeader>
                 {teamsData?
                     teamsData.map((team, index) => 
-                    <TeamTableRowSty key={index} onClick={() => setDialog({team:team, status:true})}>  
-                        <TeamCell key={team.nome + index} styless={index % 2 === 0? 'Par' : ''}>
+                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({team:team, status:true})}>  
+                        <ChampionshipCell key={team.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {team.nome}
-                        </TeamCell>
-                        <TeamCell key={team.nivel + index} styless={index % 2 === 0? 'Par' : ''}>
-                            {generateTeamLabel(team.nivel)}
-                        </TeamCell>
-                    </TeamTableRowSty>)
+                        </ChampionshipCell>
+                        <ChampionshipCell key={team.nivel + index} styless={index % 2 === 0? 'Par' : ''}>
+                        </ChampionshipCell>
+                    </ChampionshipTeamTableRowSty>)
                 :null}
-                </TeamTableContent>
-            {teamsData && teamsData.length > 0? null:<TeamRowEmpety> Não há nenhum dado cadastrado</TeamRowEmpety>}
-            <TeamTableFooter />
-        </TeamTableContainer>
+                </ChampionshipTableContent>
+            {teamsData && teamsData.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
+            <ChampionshipTableFooter />
+        </ChampionshipTableContainer>
     )
 }

@@ -9,7 +9,7 @@ import { ChampionshipRegisterContainer,ChampionshipRegisterTitle, ChampionshipRe
 export default function ChampionshipRegister() {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
-    const [number, setnumber] = useState("");
+    const [number, setNumber] = useState("");
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ 0-9]+$/);
     
     const submitData = (e) => {
@@ -21,7 +21,7 @@ export default function ChampionshipRegister() {
         dispatch(addTeamRequest(formData))
 
         setName("");
-        setnumber("");
+        setNumber("");
     }
 
     return (
@@ -35,7 +35,7 @@ export default function ChampionshipRegister() {
                     </InputBox>
                     
                     <InputBox>
-                        <label>Numero de Times:</label> <input id="MaxInput" placeholder="Insira o numero de times..." type="number"  maxLength={100} value={number} onChange={event => setnumber(event.target.value)} style={{width: '250px'}}/>
+                        <label>Numero de Times:</label> <input id="MaxInput" placeholder="Insira o numero de times..." type="number"  maxLength={100} value={number} onChange={event => setNumber(event.target.value)} style={{width: '250px'}}/>
                     </InputBox>
                    
                 </ChampionshipInfo>

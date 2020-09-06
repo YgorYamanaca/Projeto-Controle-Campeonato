@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TeamTableContainer = styled.div`
+export const ChampionshipTableContainer = styled.div`
     display: flex;
     position:relative;
     flex-direction: column;
@@ -16,26 +16,26 @@ export const TeamTableContainer = styled.div`
     font-size:20px;
     overflow: hidden;
 `;
-export const TeamTableTitle = styled.div`
+export const ChampionshipTableTitle = styled.div`
     display: flex;
     background-color: #00527E;
     justify-content: center;
     height: 35px;
     align-items: center;
 `;
-export const TeamTableContent = styled.div`
+export const ChampionshipTableContent = styled.div`
     margin:15px 15px 0 15px;
     display: flex;
     flex-direction: column;
 `;
-export const TeamTableFooter = styled.div`
+export const ChampionshipTableFooter = styled.div`
     display:flex;
     background-color: #00527E;
     margin-top: auto;
     padding:10px;
     justify-content:flex-end;
 `;
-export const TeamTableRowSty = styled.div`
+export const ChampionshipTeamTableRowSty = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     font-family: "Roboto Condensed";
@@ -51,7 +51,7 @@ export const TeamTableRowSty = styled.div`
         cursor: pointer
     }
 `;
-export const TeamTableHeader = styled.div`
+export const ChampionshipTableHeader = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     font-family: "Roboto Condensed";
@@ -61,7 +61,7 @@ export const TeamTableHeader = styled.div`
     border-right: 1px solid #003049;
     cursor:default;
 `;
-export const TeamHeader = styled.div`
+export const ChampionshipHeader = styled.div`
     display: flex;
     justify-content: center;
     background-color: #00527E;
@@ -69,7 +69,7 @@ export const TeamHeader = styled.div`
     border-bottom: 1px solid #003049;
     padding:2px 2px;
 `;
-export const TeamCell = styled.div`
+export const ChampionshipCell = styled.div`
     display: flex;
     justify-content: center;
     background-color: ${props => props.styless === 'Par'? '#ddd' : '#ccc'};
@@ -78,7 +78,7 @@ export const TeamCell = styled.div`
     padding:2px 2px;
     color:#081D16;
 `;
-export const TeamEditTableRowSty = styled.div`
+export const ChampionshipEditTableRowSty = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     font-family: "Roboto Condensed";
@@ -87,7 +87,7 @@ export const TeamEditTableRowSty = styled.div`
     border-right: 1px solid #003049;
 `;
 
-export const TeamEditCell = styled.div`
+export const ChampionshipEditCell = styled.div`
     display: flex;
     justify-content: center;
     background-color:#ddd;
@@ -105,7 +105,7 @@ export const TeamEditCell = styled.div`
     }
 `;
 
-export const TeamRowEmpety = styled.div`
+export const ChampionshipTeamRowEmpety = styled.div`
     display: flex;
     justify-content: center;
     background-color: #f1f1f1;
