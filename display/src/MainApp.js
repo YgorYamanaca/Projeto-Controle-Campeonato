@@ -2,6 +2,7 @@ import React from 'react'
 import Home from './page/Home'
 import Register from './page/Register'
 import PlayerTablePage from './page/PlayerTablePage'
+import ChampionshipTablePage from './page/ChampionshipTablePage'
 import TeamTablePage from './page/TeamTablePage'
 import GlobalStyle from './styles/global';
 import { HomePageSty, HomeTopSty, HomeContentSty} from './MainAppStyles.js';
@@ -25,6 +26,8 @@ export default function MainApp() {
                             <Link to="/register">Cadastrar</Link>
                             <Link to="/teamTable">Times</Link>
                             <Link to="/playerTable">Jogadores</Link>
+                            <Link to="/championshipTable">Campeonatos</Link>
+
                         </HomeTopSty>
 
                     <HomeContentSty>
@@ -33,7 +36,9 @@ export default function MainApp() {
                             <Route path="/teamTable" component={ TeamTablePage }/>
                             <Route path="/teamTable" component={ TeamTablePage }/>
                             <Route path="/playerTable" component={ PlayerTablePage }/>
-                            <Route path="/register" component={ Register }/>       
+                            <Route path="/register" component={ Register }/>    
+                            <Route path="/championshipTable" component={ ChampionshipTablePage }/>
+   
                         </Switch>
                     </HomeContentSty>
                     </HomePageSty>
