@@ -6,6 +6,7 @@ import MaskedInput from 'react-input-mask'
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
 import { addTeamsData } from '../../store/modules/teamsData/actions';
+import  UserMessage  from '../UserMessage/'
 import { addPlayerData, removePlayerDataRequest, editDataPlayerRequest } from '../../store/modules/playerData/actions';
 import {PlayerTableContainer, PlayerTableTitle, PlayerTableContent, PlayerHeader, PlayerCell,
     PlayerTableRowSty, PlayerTableFooter, PlayerRowEmpety, PlayerTableHeader, DialogSty,
@@ -16,6 +17,7 @@ export default function PlayerTable() {
     const dispatch = useDispatch();
     const [renderDialog, setDialog] = useState({player:'', status:false});
     const playersData = useSelector(state => state.playerData);
+    const [message, setMessage] = useState({message:'', status:''});
     const [editEnable, setEdit] = useState(false);
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     const [name, setName] = useState("");
@@ -44,9 +46,9 @@ export default function PlayerTable() {
             dispatch(addTeamsData(res.data));
         })
         .catch(error => {
-            console.log(error);
+            setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
         })
-    }, [dispatch]);
+    }, [dispatch, setMessage]);
 
     useEffect(() => {
         api.get("/jogador")
@@ -54,9 +56,10 @@ export default function PlayerTable() {
             dispatch(addPlayerData(res.data));
         })
         .catch(error => {
-            console.log(error);
+            setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
         })
-    }, [dispatch]);
+    }, [dispatch, setMessage]);
+    console.log(message)
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
     const wrapperRef2 = useRef(null);
@@ -341,7 +344,9 @@ export default function PlayerTable() {
                 }
                 </PlayerTableContent>
             {playersData.length > 0? null:<PlayerRowEmpety> Não há nenhum dado cadastrado</PlayerRowEmpety>}
-            <PlayerTableFooter />
+            <PlayerTableFooter> 
+                {message.message? <UserMessage message={message} /> : null}
+            </PlayerTableFooter>
         </PlayerTableContainer>
     )
 }

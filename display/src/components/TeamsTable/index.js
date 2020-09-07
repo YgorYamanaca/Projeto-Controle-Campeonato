@@ -9,11 +9,12 @@ import {TeamTableContainer, TeamTableTitle, TeamTableContent, TeamHeader, TeamCe
 import { addTeamsData, removeTeamDataRequest, editDataTeamRequest } from '../../store/modules/teamsData/actions';
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
-
+import UserMessage from '../UserMessage/'
 export default function TeamsTable() {
     const [renderDialog, setDialog] = useState({team:'', status:false});
     const [editEnable, setEdit] = useState(false);
     const [name, setName] = useState("");
+    const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     const teamsData = useSelector(state => state.teamsData);
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
@@ -32,7 +33,7 @@ export default function TeamsTable() {
             dispatch(addTeamsData(res.data));
         })
         .catch(error => {
-            console.log(error);
+            setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
         })
     }, [dispatch]);
 
@@ -218,7 +219,9 @@ export default function TeamsTable() {
                 :null}
                 </TeamTableContent>
             {teamsData && teamsData.length > 0? null:<TeamRowEmpety> Não há nenhum dado cadastrado</TeamRowEmpety>}
-            <TeamTableFooter />
+            <TeamTableFooter>
+                {message.message? <UserMessage message={message} /> : null}
+            </TeamTableFooter>
         </TeamTableContainer>
     )
 }
