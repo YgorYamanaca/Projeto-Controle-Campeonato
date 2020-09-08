@@ -29,7 +29,7 @@ export default function PlayerRegister() {
         { label: 'Meia'},
         { label: 'Atacante'},
     ]
-    const teamsOption = useSelector(state => state.teamsData);
+    const teamsOption = useSelector(state => state.teamsData.data);
     useEffect(() => {
         api.get("/time")
         .then(res => {
@@ -48,10 +48,10 @@ export default function PlayerRegister() {
             'data_nasc' : new Date(year, month - 1, day),
             'telefone' : tel,
             'id_time':level.value,
-            'Time' : teamsOption[teamsOption.findIndex(element => element.id_time === level.value)],
             'posicao' : position.label,
         }
-        dispatch(addPlayerRequest(formData))
+        let time = teamsOption[teamsOption.findIndex(element => element.id_time === level.value)];
+        dispatch(addPlayerRequest(formData, time))
 
         setName("");
         setBirth("");

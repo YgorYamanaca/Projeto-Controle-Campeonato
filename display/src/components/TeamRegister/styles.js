@@ -75,4 +75,5 @@ export const TeamRegisterFooter = styled.div`
     margin-bottom: auto;
     padding:10px;
     border-radius: 0px 0px 10px 10px;
+    justify-content:flex-end;
 `;

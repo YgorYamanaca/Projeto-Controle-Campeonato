@@ -5,11 +5,12 @@ import postPlayerData from '../../../services/postPlayerData'
 import deletePlayerDate from '../../../services/deletePlayerDate'
 import editPlayerData from '../../../services/editPlayerData'
 
-function* addPlayer({playerInfo})
+function* addPlayer({playerInfo, teamData})
 {
     const response = yield call(postPlayerData, playerInfo)
     if(response.status === 200)
     { 
+        playerInfo.Time = teamData;
         yield put(addPlayerSuccess(playerInfo))
     }
 }
@@ -28,6 +29,7 @@ function* editPlayer({player, name, tel, level, position, nick, birth})
     const response = yield call(editPlayerData, player, name, tel, level, position, nick, birth)
     if(response.status === 200)
     { 
+        birth = response.body.data_nasc
         yield put(editPlayerDataSuccess(player, name, tel, level, position, nick, birth))
     }
 }

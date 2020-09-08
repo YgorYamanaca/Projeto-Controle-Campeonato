@@ -16,7 +16,8 @@ import {PlayerTableContainer, PlayerTableTitle, PlayerTableContent, PlayerHeader
 export default function PlayerTable() {
     const dispatch = useDispatch();
     const [renderDialog, setDialog] = useState({player:'', status:false});
-    const playersData = useSelector(state => state.playerData);
+    const playersData = useSelector(state => state.playerData.data);
+    const playerRequestMessage = useSelector(state => state.playerData.userMessage);
     const [message, setMessage] = useState({message:'', status:''});
     const [editEnable, setEdit] = useState(false);
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
@@ -38,7 +39,7 @@ export default function PlayerTable() {
         { label: 'Meia'},
         { label: 'Atacante'},
     ]
-    const teamsOption = useSelector(state => state.teamsData);
+    const teamsOption = useSelector(state => state.teamsData.data);
 
     useEffect(() => {
         api.get("/time")
@@ -59,12 +60,14 @@ export default function PlayerTable() {
             setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
         })
     }, [dispatch, setMessage]);
-    console.log(message)
+
+    useEffect(() => {
+        setMessage(playerRequestMessage)
+    }, [playerRequestMessage])
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
     const wrapperRef2 = useRef(null);
     useOutsideAlerter2(wrapperRef2);
-
     function useOutsideAlerter(ref) {
         useEffect(() => {
             /**
@@ -209,7 +212,7 @@ export default function PlayerTable() {
         setTel("");
         setLevel("");
     }
-
+    console.log(playersData)
     const renderDialogComponent = (player) => {
         return(
             <DialogSty>
@@ -319,7 +322,7 @@ export default function PlayerTable() {
                     </PlayerHeader>  
                 </PlayerTableHeader>
                 {
-                    playersData?
+                    playersData.length > 0?
                     playersData.map((player, index) => 
                     <PlayerTableRowSty key={index} onClick={() => setDialog({player:player, status:true})}>  
                         <PlayerCell key={player.name + index} styless={index % 2 === 0? 'Par' : ''}>
@@ -345,7 +348,7 @@ export default function PlayerTable() {
                 </PlayerTableContent>
             {playersData.length > 0? null:<PlayerRowEmpety> Não há nenhum dado cadastrado</PlayerRowEmpety>}
             <PlayerTableFooter> 
-                {message.message? <UserMessage message={message} /> : null}
+                {message? <UserMessage message={message} /> : null}
             </PlayerTableFooter>
         </PlayerTableContainer>
     )

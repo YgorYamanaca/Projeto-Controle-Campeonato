@@ -6,7 +6,7 @@ export const UserContainer = styled.div`
     background-color:rgba(255, 255, 255, 0.5);
     margin: 10px;
     border-radius: 10px;
-    border: 2px dotted ${props => props.status === 'Success'? 'green' : 'red'};
+    border: 2px dotted ${props => props.color === 'Success'? 'green' : 'red'};
     padding:10px;
     margin:3px;
     font-size:14px;

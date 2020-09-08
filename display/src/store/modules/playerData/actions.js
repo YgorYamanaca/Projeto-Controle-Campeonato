@@ -14,11 +14,12 @@ export function addPlayerSuccess(playerInfo)
     }
 }
 
-export function addPlayerRequest(playerInfo)
+export function addPlayerRequest(playerInfo, teamData)
 {
     return{
         type:ADD_PLAYER_REQUEST,
-        playerInfo
+        playerInfo,
+        teamData
     }
 }
 

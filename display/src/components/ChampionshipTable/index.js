@@ -17,7 +17,7 @@ export default function TeamsTable() {
     const [name, setName] = useState("");
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
-    const teamsData = useSelector(state => state.teamsData);
+    const teamsData = useSelector(state => state.teamsData.data);
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
     const [number, setNumber] = useState("");

@@ -45,7 +45,6 @@ function AppStylizedSelect({id, title, options, placeholder, disabled, handleFun
             handleFunction(option) 
         }
     }
-    
     return (
             <ComponentBox style={{opacity:disabled ? '0.5': '1', pointerEvents: disabled ? 'none': ''}}>
                 <ComponentTitle>{title}</ComponentTitle> 
@@ -55,10 +54,14 @@ function AppStylizedSelect({id, title, options, placeholder, disabled, handleFun
                     </div>
 
                 {expand ?
+                    options.length !== 0?
                     <OptionsContainer ref={wrapperRef}>
                         {options.map((option, index) => 
                             <OptionContainer key={"option" + index + 1}  onClick={() => {selectObject(option)}}>{option.label}</OptionContainer>
                         )}
+                    </OptionsContainer> : 
+                    <OptionsContainer ref={wrapperRef}>
+                        Não há dados para ser exibido.
                     </OptionsContainer>
                     :
                     null} 

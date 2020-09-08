@@ -1,6 +1,7 @@
 import {serverIP, serverPort} from '../config/config.js'
 
 export default async (player, name, tel, level, position, nick, birth) => {
+  let [day, month, year] = birth.split("/")
   const response = await fetch(`http://${serverIP}:${serverPort}/jogador/`,{
     method: 'PATCH',
     headers: {
@@ -14,7 +15,7 @@ export default async (player, name, tel, level, position, nick, birth) => {
         id_time: level? level.id_time : player.Time.id_time,
         posicao: position? position.label : player.posicao,
         apelido: nick? nick : player.apelido,
-        data_nasc: birth? birth : player.data_nasc
+        data_nasc: birth? new Date(year, month - 1, day) : player.data_nasc
     })}).then(r =>  r.json().then(data => ({status: r.status, body: data})));
   return response;
 }

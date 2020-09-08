@@ -33,6 +33,7 @@ export const PlayerTableFooter = styled.div`
     background-color: #00527E;
     margin-top: auto;
     padding:10px;
+    justify-content:flex-end;
 `;
 export const PlayerTableRowSty = styled.div`
     display: grid;

@@ -16,7 +16,8 @@ export default function TeamsTable() {
     const [name, setName] = useState("");
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
-    const teamsData = useSelector(state => state.teamsData);
+    const teamsData = useSelector(state => state.teamsData.data);
+    const teamsMenssage = useSelector(state => state.teamsData.userMessage);
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
     const [nivel, setNivel] = useState();
@@ -26,7 +27,10 @@ export default function TeamsTable() {
         { label: 'Regular', value:3},
         { label: 'Ruim', value:4}, 
     ]
-
+    console.log(teamsData);
+    useEffect(() => {
+        setMessage(teamsMenssage)
+    }, [teamsMenssage])
     useEffect(() => {
         api.get("/time")
         .then(res => {
@@ -220,7 +224,7 @@ export default function TeamsTable() {
                 </TeamTableContent>
             {teamsData && teamsData.length > 0? null:<TeamRowEmpety> Não há nenhum dado cadastrado</TeamRowEmpety>}
             <TeamTableFooter>
-                {message.message? <UserMessage message={message} /> : null}
+                {message? <UserMessage message={message} /> : null}
             </TeamTableFooter>
         </TeamTableContainer>
     )
