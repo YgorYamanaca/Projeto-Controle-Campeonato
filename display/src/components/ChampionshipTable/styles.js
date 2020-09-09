@@ -37,7 +37,7 @@ export const ChampionshipTableFooter = styled.div`
 `;
 export const ChampionshipTeamTableRowSty = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;
@@ -53,7 +53,7 @@ export const ChampionshipTeamTableRowSty = styled.div`
 `;
 export const ChampionshipTableHeader = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;

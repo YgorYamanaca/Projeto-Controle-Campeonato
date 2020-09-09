@@ -10,6 +10,7 @@ import UserMessage from '../UserMessage/'
 import { addTeamsData, removeTeamDataRequest, editDataTeamRequest } from '../../store/modules/teamsData/actions';
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
+import { addMultiChampionship } from '../../store/modules/championshipData/actions'
 
 export default function TeamsTable() {
     const [renderDialog, setDialog] = useState({team:'', status:false});
@@ -17,15 +18,15 @@ export default function TeamsTable() {
     const [name, setName] = useState("");
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
-    const teamsData = useSelector(state => state.teamsData.data);
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
     const [number, setNumber] = useState("");
-
+    const championships = useSelector(state=>state.championshipData.data)
     useEffect(() => {
-        api.get("/time")
+        api.get("/campeonato")
         .then(res => {
-            dispatch(addTeamsData(res.data));
+            console.log(res)
+            dispatch(addMultiChampionship(res.data));
         })
         .catch(error => {
             setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
@@ -106,96 +107,92 @@ export default function TeamsTable() {
         }
     }
 
-    const handleEditTeam = () =>
-    {
-        dispatch(editDataTeamRequest(rowEdit.row, name, number))
-        
-        setDialog({team:'', status:false});
-        setRowEdit({row:'', rowType:'', status:false})
-    }
+   
 
-    const clearEdit = () => {
-        setName("");
-        setNumber("");
-    }
-
-    const renderDialogComponent = (team) => {
-        return(
-            <DialogSty>
-                {editEnable?
-                <EditBox>
-                    <Edit ref={editEnable? wrapperRef2 : null}>
-                        <EditTitle>{`Editando ${team.nome}`}</EditTitle>
-                        <ChampionshipTableContent>
-                            <ChampionshipTableHeader>
-                                <ChampionshipHeader key={"ChampionshipName"}>
-                                    Nome do Camp
-                                </ChampionshipHeader>
-                                <ChampionshipHeader key={"num"}>
-                                    Times
-                                </ChampionshipHeader> 
-                            </ChampionshipTableHeader>
-                                <ChampionshipEditTableRowSty >  
-                                    <ChampionshipEditCell key={team.nome} onClick={() => setRowEdit({rowType:'ChampionshipName', row:team, status:true})}>
-                                        {team.nome}
-                                    </ChampionshipEditCell>
-                                    <ChampionshipEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"num", row:team, status:true})}>
-                                    </ChampionshipEditCell>
-                                </ChampionshipEditTableRowSty>
-                        </ChampionshipTableContent>
-                        <EditContent>
-                            {rowEdit.status?
-                            <div>
-                                 Editar:
-                                {generateEditContent(rowEdit.rowType)}
-                            </div> : null}
-                        </EditContent>
-                        <ChampionshipTableFooter>
-                            <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || number%2==0? false : true}/>
-                        </ChampionshipTableFooter>
-                    </Edit>
-                </EditBox> : null}
-                <DialogBoxSty ref={!editEnable? wrapperRef : null}>
-                    <ContentSty>
-                        {`Deseja exluir ou editar ${team.nome}.`}
-                    </ContentSty>
-                    <FooterSty>
-                        <AppStylizedButton contentText="Editar" onClick={() => setEdit(true)}/>
-                        <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(team.id_time)}/>
-                    </FooterSty>
-                </DialogBoxSty>
-            </DialogSty>
-        )
-    }
+    // const renderDialogComponent = (team) => {
+    //     return(
+    //         <DialogSty>
+    //             {editEnable?
+    //             <EditBox>
+    //                 <Edit ref={editEnable? wrapperRef2 : null}>
+    //                     <EditTitle>{`Editando ${team.nome}`}</EditTitle>
+    //                     <ChampionshipTableContent>
+    //                         <ChampionshipTableHeader>
+    //                             <ChampionshipHeader key={"ChampionshipName"}>
+    //                                 Nome do Camp
+    //                             </ChampionshipHeader>
+    //                             <ChampionshipHeader key={"num"}>
+    //                                 Times
+    //                             </ChampionshipHeader> 
+    //                         </ChampionshipTableHeader>
+    //                             <ChampionshipEditTableRowSty >  
+    //                                 <ChampionshipEditCell key={team.nome} onClick={() => setRowEdit({rowType:'ChampionshipName', row:team, status:true})}>
+    //                                     {team.nome}
+    //                                 </ChampionshipEditCell>
+    //                                 <ChampionshipEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"num", row:team, status:true})}>
+    //                                 </ChampionshipEditCell>
+    //                             </ChampionshipEditTableRowSty>
+    //                     </ChampionshipTableContent>
+    //                     <EditContent>
+    //                         {rowEdit.status?
+    //                         <div>
+    //                              Editar:
+    //                             {generateEditContent(rowEdit.rowType)}
+    //                         </div> : null}
+    //                     </EditContent>
+    //                     <ChampionshipTableFooter>
+    //                         <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
+    //                         <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || number%2==0? false : true}/>
+    //                     </ChampionshipTableFooter>
+    //                 </Edit>
+    //             </EditBox> : null}
+    //             <DialogBoxSty ref={!editEnable? wrapperRef : null}>
+    //                 <ContentSty>
+    //                     {`Deseja exluir ou editar ${team.nome}.`}
+    //                 </ContentSty>
+    //                 <FooterSty>
+    //                     <AppStylizedButton contentText="Editar" onClick={() => setEdit(true)}/>
+    //                     <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(team.id_time)}/>
+    //                 </FooterSty>
+    //             </DialogBoxSty>
+    //         </DialogSty>
+    //     )
+    // }
 
   
-    
+    console.log(championships)
     return (
         <ChampionshipTableContainer>
-            {renderDialog.status? renderDialogComponent(renderDialog.team) : null}
+            {/* {renderDialog.status? renderDialogComponent(renderDialog.team) : null} */}
             <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
             <ChampionshipTableContent>
                 <ChampionshipTableHeader>
                     <ChampionshipHeader key={"teamName"}>
                         Nome do Campeonato
                     </ChampionshipHeader>
-                    <ChampionshipHeader key={"teamNum"}>
-                        Número de times
+                    <ChampionshipHeader key={"teamsdata"}>
+                        Data de inicio
+                    </ChampionshipHeader> 
+                    <ChampionshipHeader key={"teamsdata"}>
+                        Data de Fim
                     </ChampionshipHeader> 
                 </ChampionshipTableHeader>
-                {teamsData?
-                    teamsData.map((team, index) => 
-                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({team:team, status:true})}>  
-                        <ChampionshipCell key={team.nome + index} styless={index % 2 === 0? 'Par' : ''}>
-                            {team.nome}
+                {championships?
+                    championships.map((championship, index) => 
+                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})}>  
+                        <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
+                            {championship.nome}
                         </ChampionshipCell>
-                        <ChampionshipCell key={team.nivel + index} styless={index % 2 === 0? 'Par' : ''}>
+                        <ChampionshipCell key={championship.dt_inicio + index} styless={index % 2 === 0? 'Par' : ''}>
+                            {championship.dt_inicio}
+                        </ChampionshipCell>
+                        <ChampionshipCell key={championship.dt_fim + index} styless={index % 2 === 0? 'Par' : ''}>
+                            {championship.dt_fim}
                         </ChampionshipCell>
                     </ChampionshipTeamTableRowSty>)
                 :null}
                 </ChampionshipTableContent>
-            {teamsData && teamsData.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
+            {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
             </ChampionshipTableFooter>
