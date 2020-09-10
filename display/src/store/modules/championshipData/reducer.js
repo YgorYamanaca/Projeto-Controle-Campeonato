@@ -15,6 +15,10 @@ export default function championshipData(state = initialState, action)
                 draft.userMessage.status = "Success";
                 draft.userMessage.message = "Dados recebidos com sucesso.";
             })
+        case 'REMOVE_CHAMPIONSHIP_DATA_REQUEST':
+            return produce(state, draft => {
+            draft.data.push(action.championshipInfosID)
+        })
         default:
             return state;
     }

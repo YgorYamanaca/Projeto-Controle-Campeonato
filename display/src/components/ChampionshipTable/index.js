@@ -106,16 +106,14 @@ export default function TeamsTable() {
                 return '';
         }
     }
-
-   
-
-    // const renderDialogComponent = (team) => {
+    // const renderDialogComponent = (championship) => {
+    //     console.log(championship)
     //     return(
     //         <DialogSty>
     //             {editEnable?
     //             <EditBox>
     //                 <Edit ref={editEnable? wrapperRef2 : null}>
-    //                     <EditTitle>{`Editando ${team.nome}`}</EditTitle>
+    //                     <EditTitle>{`Editando ${championship.nome}`}</EditTitle>
     //                     <ChampionshipTableContent>
     //                         <ChampionshipTableHeader>
     //                             <ChampionshipHeader key={"ChampionshipName"}>
@@ -126,10 +124,10 @@ export default function TeamsTable() {
     //                             </ChampionshipHeader> 
     //                         </ChampionshipTableHeader>
     //                             <ChampionshipEditTableRowSty >  
-    //                                 <ChampionshipEditCell key={team.nome} onClick={() => setRowEdit({rowType:'ChampionshipName', row:team, status:true})}>
-    //                                     {team.nome}
+    //                                 <ChampionshipEditCell key={championship.nome} onClick={() => setRowEdit({rowType:'ChampionshipName', row:championship, status:true})}>
+    //                                     {championship.nome}
     //                                 </ChampionshipEditCell>
-    //                                 <ChampionshipEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"num", row:team, status:true})}>
+    //                                 <ChampionshipEditCell key={championship.dt_inicio} onClick={() => setRowEdit({rowType:"num", row:championship, status:true})}>
     //                                 </ChampionshipEditCell>
     //                             </ChampionshipEditTableRowSty>
     //                     </ChampionshipTableContent>
@@ -140,27 +138,28 @@ export default function TeamsTable() {
     //                             {generateEditContent(rowEdit.rowType)}
     //                         </div> : null}
     //                     </EditContent>
-    //                     <ChampionshipTableFooter>
-    //                         <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-    //                         <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || number%2==0? false : true}/>
-    //                     </ChampionshipTableFooter>
+                        
     //                 </Edit>
     //             </EditBox> : null}
     //             <DialogBoxSty ref={!editEnable? wrapperRef : null}>
     //                 <ContentSty>
-    //                     {`Deseja exluir ou editar ${team.nome}.`}
+    //                     {`Deseja exluir ou editar ${championship.nome}.`}
     //                 </ContentSty>
     //                 <FooterSty>
     //                     <AppStylizedButton contentText="Editar" onClick={() => setEdit(true)}/>
-    //                     <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(team.id_time)}/>
+    //                     <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(championship.id_time)}/>
     //                 </FooterSty>
     //             </DialogBoxSty>
     //         </DialogSty>
     //     )
     // }
-
+    
+    const generateDataAge = (date) =>
+    {
+        let auxDate = new Date(date);
+        return `${auxDate.getDate()}/${(auxDate.getMonth() + 1)}/${auxDate.getFullYear()}`
+    }
   
-    console.log(championships)
     return (
         <ChampionshipTableContainer>
             {/* {renderDialog.status? renderDialogComponent(renderDialog.team) : null} */}
@@ -184,10 +183,10 @@ export default function TeamsTable() {
                             {championship.nome}
                         </ChampionshipCell>
                         <ChampionshipCell key={championship.dt_inicio + index} styless={index % 2 === 0? 'Par' : ''}>
-                            {championship.dt_inicio}
+                            {generateDataAge(championship.dt_inicio)}
                         </ChampionshipCell>
                         <ChampionshipCell key={championship.dt_fim + index} styless={index % 2 === 0? 'Par' : ''}>
-                            {championship.dt_fim}
+                            {generateDataAge(championship.dt_fim)}
                         </ChampionshipCell>
                     </ChampionshipTeamTableRowSty>)
                 :null}
@@ -195,6 +194,7 @@ export default function TeamsTable() {
             {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
+                
             </ChampionshipTableFooter>
         </ChampionshipTableContainer>
     )
