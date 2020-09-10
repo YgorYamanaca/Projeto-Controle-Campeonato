@@ -1,8 +1,6 @@
 import {serverIP, serverPort} from '../config/config.js'
 
 export default async (team, name, nivel) => {
-  console.log(team.nome, name)
-  console.log("body", name? name : team.nome, nivel? nivel.value : team.nivel)
   const response = await fetch(`http://${serverIP}:${serverPort}/time/`,{
     method: 'PATCH',
     headers: {

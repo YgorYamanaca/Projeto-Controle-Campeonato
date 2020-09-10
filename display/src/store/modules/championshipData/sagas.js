@@ -16,7 +16,6 @@ function* addChampionship({championshipInfo})
 function* editChampionship({row, nome, inicio, fim})
 {
     const response = yield call(editChampionshipData, row, nome, inicio, fim)
-    console.log(response)
     if(response.status === 200)
     { 
         yield put(editChampionShipSuccess(response.body))
@@ -28,7 +27,6 @@ function* removeChampionship({championshipInfosID})
     const response = yield call(deleteChampionshipdata, championshipInfosID)
     if(response.status === 200)
     { 
-        console.log(response)
         yield put(removeChampionshipDataSuccess(championshipInfosID))
     }
 }

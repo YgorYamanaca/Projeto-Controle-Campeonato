@@ -29,9 +29,6 @@ function* editTeam({team, name, nivel})
     { 
         yield put(editDataTeamSuccess(team, name, nivel))
     }
-    else{
-        console.log(response)
-    }
 }
 
 export default all([

@@ -212,7 +212,6 @@ export default function PlayerTable() {
         setTel("");
         setLevel("");
     }
-    console.log(playersData)
     const renderDialogComponent = (player) => {
         return(
             <DialogSty>
@@ -254,8 +253,8 @@ export default function PlayerTable() {
                                     <PlayerEditCell key={player.telefone} onClick={() => setRowEdit({rowType:'tel', row:player, status:true})}>
                                         {player.telefone}
                                     </PlayerEditCell>
-                                    <PlayerEditCell key={player.Time.nome + player.nome} onClick={() => setRowEdit({rowType:'time', row:player, status:true})}>
-                                        {player.Time.nome}
+                                    <PlayerEditCell key={player.Time?  player.Time.nome + player.nome : null} onClick={() => setRowEdit({rowType:'time', row:player, status:true})}>
+                                        {player.Time? player.Time.nome : null}
                                     </PlayerEditCell>
                                     <PlayerEditCell key={player.posicao + player.nome} onClick={() => setRowEdit({rowType:'posicao', row:player, status:true})}>
                                         {player.posicao}
@@ -296,7 +295,6 @@ export default function PlayerTable() {
         ageDate = Math.abs(ageDate.getUTCFullYear() - 1970);
         return `${auxDate.getDate()}/${(auxDate.getMonth() + 1)}/${auxDate.getFullYear()} (${ageDate} Anos)`
     }
-    
     return (
         <PlayerTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.player) : null}
@@ -338,8 +336,8 @@ export default function PlayerTable() {
                         <PlayerCell key={player.telefone + index} styless={index % 2 === 0? 'Par' : ''}>
                             {player.telefone}
                         </PlayerCell>
-                        <PlayerCell key={ player.Time.nome + index + player.name} styless={index % 2 === 0? 'Par' : ''}>
-                            {player.Time.nome}
+                        <PlayerCell key={player.Time? player.Time.nome + index + player.name : null} styless={index % 2 === 0? 'Par' : ''}>
+                            {player.Time? player.Time.nome : null}
                         </PlayerCell>
                         <PlayerCell key={player.posicao + index} styless={index % 2 === 0? 'Par' : ''}>
                             {player.posicao}

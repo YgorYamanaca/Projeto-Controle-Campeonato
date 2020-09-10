@@ -32,7 +32,6 @@ export default function TeamsTable() {
     useEffect(() => {
         api.get("/campeonato")
         .then(res => {
-            console.log(res)
             dispatch(addMultiChampionship(res.data));
         })
         .catch(error => {
@@ -211,7 +210,6 @@ export default function TeamsTable() {
             </DialogSty>
         )
     }
-    console.log(renderDialog);
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}

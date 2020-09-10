@@ -8,6 +8,5 @@ export default async (ChampionshipID) => {
       'Content-Type': 'application/json'
     },
     body:JSON.stringify({id_campeonato:ChampionshipID})}).then(r =>  r.json().then(data => ({status: r.status, body: data})));
-    console.log(response)
     return response;
 }

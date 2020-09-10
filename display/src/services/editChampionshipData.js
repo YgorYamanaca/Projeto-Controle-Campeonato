@@ -3,7 +3,6 @@ import {serverIP, serverPort} from '../config/config.js'
 export default async (row, nome, inicio, fim) => {
     let [dayI, monthI, yearI] = inicio.split("/");
     let [dayF, monthF, yearF] = fim.split("/");
-    console.log(new Date(dayI, monthI - 1, yearI))
     const response = await fetch(`http://${serverIP}:${serverPort}/campeonato/`,{
       method: 'PATCH',
       headers: {

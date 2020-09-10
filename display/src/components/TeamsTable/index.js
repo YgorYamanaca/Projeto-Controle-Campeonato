@@ -27,7 +27,6 @@ export default function TeamsTable() {
         { label: 'Regular', value:3},
         { label: 'Ruim', value:4}, 
     ]
-    console.log(teamsData);
     useEffect(() => {
         setMessage(teamsMenssage)
     }, [teamsMenssage])
