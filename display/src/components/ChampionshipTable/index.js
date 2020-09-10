@@ -1,27 +1,35 @@
 import React, {useEffect, useState, useRef} from 'react'
-import AppStylizedSelect from '../AppStylizedSelect/index'
 import { useSelector } from 'react-redux'
+import MaskedInput from 'react-input-mask'
 import AppStylizedButton from '../AppStylizedButton'
 import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableContent, ChampionshipHeader, ChampionshipCell,
     ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,
     EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, EditTitle,
     ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox} from './styles.js'
 import UserMessage from '../UserMessage/'
-import { addTeamsData, removeTeamDataRequest, editDataTeamRequest } from '../../store/modules/teamsData/actions';
+import { editChampionShipRequest } from '../../store/modules/championshipData/actions';
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
 import { addMultiChampionship } from '../../store/modules/championshipData/actions'
 
 export default function TeamsTable() {
-    const [renderDialog, setDialog] = useState({team:'', status:false});
+    const [renderDialog, setDialog] = useState({championShip:'', status:false});
     const [editEnable, setEdit] = useState(false);
     const [name, setName] = useState("");
+    const [inicio, setInicio] = useState("");
+    const [fim, setFim] = useState("");
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
-    const [number, setNumber] = useState("");
     const championships = useSelector(state=>state.championshipData.data)
+
+    const generateDataAge = (date) =>
+    {
+        let auxDate = new Date(date);
+        return `${auxDate.getDate()}/${(auxDate.getMonth() + 1)}/${auxDate.getFullYear()}`
+    }
+
     useEffect(() => {
         api.get("/campeonato")
         .then(res => {
@@ -44,7 +52,7 @@ export default function TeamsTable() {
              */
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    setDialog({team:'', status:false});
+                    setDialog({championShip:'', status:false});
                 }
             }
     
@@ -80,100 +88,143 @@ export default function TeamsTable() {
         
     const excludeTeam = (idTeam) =>
     {
-        dispatch(removeTeamDataRequest(idTeam));
-        setDialog({player:'', status:false});
+        // dispatch(removeTeamDataRequest(idTeam));
+        setDialog({championShip:'', status:false});
     }
 
     const generateEditContent = (row) => 
     {
         switch(row)
         {
-            case 'ChampionshipName':
+            case 'nome':
             return (
                 <InputBox>
                     <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do Campeonato..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
                 </InputBox>
             );
             
-            case 'num':
+            case 'dt_inicio':
             return (
                 <InputBox>
-                    <label>Numero de Times:</label> <input id="MaxInput" placeholder="Insira o numero de times..." type="number"  maxLength={100} value={number} onChange={event => setNumber(event.target.value)} style={{width: '250px'}}/>
+                    <label>Data de início:</label>
+                    <MaskedInput
+                        mask="99/99/9999"
+                        className="TextInput"
+                        placeholder="Insira a data..."
+                        value={inicio}
+                        maskChar={null}
+                        onChange={(event) => setInicio(event.target.value)}
+                        style={{width: '100px'}}
+                        />
                 </InputBox>
                 );
+            case 'dt_fim':
+                return (
+                    <InputBox>
+                        <label>Data de Encerramento</label>
+                        <MaskedInput
+                            mask="99/99/9999"
+                            className="TextInput"
+                            placeholder="Insira a data..."
+                            value={fim}
+                            maskChar={null}
+                            onChange={(event) => setFim(event.target.value)}
+                            style={{width: '100px'}}
+                            />
+                    </InputBox>
+                    );
 
             default:
                 return '';
         }
     }
 
-   
+        
+    const handleEditChampionShip = () =>
+    {
+        dispatch(editChampionShipRequest(rowEdit.row, name, inicio, fim))
+        
+        setDialog({championShip:'', status:false});
+        setRowEdit({row:'', rowType:'', status:false})
+    }
 
-    // const renderDialogComponent = (team) => {
-    //     return(
-    //         <DialogSty>
-    //             {editEnable?
-    //             <EditBox>
-    //                 <Edit ref={editEnable? wrapperRef2 : null}>
-    //                     <EditTitle>{`Editando ${team.nome}`}</EditTitle>
-    //                     <ChampionshipTableContent>
-    //                         <ChampionshipTableHeader>
-    //                             <ChampionshipHeader key={"ChampionshipName"}>
-    //                                 Nome do Camp
-    //                             </ChampionshipHeader>
-    //                             <ChampionshipHeader key={"num"}>
-    //                                 Times
-    //                             </ChampionshipHeader> 
-    //                         </ChampionshipTableHeader>
-    //                             <ChampionshipEditTableRowSty >  
-    //                                 <ChampionshipEditCell key={team.nome} onClick={() => setRowEdit({rowType:'ChampionshipName', row:team, status:true})}>
-    //                                     {team.nome}
-    //                                 </ChampionshipEditCell>
-    //                                 <ChampionshipEditCell key={team.nivel + "time"} onClick={() => setRowEdit({rowType:"num", row:team, status:true})}>
-    //                                 </ChampionshipEditCell>
-    //                             </ChampionshipEditTableRowSty>
-    //                     </ChampionshipTableContent>
-    //                     <EditContent>
-    //                         {rowEdit.status?
-    //                         <div>
-    //                              Editar:
-    //                             {generateEditContent(rowEdit.rowType)}
-    //                         </div> : null}
-    //                     </EditContent>
-    //                     <ChampionshipTableFooter>
-    //                         <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-    //                         <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || number%2==0? false : true}/>
-    //                     </ChampionshipTableFooter>
-    //                 </Edit>
-    //             </EditBox> : null}
-    //             <DialogBoxSty ref={!editEnable? wrapperRef : null}>
-    //                 <ContentSty>
-    //                     {`Deseja exluir ou editar ${team.nome}.`}
-    //                 </ContentSty>
-    //                 <FooterSty>
-    //                     <AppStylizedButton contentText="Editar" onClick={() => setEdit(true)}/>
-    //                     <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(team.id_time)}/>
-    //                 </FooterSty>
-    //             </DialogBoxSty>
-    //         </DialogSty>
-    //     )
-    // }
+    const clearEdit = () =>
+    {
+        setName("");
+        setInicio("");
+        setFim("");
+    }
 
-  
-    console.log(championships)
+    const renderDialogComponent = (championShip) => {
+        return(
+            <DialogSty>
+                {editEnable?
+                <EditBox>
+                    <Edit ref={editEnable? wrapperRef2 : null}>
+                        <ChampionshipTableTitle>{`Editando ${championShip.nome}`}</ChampionshipTableTitle>
+                        <ChampionshipTableContent>
+                        <ChampionshipTableHeader>
+                            <ChampionshipHeader key={"championName"}>
+                                Nome do Campeonato
+                            </ChampionshipHeader>
+                            <ChampionshipHeader key={"championIniData"}>
+                                Data de inicio
+                            </ChampionshipHeader> 
+                            <ChampionshipHeader key={"championFimData"}>
+                                Data de Fim
+                            </ChampionshipHeader> 
+                        </ChampionshipTableHeader>
+                        <ChampionshipEditTableRowSty>
+                            <ChampionshipEditCell key={championShip.nome} onClick={() => setRowEdit({rowType:"nome", row:championShip, status:true})}>
+                                {championShip.nome}
+                            </ChampionshipEditCell>
+                            <ChampionshipEditCell key={championShip.dt_inicio} onClick={() => setRowEdit({rowType:"dt_inicio", row:championShip, status:true})}>
+                                {generateDataAge(championShip.dt_inicio)}
+                            </ChampionshipEditCell>
+                            <ChampionshipEditCell key={championShip.dt_fim} onClick={() => setRowEdit({rowType:"dt_fim", row:championShip, status:true})}>
+                                {generateDataAge(championShip.dt_fim)}
+                            </ChampionshipEditCell>
+                        </ChampionshipEditTableRowSty>
+                        </ChampionshipTableContent>
+                        <EditContent>
+                            {rowEdit.status?
+                            <div>
+                                 Editar:
+                                {generateEditContent(rowEdit.rowType)}
+                            </div> : null}
+                        </EditContent>
+                        <ChampionshipTableFooter>
+                            <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
+                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={name || inicio || fim?  false : true}/>
+                        </ChampionshipTableFooter>
+                    </Edit>
+                </EditBox> : null}
+                <DialogBoxSty ref={!editEnable? wrapperRef : null}>
+                    <ContentSty>
+                        {`Deseja exluir ou editar ${championShip.nome}.`}
+                    </ContentSty>
+                    <FooterSty>
+                        <AppStylizedButton contentText="Editar" onClick={() => setEdit(true)}/>
+                        <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(championShip.id_time)}/>
+                    </FooterSty>
+                </DialogBoxSty>
+            </DialogSty>
+        )
+    }
+
     return (
         <ChampionshipTableContainer>
-            {/* {renderDialog.status? renderDialogComponent(renderDialog.team) : null} */}
+            {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
             <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
             <ChampionshipTableContent>
                 <ChampionshipTableHeader>
-                    <ChampionshipHeader key={"teamName"}>
+                    <ChampionshipHeader key={"championShip"}>
                         Nome do Campeonato
                     </ChampionshipHeader>
-                    <ChampionshipHeader key={"teamsdata"}>
+                    <ChampionshipHeader key={"championShipdata1"}>
                         Data de inicio
                     </ChampionshipHeader> 
-                    <ChampionshipHeader key={"teamsdata"}>
+                    <ChampionshipHeader key={"championShipdata2"}>
                         Data de Fim
                     </ChampionshipHeader> 
                 </ChampionshipTableHeader>
@@ -184,10 +235,10 @@ export default function TeamsTable() {
                             {championship.nome}
                         </ChampionshipCell>
                         <ChampionshipCell key={championship.dt_inicio + index} styless={index % 2 === 0? 'Par' : ''}>
-                            {championship.dt_inicio}
+                            {generateDataAge(championship.dt_inicio)}
                         </ChampionshipCell>
                         <ChampionshipCell key={championship.dt_fim + index} styless={index % 2 === 0? 'Par' : ''}>
-                            {championship.dt_fim}
+                            {generateDataAge(championship.dt_fim)}
                         </ChampionshipCell>
                     </ChampionshipTeamTableRowSty>)
                 :null}

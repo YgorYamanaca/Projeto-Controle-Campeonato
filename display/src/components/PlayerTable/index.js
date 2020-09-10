@@ -296,6 +296,7 @@ export default function PlayerTable() {
         ageDate = Math.abs(ageDate.getUTCFullYear() - 1970);
         return `${auxDate.getDate()}/${(auxDate.getMonth() + 1)}/${auxDate.getFullYear()} (${ageDate} Anos)`
     }
+    
     return (
         <PlayerTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.player) : null}

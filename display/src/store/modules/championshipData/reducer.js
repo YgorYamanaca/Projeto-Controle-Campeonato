@@ -15,6 +15,14 @@ export default function championshipData(state = initialState, action)
                 draft.userMessage.status = "Success";
                 draft.userMessage.message = "Dados recebidos com sucesso.";
             })
+        case 'EDIT_CHAMPIONSHIP_SUCCESS':
+            return produce(state, draft => {
+                let index = state.data.findIndex(element => element.id_campeonato === action.championShip.id_campeonato);
+                draft.data[index].nome = action.championShip.nome
+                draft.data[index].dt_inicio = action.championShip.dt_inicio
+                draft.data[index].dt_fim = action.championShip.dt_fim
+                
+            })
         default:
             return state;
     }

@@ -80,7 +80,7 @@ export const ChampionshipCell = styled.div`
 `;
 export const ChampionshipEditTableRowSty = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;

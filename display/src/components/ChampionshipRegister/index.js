@@ -29,8 +29,7 @@ export default function ChampionshipRegister() {
         dispatch(addChampionshipRequest(formData))
         setName("");
         setInicio("");
-        setFim("");
-        
+        setFim(""); 
     }
         
     const validaData = (inicio, fim)=>{ 
@@ -45,7 +44,7 @@ export default function ChampionshipRegister() {
             return false
        }   
     }
-    
+
     return (
         <ChampionshipRegisterContainer>
             <ChampionshipRegisterTitle>Cadastro de Campeonato</ChampionshipRegisterTitle>
