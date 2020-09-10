@@ -1,7 +1,9 @@
 import { call, put, takeLatest, all} from 'redux-saga/effects';
-import {addChampionshipSuccess, editChampionShipSuccess} from './actions';
+import {addChampionshipSuccess, editChampionShipSuccess, removeChampionshipDataSuccess} from './actions';
 import postChampionshipData from '../../../services/postChampionshipData';
 import editChampionshipData from  '../../../services/editChampionshipData';
+import deleteChampionshipdata from '../../../services/deleteChampionshipData'
+
 function* addChampionship({championshipInfo})
 {
     const response = yield call(postChampionshipData, championshipInfo)
@@ -21,7 +23,18 @@ function* editChampionship({row, nome, inicio, fim})
     }
 }
 
+function* removeChampionship({championshipInfosID})
+{
+    const response = yield call(deleteChampionshipdata, championshipInfosID)
+    if(response.status === 200)
+    { 
+        console.log(response)
+        yield put(removeChampionshipDataSuccess(championshipInfosID))
+    }
+}
+
 export default all([
     takeLatest('ADD_CHAMPIONSHIP_REQUEST', addChampionship),
-    takeLatest('EDIT_CHAMPIONSHIP_REQUEST', editChampionship)
+    takeLatest('EDIT_CHAMPIONSHIP_REQUEST', editChampionship),
+    takeLatest('REMOVE_CHAMPIONSHIP_DATA_REQUEST', removeChampionship)
 ])

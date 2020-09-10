@@ -23,6 +23,10 @@ export default function championshipData(state = initialState, action)
                 draft.data[index].dt_fim = action.championShip.dt_fim
                 
             })
+        case 'REMOVE_CHAMPIONSHIP_DATA_REQUEST':
+            return produce(state, draft => {
+            draft.data = draft.data.filter(champ=> champ.id_campeonato !==action.championshipInfosID)
+        })
         default:
             return state;
     }

@@ -7,10 +7,9 @@ import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableCon
     EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, EditTitle,
     ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox} from './styles.js'
 import UserMessage from '../UserMessage/'
-import { editChampionShipRequest } from '../../store/modules/championshipData/actions';
+import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRequest } from '../../store/modules/championshipData/actions';
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
-import { addMultiChampionship } from '../../store/modules/championshipData/actions'
 
 export default function TeamsTable() {
     const [renderDialog, setDialog] = useState({championShip:'', status:false});
@@ -86,9 +85,9 @@ export default function TeamsTable() {
         }, [ref]);
     }
         
-    const excludeTeam = (idTeam) =>
+    const excludeChamp = (idChamp) =>
     {
-        // dispatch(removeTeamDataRequest(idTeam));
+        dispatch(removeChampionshipDataRequest(idChamp));
         setDialog({championShip:'', status:false});
     }
 
@@ -118,6 +117,7 @@ export default function TeamsTable() {
                         />
                 </InputBox>
                 );
+
             case 'dt_fim':
                 return (
                     <InputBox>
@@ -205,13 +205,13 @@ export default function TeamsTable() {
                     </ContentSty>
                     <FooterSty>
                         <AppStylizedButton contentText="Editar" onClick={() => setEdit(true)}/>
-                        <AppStylizedButton contentText="Excluir" onClick={() => excludeTeam(championShip.id_time)}/>
+                        <AppStylizedButton contentText="Excluir" onClick={() => excludeChamp(championShip.id_campeonato)}/>
                     </FooterSty>
                 </DialogBoxSty>
             </DialogSty>
         )
     }
-
+    console.log(renderDialog);
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
@@ -246,6 +246,7 @@ export default function TeamsTable() {
             {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
+                
             </ChampionshipTableFooter>
         </ChampionshipTableContainer>
     )

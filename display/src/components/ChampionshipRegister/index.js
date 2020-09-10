@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
-import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addChampionshipRequest } from '../../store/modules/championshipData/actions';
 import MaskedInput from 'react-input-mask'
 import { ChampionshipRegisterContainer,ChampionshipRegisterTitle, ChampionshipRegisterContent,
@@ -31,7 +30,7 @@ export default function ChampionshipRegister() {
         setInicio("");
         setFim(""); 
     }
-        
+
     const validaData = (inicio, fim)=>{ 
         let [dayInicio, monthInicio, yearInicio] = inicio.split("/")
         let [dayFim, monthFim, yearFim] = fim.split("/") 
