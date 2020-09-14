@@ -3,7 +3,6 @@ const initialState = {data:[], userMessage:{message:"", status:""}};
 
 export default function playerData(state = initialState, action)
 {
-    console.log(action)
     switch (action.type) {
         case 'ADD_PLAYER_SUCCESS':
             return produce(state, draft => {

@@ -2,7 +2,6 @@ import produce from 'immer';
 const initialState = {data:[], userMessage:{message:"", status:""}};
 export default function teamsData(state = initialState, action)
 {
-    console.log(action);
         switch (action.type) {
         case 'ADD_TEAM_SUCCESS':
             return produce(state, draft => {

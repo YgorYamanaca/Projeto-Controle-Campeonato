@@ -22,13 +22,17 @@ export default function TeamsTable() {
     // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
+    const userMessage = useSelector(state => state.championshipData.userMessage)
 
     const generateDataAge = (date) =>
     {
         let auxDate = new Date(date);
         return `${auxDate.getDate()}/${(auxDate.getMonth() + 1)}/${auxDate.getFullYear()}`
     }
-
+    useEffect(() => {
+        setMessage(userMessage)
+    }, [userMessage])
+    
     useEffect(() => {
         api.get("/campeonato")
         .then(res => {
@@ -244,7 +248,6 @@ export default function TeamsTable() {
             {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
-                
             </ChampionshipTableFooter>
         </ChampionshipTableContainer>
     )

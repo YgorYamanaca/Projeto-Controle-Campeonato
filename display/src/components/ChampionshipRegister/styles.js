@@ -20,7 +20,7 @@ export const ChampionshipRegisterTitle = styled.div`
     justify-content: center;
     height: 35px;
     align-items: center;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
 `;
 
 export const ChampionshipRegisterContent = styled.div`
@@ -75,4 +75,47 @@ export const ChampionshipRegisterFooter = styled.div`
     margin-bottom: auto;
     padding:10px;
     border-radius: 0px 0px 10px 10px;
+`;
+
+export const TeamRegisterContent = styled.div`
+    border-radius: 15px;
+    border: 3px solid #00527E;
+    margin: 5px;
+    overflow:hidden;
+`;
+export const OptionsBox = styled.div`
+    flex-grow:1;
+    margin: 15px;
+`;
+
+export const EmpetyRow = styled.div`
+    display: flex;
+    justify-content: center;
+    background-color: #f1f1f1;
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    border-right: 1px solid #003049;
+    height: 25px;
+    color:grey;
+    font-weight:500;
+`;
+
+export const RowOPT = styled.div`
+    justify-content: center;
+    text-align: center;
+    background-color: #f1f1f1;
+    cursor: ${props => props.disabled?  'default'  : 'pointer'};
+    pointer-events: ${props => props.disabled?  'none'  : ''};
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    border-right: 1px solid #003049;
+    height: 25px;
+    color:${props => props.disabled?  'grey'  : 'black'};
+    font-weight:500;
+    
+    :hover
+    {
+        
+        background-color: #fff;
+    }
 `;
