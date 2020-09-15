@@ -19,7 +19,8 @@ export default function TeamsTable() {
     const [fim, setFim] = useState("");
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
-    // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
+    const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
+    const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
     const userMessage = useSelector(state => state.championshipData.userMessage)
@@ -93,48 +94,69 @@ export default function TeamsTable() {
         dispatch(removeChampionshipDataRequest(idChamp));
         setDialog({championShip:'', status:false});
     }
-
+    const validaData = (inicio, fim)=>{ 
+        let [dayInicio, monthInicio, yearInicio] = inicio.split("/")
+        let [dayFim, monthFim, yearFim] = fim.split("/") 
+        let newDataInicio = new Date(yearInicio, monthInicio-1, dayInicio );
+        let newDataFim = new Date(yearFim, monthFim-1, dayFim);
+        if(newDataInicio > new Date() && newDataInicio<newDataFim && regexDate.test(inicio) && regexDate.test(fim)){
+            return true
+        }
+       else{
+            return false
+       }   
+    }
     const generateEditContent = (row) => 
     {
         switch(row)
         {
             case 'nome':
             return (
-                <InputBox>
-                    <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do Campeonato..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
-                </InputBox>
+                <div>
+                    <InputBox>
+                        <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do Campeonato..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
+                    </InputBox>
+                    <AppStylizedButton contentText="Salavar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexName.test(name)? false : true}/>
+                </div>
+                
             );
             
             case 'dt_inicio':
             return (
-                <InputBox>
-                    <label>Data de início:</label>
-                    <MaskedInput
-                        mask="99/99/9999"
-                        className="TextInput"
-                        placeholder="Insira a data..."
-                        value={inicio}
-                        maskChar={null}
-                        onChange={(event) => setInicio(event.target.value)}
-                        style={{width: '100px'}}
-                        />
-                </InputBox>
-                );
-
-            case 'dt_fim':
-                return (
+                <div>
                     <InputBox>
-                        <label>Data de Encerramento</label>
+                        <label>Data de início:</label>
                         <MaskedInput
                             mask="99/99/9999"
                             className="TextInput"
                             placeholder="Insira a data..."
-                            value={fim}
+                            value={inicio}
                             maskChar={null}
-                            onChange={(event) => setFim(event.target.value)}
+                            onChange={(event) => setInicio(event.target.value)}
                             style={{width: '100px'}}
                             />
                     </InputBox>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio) && validaData(inicio,fim) ? false : true}/>
+                </div>
+                );
+
+            case 'dt_fim':
+                return (
+                    <div>
+                        <InputBox>
+                            <label>Data de Encerramento</label>
+                            <MaskedInput
+                                mask="99/99/9999"
+                                className="TextInput"
+                                placeholder="Insira a data..."
+                                value={fim}
+                                maskChar={null}
+                                onChange={(event) => setFim(event.target.value)}
+                                style={{width: '100px'}}
+                                />
+                        </InputBox>
+                        <AppStylizedButton contentText="Salavar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(fim) && validaData(inicio,fim)? false : true}/>
+                    </div>
                     );
 
             default:
@@ -157,7 +179,7 @@ export default function TeamsTable() {
         setInicio("");
         setFim("");
     }
-
+        
     const renderDialogComponent = (championShip) => {
         return(
             <DialogSty>
@@ -194,11 +216,11 @@ export default function TeamsTable() {
                             <div>
                                  Editar:
                                 {generateEditContent(rowEdit.rowType)}
+
                             </div> : null}
                         </EditContent>
                         <ChampionshipTableFooter>
                             <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={name || inicio || fim?  false : true}/>
                         </ChampionshipTableFooter>
                     </Edit>
                 </EditBox> : null}

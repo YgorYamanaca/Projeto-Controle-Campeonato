@@ -18,7 +18,7 @@ export default function TeamsTable() {
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     const teamsData = useSelector(state => state.teamsData.data);
     const teamsMenssage = useSelector(state => state.teamsData.userMessage);
-    // const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
+    const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$/);
     const dispatch = useDispatch();
     const [nivel, setNivel] = useState();
     const TeamOptions = [
@@ -97,21 +97,29 @@ export default function TeamsTable() {
         {
             case 'name':
             return (
-                <InputBox>
-                    <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do time..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
-                </InputBox>
+                <div>
+                    <InputBox>
+                        <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do time..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
+                    </InputBox>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={regexName.test(name)? false : true}/>
+                </div>
             );
             
             case 'nivel':
-            return (<AppStylizedSelect
-                id="Postion" 
-                title="Nível:"
-                placeholder="Selecione o nível..."
-                options = {TeamOptions} 
-                handleFunction = {setNivel}
-                defaultSelectedLabel={nivel}
-                />);
+            return (
+                <div>
+                    <AppStylizedSelect
+                    id="Postion" 
+                    title="Nível:"
+                    placeholder="Selecione o nível..."
+                    options = {TeamOptions} 
+                    handleFunction = {setNivel}
+                    defaultSelectedLabel={nivel}
+                    />
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={nivel? false : true}/>
+                </div>
 
+                );
             default:
                 return '';
         }
@@ -164,7 +172,6 @@ export default function TeamsTable() {
                         </EditContent>
                         <TeamTableFooter>
                             <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditTeam(); clearEdit()}} disabled={name || nivel? false : true}/>
                         </TeamTableFooter>
                     </Edit>
                 </EditBox> : null}

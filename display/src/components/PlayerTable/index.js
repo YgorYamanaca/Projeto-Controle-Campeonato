@@ -27,9 +27,9 @@ export default function PlayerTable() {
     const [tel, setTel] = useState("");
     const [level, setLevel] = useState("");
     const [position, setPosition] = useState();
-    // const birthRegex = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
-    // const telRegex = (/^\([0-9]{2}(?:\))\s?[0-9]{4}(?:-)[0-9]{4}$/);
-    // const regexName = (/^[a-zA-Z áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/);
+    const birthRegex = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
+    const telRegex = (/^\([0-9]{2}(?:\))\s?[0-9]{4}(?:-)[0-9]{4}$/);
+    const regexName = (/^[a-zA-Z áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/);
     const futebolPositionOptions = [
         { label: 'Goleiro'},
         { label: 'Zagueiro'},
@@ -127,68 +127,88 @@ export default function PlayerTable() {
         switch(row)
         {
             case 'name':
-            return(
-                <InputBox>
+            return(          
+                 <div>
+                    <InputBox>
                     <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do time..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
-                </InputBox>
+                    </InputBox>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={regexName.test(name)?false : true}/>
+                </div>
+
             );
             case 'nick':
             return(
-                <InputBox>
+                <div>
+                    <InputBox>
                     <label>Apelido:</label> <input id="NameInput" placeholder="Insira o nome do time..." type="text"  maxLength={50} value={nick} onChange={event => setNickName(event.target.value)} style={{width: '250px'}}/>
-                </InputBox>
+                    </InputBox>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={regexName.test(nick)?false : true}/>
+                </div>
+
             );
             case 'birth':
             return(
-                <InputBox>
-                    <label>Data de Nascimento:</label>
-                    <MaskedInput
-                        mask="99/99/9999"
-                        className="TextInput"
-                        placeholder="Insira a data..."
-                        value={birth}
-                        id="AgeInput"
-                        maskChar={null}
-                        onChange={(event) => setBirth(event.target.value)}
-                        style={{width: '100px'}}
-                        />
-                </InputBox>
+                <div>
+                    <InputBox>
+                        <label>Data de Nascimento:</label>
+                        <MaskedInput
+                            mask="99/99/9999"
+                            className="TextInput"
+                            placeholder="Insira a data..."
+                            value={birth}
+                            id="AgeInput"
+                            maskChar={null}
+                            onChange={(event) => setBirth(event.target.value)}
+                            style={{width: '100px'}}
+                            />
+                    </InputBox>
+                     <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={birthRegex.test(birth)?false : true}/>
+                </div>
             );
             case 'tel':
             return(
-                <InputBox>
-                    <label>Telefone:</label> 
-                    <MaskedInput
-                        mask="(99) 9999-9999"
-                        className="TextInput"
-                        placeholder="Insira o telefone..."
-                        value={tel}
-                        id="TelInput"
-                        maskChar={null}
-                        onChange={(event) => setTel(event.target.value)}
-                        />
-                </InputBox>
+                <div>
+                    <InputBox>
+                        <label>Telefone:</label> 
+                        <MaskedInput
+                            mask="(99) 9999-9999"
+                            className="TextInput"
+                            placeholder="Insira o telefone..."
+                            value={tel}
+                            id="TelInput"
+                            maskChar={null}
+                            onChange={(event) => setTel(event.target.value)}
+                            />
+                    </InputBox>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={telRegex.test(tel)?false : true}/>
+                </div>
             );
             case 'time':
             return(
-                <AppStylizedSelect
-                    id="Team" 
-                    title="Time:"
-                    placeholder="Selecione o time..."
-                    handleFunction = {setLevel}
-                    options = {generateTeamLabel(teamsOption)} 
-                />
+                <div>
+                    <AppStylizedSelect
+                        id="Team" 
+                        title="Time:"
+                        placeholder="Selecione o time..."
+                        handleFunction = {setLevel}
+                        options = {generateTeamLabel(teamsOption)}                
+                        />
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={level ?false : true}/>
+                </div>
             );
             case 'posicao':
             return(
-                <AppStylizedSelect
-                    id="Postion" 
-                    title="Posição:"
-                    placeholder="Selecione a posição..."
-                    options = {futebolPositionOptions} 
-                    handleFunction = {setPosition}
-                    defaultSelectedLabel={position}
-                />
+                <div>
+                    <AppStylizedSelect
+                        id="Postion" 
+                        title="Posição:"
+                        placeholder="Selecione a posição..."
+                        options = {futebolPositionOptions} 
+                        handleFunction = {setPosition}
+                        defaultSelectedLabel={position}  
+                    />
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={position ?false : true}/>
+                </div>
             );
             default:
             return '';
@@ -270,7 +290,6 @@ export default function PlayerTable() {
                         </EditContent>
                         <PlayerTableFooter>
                             <AppStylizedButton contentText="Cancelar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); setEdit(false)}}/>
-                            <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={name || tel || level || position || nick || birth? false : true}/>
                         </PlayerTableFooter>
                     </Edit>
                 </EditBox> : null}
