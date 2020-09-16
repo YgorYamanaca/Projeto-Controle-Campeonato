@@ -249,7 +249,7 @@ export default function TeamsTable() {
                         Data de inicio
                     </ChampionshipHeader> 
                     <ChampionshipHeader key={"championShipdata2"}>
-                        Data de Fim
+                        Data de Final
                     </ChampionshipHeader> 
                 </ChampionshipTableHeader>
                 {championships?
