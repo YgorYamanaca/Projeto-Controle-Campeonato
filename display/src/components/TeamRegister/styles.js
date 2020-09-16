@@ -38,12 +38,12 @@ export const TeamInfo = styled.div`
 
 export const InputBox = styled.div`
     display: flex;
-    height: 35px;
+    height: 40px;
     background-color: #00527E;  
     border-radius: 10px;
-    padding:0 5px;
+    padding:0 10px;
     overflow: hidden;
-    margin:5px;
+    margin:10px;
     align-items: center;
 
     input
@@ -53,7 +53,7 @@ export const InputBox = styled.div`
         color:#081D16;
         margin: 0 5px;
         padding:1px 5px;
-        font-size:14px;
+        font-size:16px;
         font-family: "Roboto Condensed", sans-serif;
         :focus::placeholder
         {
@@ -66,6 +66,7 @@ export const InputBox = styled.div`
         font-weight: 500;
         color: #ffff;
         font-size:16px;
+        margin-right:10px;
     }
 `;
 

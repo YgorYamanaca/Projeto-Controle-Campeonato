@@ -21,18 +21,23 @@ export default function ChampionshipRegister() {
         let [dayFim, monthFim, yearFim] = fim.split("/") 
         let newDataInicio = new Date(yearInicio, monthInicio-1, dayInicio );
         let newDataFim = new Date(yearFim, monthFim-1, dayFim);
-        e.preventDefault()
+        let teams = [];
+        e.preventDefault();
+        teamRegister.forEach(team => {
+            teams.push(team.id_time);
+        })
         const formData = {
             'nome' : name,
             'dt_inicio' : newDataInicio,
-            'dt_fim' :  newDataFim
+            'dt_fim' :  newDataFim,
+            'times':teams
         }
         dispatch(addChampionshipRequest(formData))
         setName("");
         setInicio("");
         setFim(""); 
+        setTeam([]);
     }
-
     const validaData = (inicio, fim)=>{ 
         let [dayInicio, monthInicio, yearInicio] = inicio.split("/")
         let [dayFim, monthFim, yearFim] = fim.split("/") 
@@ -47,7 +52,6 @@ export default function ChampionshipRegister() {
     }
 
     const removeTeam = (team) => {
-        console.log(team.id_time);
         setTeam(teamRegister.filter(teamReg => teamReg.id_time !== team.id_time))
     }
 
@@ -75,7 +79,7 @@ export default function ChampionshipRegister() {
                     </InputBox>
 
                     <InputBox>
-                        <label>Data de Encerramento</label>
+                        <label>Data de Encerramento:</label>
                         <MaskedInput
                             mask="99/99/9999"
                             className="TextInput"

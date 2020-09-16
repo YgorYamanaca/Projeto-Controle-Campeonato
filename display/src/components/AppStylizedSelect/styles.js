@@ -2,17 +2,18 @@ import styled from 'styled-components';
 
 export const ComponentBox = styled.div`
     display: flex;
-    height: 35px;
+    height: 40px;
     background-color: #00527E;  
     border-radius: 10px;
-    padding:0 5px;
-    margin:5px;
+    padding:0 10px;
+    margin:10px;
     align-items: center;
 `;
 export const ComponentTitle = styled.label`
     font-weight: 500;
     color: #ffff;
     font-size:16px;
+    margin-right:10px;
 `;
 export const ComponentContainer = styled.div`
     display: flex;
@@ -24,7 +25,7 @@ export const ComponentContainer = styled.div`
     color:#104130;
     height: 23px;
     width: 150px;
-    font-size:14px;
+    font-size:16px;
     font-family: "Roboto Condensed", sans-serif;
     font-weight: 500;
     :hover

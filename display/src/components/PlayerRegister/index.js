@@ -118,7 +118,6 @@ export default function PlayerRegister() {
                         handleFunction = {setPosition}
                         defaultSelectedLabel={position}
                         />
-
                         <AppStylizedSelect
                         id="Team" 
                         title="Time:"

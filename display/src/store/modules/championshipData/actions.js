@@ -6,9 +6,9 @@ export const EDIT_CHAMPIONSHIP_SUCCESS = 'EDIT_CHAMPIONSHIP_SUCCESS'
 export const REMOVE_CHAMPIONSHIP_DATA_REQUEST = 'REMOVE_CHAMPIONSHIP_DATA_REQUEST'
 export const REMOVE_CHAMPIONSHIP_DATA_SUCCESS = 'REMOVE_CHAMPIONSHIP_DATA_SUCCESS'
 
-export function addChampionshipRequest(championshipInfo){
+export function addChampionshipRequest(championshipInfo, teamsData){
     return{
-        type:ADD_CHAMPIONSHIP_REQUEST, championshipInfo
+        type:ADD_CHAMPIONSHIP_REQUEST, championshipInfo, teamsData
     }
 }
 export function addChampionshipSuccess(championshipInfo){

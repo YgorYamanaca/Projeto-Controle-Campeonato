@@ -40,14 +40,14 @@ export default function TeamRegister() {
                         <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do time..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
                     </InputBox>
                     
-                        <AppStylizedSelect
-                        id="Postion" 
-                        title="Nível:"
-                        placeholder="Selecione o nível..."
-                        options = {TeamOptions} 
-                        handleFunction = {setNivel}
-                        defaultSelectedLabel={nivel}
-                        />
+                    <AppStylizedSelect
+                    id="Postion" 
+                    title="Nível:"
+                    placeholder="Selecione o nível..."
+                    options = {TeamOptions} 
+                    handleFunction = {setNivel}
+                    defaultSelectedLabel={nivel}
+                    />
                         
                 </TeamInfo>
                

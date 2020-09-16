@@ -228,3 +228,17 @@ export const InputBox = styled.div`
         font-size:16px;
     }
 `;
+export const TeamTable = styled.div`
+    justify-content:center;
+    padding:15px;
+`;
+
+export const ExpandTeamRow = styled.div`
+    color:black;
+    display: flex;
+    justify-content: center;
+    background-color:#ddd;
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    border-right: 1px solid #003049;
+`;

@@ -4,14 +4,15 @@ import MaskedInput from 'react-input-mask'
 import AppStylizedButton from '../AppStylizedButton'
 import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableContent, ChampionshipHeader, ChampionshipCell,
     ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,
-    EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, EditTitle,
-    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox} from './styles.js'
+    EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, ExpandTeamRow,
+    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, TeamTable} from './styles.js'
 import UserMessage from '../UserMessage/'
 import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRequest } from '../../store/modules/championshipData/actions';
 import api from '../../services/api'
 import { useDispatch} from 'react-redux'
 
 export default function TeamsTable() {
+    const [expandTeam,  setExpand] = useState(false);
     const [renderDialog, setDialog] = useState({championShip:'', status:false});
     const [editEnable, setEdit] = useState(false);
     const [name, setName] = useState("");
@@ -116,7 +117,7 @@ export default function TeamsTable() {
                     <InputBox>
                         <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do Campeonato..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
                     </InputBox>
-                    <AppStylizedButton contentText="Salavar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexName.test(name)? false : true}/>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexName.test(name)? false : true}/>
                 </div>
                 
             );
@@ -144,7 +145,7 @@ export default function TeamsTable() {
                 return (
                     <div>
                         <InputBox>
-                            <label>Data de Encerramento</label>
+                            <label>Data de Encerramento:</label>
                             <MaskedInput
                                 mask="99/99/9999"
                                 className="TextInput"
@@ -155,7 +156,7 @@ export default function TeamsTable() {
                                 style={{width: '100px'}}
                                 />
                         </InputBox>
-                        <AppStylizedButton contentText="Salavar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(fim) && validaData(inicio,fim)? false : true}/>
+                        <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(fim) && validaData(inicio,fim)? false : true}/>
                     </div>
                     );
 
@@ -254,7 +255,8 @@ export default function TeamsTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})}>  
+                    <>
+                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => setExpand(championship)} onMouseOut={() => setExpand(false)}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
                         </ChampionshipCell>
@@ -264,9 +266,20 @@ export default function TeamsTable() {
                         <ChampionshipCell key={championship.dt_fim + index} styless={index % 2 === 0? 'Par' : ''}>
                             {generateDataAge(championship.dt_fim)}
                         </ChampionshipCell>
-                    </ChampionshipTeamTableRowSty>)
+                    </ChampionshipTeamTableRowSty>
+                    </>)
                 :null}
                 </ChampionshipTableContent>
+                <TeamTable>
+                <ChampionshipTableTitle>Times Participantes</ChampionshipTableTitle>
+                    {expandTeam? 
+                            expandTeam.times.map(team =>  
+                                <ExpandTeamRow kwy={Math.random() * 1000}>
+                                    {team.nome}
+                                </ExpandTeamRow> 
+                            )
+                            : <ExpandTeamRow>Selecione um campeonato para visualizar os times.</ExpandTeamRow>}
+                </TeamTable>
             {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
