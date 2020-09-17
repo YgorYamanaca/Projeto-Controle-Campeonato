@@ -237,6 +237,7 @@ export default function TeamsTable() {
             </DialogSty>
         )
     }
+
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
@@ -255,7 +256,6 @@ export default function TeamsTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <>
                     <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => setExpand(championship)} onMouseOut={() => setExpand(false)}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
@@ -266,10 +266,11 @@ export default function TeamsTable() {
                         <ChampionshipCell key={championship.dt_fim + index} styless={index % 2 === 0? 'Par' : ''}>
                             {generateDataAge(championship.dt_fim)}
                         </ChampionshipCell>
-                    </ChampionshipTeamTableRowSty>
-                    </>)
+                    </ChampionshipTeamTableRowSty>)
                 :null}
-                </ChampionshipTableContent>
+            {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
+            
+            </ChampionshipTableContent>
                 <TeamTable>
                 <ChampionshipTableTitle>Times Participantes</ChampionshipTableTitle>
                     {expandTeam? 
@@ -280,7 +281,6 @@ export default function TeamsTable() {
                             )
                             : <ExpandTeamRow>Selecione um campeonato para visualizar os times.</ExpandTeamRow>}
                 </TeamTable>
-            {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
             </ChampionshipTableFooter>

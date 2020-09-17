@@ -4,12 +4,11 @@ export const HomePageSty = styled.div`
         display: flex;
         flex-direction: column;
         min-width: 850px;
-        min-height: 750px;
-        background-color: #ffff;
+        background-color: #EAE2B7;
         color: #ffff;
         margin: 10px;
         border-radius: 10px;
-        border: 3px solid #f1f1f1;
+        border: 3px solid #EAE2B7;
         overflow: hidden;
 `;
 
@@ -30,7 +29,7 @@ export const HomeTopSty = styled.div`
         color:#ffff;
         :hover
         {
-            color:#EAE2B7;
+            color:#FCBF49;
         }
     }
     

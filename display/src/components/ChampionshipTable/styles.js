@@ -113,7 +113,6 @@ export const ChampionshipTeamRowEmpety = styled.div`
     border-bottom: 1px solid #003049;
     border-right: 1px solid #003049;
     height: 25px;
-    margin:0px 15px 15px 15px;
     color:grey;
     font-weight:500;
 `;
