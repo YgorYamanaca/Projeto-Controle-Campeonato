@@ -137,7 +137,7 @@ export default function TeamsTable() {
                             style={{width: '100px'}}
                             />
                     </InputBox>
-                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio) && validaData(inicio,fim) ? false : true}/>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio)? false : true}/>
                 </div>
                 );
 
@@ -250,7 +250,7 @@ export default function TeamsTable() {
                         Data de inicio
                     </ChampionshipHeader> 
                     <ChampionshipHeader key={"championShipdata2"}>
-                        Data de Fim
+                        Data de Final
                     </ChampionshipHeader> 
                 </ChampionshipTableHeader>
                 {championships?
