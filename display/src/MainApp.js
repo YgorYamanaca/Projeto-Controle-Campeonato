@@ -4,7 +4,6 @@ import Register from './page/Register'
 import PlayerTablePage from './page/PlayerTablePage'
 import ChampionshipTablePage from './page/ChampionshipTablePage'
 import TeamTablePage from './page/TeamTablePage'
-import GroupStagePage from './page/GroupStagePage'
 import GlobalStyle from './styles/global';
 import { HomePageSty, HomeTopSty, HomeContentSty} from './MainAppStyles.js';
 import { Provider } from 'react-redux';
@@ -28,10 +27,8 @@ export default function MainApp() {
                             <Link to="/teamTable">Times</Link>
                             <Link to="/playerTable">Jogadores</Link>
                             <Link to="/championshipTable">Campeonatos</Link>
-                            <Link to="/groupstage">Fase de Grupos</Link>
 
                         </HomeTopSty>
-
                     <HomeContentSty>
                         <Switch>
                             <Route exact path="/" component={ Home }/>
@@ -40,7 +37,6 @@ export default function MainApp() {
                             <Route path="/playerTable" component={ PlayerTablePage }/>
                             <Route path="/register" component={ Register }/>    
                             <Route path="/championshipTable" component={ ChampionshipTablePage }/>
-                            <Route path="/groupstage" component={ GroupStagePage }/>
 
                         </Switch>
                     </HomeContentSty>

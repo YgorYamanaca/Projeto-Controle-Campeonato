@@ -133,7 +133,7 @@ export default function ChampionshipRegister() {
             </TeamRegisterContent>
             <ChampionshipRegisterFooter>
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && inicio && fim && validaData(inicio,fim) && (teamRegister.length > 0 && teamRegister.length%2 === 0)? false:true} onClick={submitData}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && inicio && fim && validaData(inicio,fim) && (teamRegister.length > 0 && teamRegister.length%4 === 0) && (teamRegister.length>=4)? false:true} onClick={submitData}/>
                 </div>
             </ChampionshipRegisterFooter>
         </ChampionshipRegisterContainer>
