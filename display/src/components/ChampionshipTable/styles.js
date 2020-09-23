@@ -5,7 +5,6 @@ export const ChampionshipTableContainer = styled.div`
     position:relative;
     flex-direction: column;
     min-width: 850px;
-    height: 500px;
     background-color: #ffff;
     color: #ffff;
     margin: 10px;
@@ -14,7 +13,6 @@ export const ChampionshipTableContainer = styled.div`
     font-family: "Roboto Condensed";
     font-weight: 700;
     font-size:20px;
-    overflow: hidden;
 `;
 export const ChampionshipTableTitle = styled.div`
     display: flex;
@@ -241,3 +239,10 @@ export const ExpandTeamRow = styled.div`
     border-bottom: 1px solid #003049;
     border-right: 1px solid #003049;
 `;
+
+export const StatusContent = styled.div`
+    display: flex;
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    border-right: 1px solid #003049;
+`

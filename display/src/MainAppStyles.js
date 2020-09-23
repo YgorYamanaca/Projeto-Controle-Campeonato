@@ -10,6 +10,7 @@ export const HomePageSty = styled.div`
         border-radius: 10px;
         border: 3px solid #EAE2B7;
         overflow: hidden;
+        padding:5px;
 `;
 
 export const HomeContentSty = styled.div`

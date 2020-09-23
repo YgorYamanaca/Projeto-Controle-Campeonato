@@ -18,7 +18,7 @@ export const HomeContainer = styled.div`
     flex-direction:column;
     width:100%;
     height:100%;
-  
+    background-color:#fff;
 `;
 
 export const Descricao = styled.div`
@@ -30,6 +30,7 @@ export const Descricao = styled.div`
     border-radius:10px;
     padding-left:10px;
     padding-right:10px;
+    margin:20px;
 `;
 
 

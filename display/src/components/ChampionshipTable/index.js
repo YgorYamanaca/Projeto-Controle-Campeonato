@@ -5,7 +5,7 @@ import AppStylizedButton from '../AppStylizedButton'
 import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableContent, ChampionshipHeader, ChampionshipCell,
     ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,
     EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, ExpandTeamRow,
-    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, TeamTable} from './styles.js'
+    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, TeamTable, StatusContent} from './styles.js'
 import UserMessage from '../UserMessage/'
 import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRequest } from '../../store/modules/championshipData/actions';
 import api from '../../services/api'
@@ -180,7 +180,16 @@ export default function TeamsTable() {
         setInicio("");
         setFim("");
     }
-        
+       
+    const generateTeamState = (championShip) => {
+        console.log(championShip)
+        return(
+            <StatusContent>
+
+            </StatusContent>
+        )
+    }
+
     const renderDialogComponent = (championShip) => {
         return(
             <DialogSty>
@@ -242,6 +251,7 @@ export default function TeamsTable() {
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
             <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
+            <div style={{overflowY:'scroll'}}>
             <ChampionshipTableContent>
                 <ChampionshipTableHeader>
                     <ChampionshipHeader key={"championShip"}>
@@ -256,7 +266,7 @@ export default function TeamsTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => setExpand(championship)} onMouseOut={() => setExpand(false)}>  
+                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => setExpand(championship)}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
                         </ChampionshipCell>
@@ -272,15 +282,12 @@ export default function TeamsTable() {
             
             </ChampionshipTableContent>
                 <TeamTable>
-                <ChampionshipTableTitle>Times Participantes</ChampionshipTableTitle>
+                <ChampionshipTableTitle>{expandTeam.nome? expandTeam.nome : 'Nenhum campeonato selecionado'}</ChampionshipTableTitle>
                     {expandTeam? 
-                            expandTeam.times.map(team =>  
-                                <ExpandTeamRow kwy={Math.random() * 1000}>
-                                    {team.nome}
-                                </ExpandTeamRow> 
-                            )
-                            : <ExpandTeamRow>Selecione um campeonato para visualizar os times.</ExpandTeamRow>}
+                            generateTeamState(expandTeam)
+                            : <ExpandTeamRow>Selecione um campeonato para visualizar.</ExpandTeamRow>}
                 </TeamTable>
+            </div>
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
             </ChampionshipTableFooter>
