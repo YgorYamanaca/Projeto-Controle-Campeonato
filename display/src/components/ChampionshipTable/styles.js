@@ -245,11 +245,13 @@ export const StatusContent = styled.div`
     border-left: 1px solid #003049;
     border-bottom: 1px solid #003049;
     border-right: 1px solid #003049;
+    justify-content: space-between;
 `
 export const GroupchampionshipTableContent = styled.div`
     margin:5px 15px 5px 15px;
     display: flex;
-    flex-direction: column;
+    flex-grow: 1;
+    flex-direction:column;
 `;
 export const GroupchampionshipTableHeader = styled.div`
     display: grid;
@@ -279,12 +281,14 @@ export const GroupChampionshipEditTableRowSty = styled.div`
     border-right: 1px solid #003049;
 `;
 export const GroupchampionshipTablename = styled.div`
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    display: flex;
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;
-    border-top: 1px solid #003049;
-    border-right: 1px solid #003049;
+    border: 1px solid #003049;
+    background-color: #00527E;
     cursor:default;
+    padding:5px;
+    margin: 5px 5px 0px 5px;
+    justify-content:center;
 `;

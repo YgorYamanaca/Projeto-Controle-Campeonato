@@ -7,6 +7,7 @@ import deleteChampionshipdata from '../../../services/deleteChampionshipData';
 function* addChampionship({championshipInfo})
 {
     const response = yield call(postChampionshipData, championshipInfo)
+    console.log(response)
     if(response.status === 200)
     {
         yield put(addChampionshipSuccess(response.body))

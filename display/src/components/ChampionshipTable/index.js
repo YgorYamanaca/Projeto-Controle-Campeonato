@@ -13,6 +13,8 @@ import api from '../../services/api'
 import { useDispatch} from 'react-redux'
 
 export default function TeamsTable() {
+    const [times, setTimes] = useState();
+    const [group, setGroup] = useState();
     const [expandTeam,  setExpand] = useState(false);
     const [renderDialog, setDialog] = useState({championShip:'', status:false});
     const [editEnable, setEdit] = useState(false);
@@ -26,7 +28,6 @@ export default function TeamsTable() {
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
     const userMessage = useSelector(state => state.championshipData.userMessage)
-
     const generateDataAge = (date) =>
     {
         let auxDate = new Date(date);
@@ -183,22 +184,63 @@ export default function TeamsTable() {
     }
        
     const generateTeamState = (championShip) => {
-        console.log(championShip.times[0])
-        return(
-            <StatusContent>
-                <GroupchampionshipTableContent>
-                <GroupchampionshipTablename>Grupo 1</GroupchampionshipTablename>
+        function generateTeam(gp)
+        {
+            api.get(`/grupo/${gp.id_grupo}/times`)
+            .then(res => {
+                if(!times)
+                {
+                    setTimes(res.data)
+                }
+            })
+
+            return(
+                <>
                     <GroupchampionshipTableHeader>
                         <GroupchampionshipHeader>Nome Do Time</GroupchampionshipHeader>    
-                        <GroupchampionshipHeader>Pontos</GroupchampionshipHeader>    
-                    </GroupchampionshipTableHeader>
-                    <GroupChampionshipEditTableRowSty>
-                        <ChampionshipCell>{championShip.times[0].nome}</ChampionshipCell>
-                        <ChampionshipCell>test</ChampionshipCell>
-                    </GroupChampionshipEditTableRowSty>
-                    </GroupchampionshipTableContent>
+                        <GroupchampionshipHeader>Pontos</GroupchampionshipHeader> 
+                    </GroupchampionshipTableHeader>  
+                    {times? times.times.map(res => {
+                        return(
+                        <GroupChampionshipEditTableRowSty>
+                            <ChampionshipCell>{res.nome}</ChampionshipCell>
+                            <ChampionshipCell>test</ChampionshipCell>
+                        </GroupChampionshipEditTableRowSty>)
+                    }) : null} 
+                </>
+            ) 
+        }
+
+        api.get(`/campeonato/${championShip.id_campeonato}/grupos`)
+        .then(res => {
+            if(! group)
+            {
+                setGroup(res.data)
+            }
+        })
+        
+        return(
+            <StatusContent>
+                {group? group.Grupos.map((grup,index) => {
+                    return(
+                        <GroupchampionshipTableContent>
+                            <GroupchampionshipTablename>Grupo {index + 1}</GroupchampionshipTablename>
+                            {generateTeam(grup)}
+                        </GroupchampionshipTableContent>
+                    )
+                })
+                   :null}
             </StatusContent>
         )
+
+        //  {/* <GroupchampionshipTableHeader>
+        //                 <GroupchampionshipHeader>Nome Do Time</GroupchampionshipHeader>    
+        //                 <GroupchampionshipHeader>Pontos</GroupchampionshipHeader>    
+        //             </GroupchampionshipTableHeader>
+        //             <GroupChampionshipEditTableRowSty>
+        //                 <ChampionshipCell>{championShip.times[0].nome}</ChampionshipCell>
+        //                 <ChampionshipCell>test</ChampionshipCell>
+        //             </GroupChampionshipEditTableRowSty> */} 
     }
 
     const renderDialogComponent = (championShip) => {
@@ -262,7 +304,6 @@ export default function TeamsTable() {
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
             <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
-            <div style={{overflowY:'scroll'}}>
             <ChampionshipTableContent>
                 <ChampionshipTableHeader>
                     <ChampionshipHeader key={"championShip"}>
@@ -277,7 +318,7 @@ export default function TeamsTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => setExpand(championship)}>  
+                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onAuxClick={() => setExpand(championship)}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
                         </ChampionshipCell>
@@ -301,7 +342,6 @@ export default function TeamsTable() {
 
                             </ExpandTeamRow>}
                 </TeamTable>
-            </div>
             <ChampionshipTableFooter>
                 {message.message? <UserMessage message={message} /> : null}
             </ChampionshipTableFooter>
