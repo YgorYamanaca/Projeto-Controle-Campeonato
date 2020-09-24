@@ -246,3 +246,45 @@ export const StatusContent = styled.div`
     border-bottom: 1px solid #003049;
     border-right: 1px solid #003049;
 `
+export const GroupchampionshipTableContent = styled.div`
+    margin:5px 15px 5px 15px;
+    display: flex;
+    flex-direction: column;
+`;
+export const GroupchampionshipTableHeader = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    font-size:18px;
+    border-top: 1px solid #003049;
+    border-right: 1px solid #003049;
+    cursor:default;
+`;
+export const GroupchampionshipHeader = styled.div`
+    display: flex;
+    justify-content: center;
+    background-color: #00527E;
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    padding:2px 6px;
+    color: white;
+`;
+export const GroupChampionshipEditTableRowSty = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    font-size:18px;
+    border-right: 1px solid #003049;
+`;
+export const GroupchampionshipTablename = styled.div`
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    font-size:18px;
+    border-top: 1px solid #003049;
+    border-right: 1px solid #003049;
+    cursor:default;
+`;

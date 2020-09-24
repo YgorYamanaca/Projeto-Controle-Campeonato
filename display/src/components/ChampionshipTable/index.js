@@ -5,7 +5,8 @@ import AppStylizedButton from '../AppStylizedButton'
 import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableContent, ChampionshipHeader, ChampionshipCell,
     ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,
     EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, ExpandTeamRow,
-    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, TeamTable, StatusContent} from './styles.js'
+    ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, TeamTable, StatusContent, GroupchampionshipTableContent, GroupchampionshipTableHeader, GroupchampionshipHeader, 
+    GroupChampionshipEditTableRowSty, GroupchampionshipTablename} from './styles.js'
 import UserMessage from '../UserMessage/'
 import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRequest } from '../../store/modules/championshipData/actions';
 import api from '../../services/api'
@@ -182,10 +183,20 @@ export default function TeamsTable() {
     }
        
     const generateTeamState = (championShip) => {
-        console.log(championShip)
+        console.log(championShip.times[0])
         return(
             <StatusContent>
-
+                <GroupchampionshipTableContent>
+                <GroupchampionshipTablename>Grupo 1</GroupchampionshipTablename>
+                    <GroupchampionshipTableHeader>
+                        <GroupchampionshipHeader>Nome Do Time</GroupchampionshipHeader>    
+                        <GroupchampionshipHeader>Pontos</GroupchampionshipHeader>    
+                    </GroupchampionshipTableHeader>
+                    <GroupChampionshipEditTableRowSty>
+                        <ChampionshipCell>{championShip.times[0].nome}</ChampionshipCell>
+                        <ChampionshipCell>test</ChampionshipCell>
+                    </GroupChampionshipEditTableRowSty>
+                    </GroupchampionshipTableContent>
             </StatusContent>
         )
     }
@@ -285,7 +296,10 @@ export default function TeamsTable() {
                 <ChampionshipTableTitle>{expandTeam.nome? expandTeam.nome : 'Nenhum campeonato selecionado'}</ChampionshipTableTitle>
                     {expandTeam? 
                             generateTeamState(expandTeam)
-                            : <ExpandTeamRow>Selecione um campeonato para visualizar.</ExpandTeamRow>}
+                            : <ExpandTeamRow>
+                               
+
+                            </ExpandTeamRow>}
                 </TeamTable>
             </div>
             <ChampionshipTableFooter>
