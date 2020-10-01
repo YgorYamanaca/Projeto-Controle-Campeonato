@@ -61,7 +61,8 @@ export default function ChampionshipRegister() {
                             dateFormat="dd/MM/yyy"
                             selected={inicio}
                             onChange={date => setInicio(date)}
-                            minDate={new Date()}
+                            minDate={new Date()}                      
+                            placeholderText="Clique para começar..."
                             showDisabledMonthNavigation
                         />
                     </InputBox>
@@ -73,6 +74,7 @@ export default function ChampionshipRegister() {
                             onChange={date => setFim(date)}
                             minDate={new Date()}
                             showDisabledMonthNavigation
+                            placeholderText="Clique para começar..."
                         />
                     </InputBox>
                    

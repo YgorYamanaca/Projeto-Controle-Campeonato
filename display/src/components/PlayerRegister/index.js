@@ -46,7 +46,6 @@ export default function PlayerRegister() {
         let day = birth.getDate();
         let month = birth.getMonth();
         let year = birth.getFullYear();
-        let fulldata = new Date(year, month, day);
         const formData = {
             'nome' : name,
             'apelido' : nick,
@@ -92,11 +91,12 @@ export default function PlayerRegister() {
                             dateFormat="dd/MM/yyyy"
                             selected={birth}
                             onChange={date => setBirth(date)}
+                            maxDate={new Date().setFullYear(new Date().getFullYear() - 16)}
                             peekNextMonth
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
-                            placeholderText="Clique para começar"
+                            placeholderText="Clique para começar..."
                             />
                     </InputBox>
                     
@@ -136,7 +136,7 @@ export default function PlayerRegister() {
 
             <PlayerRegisterFooter>
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && telRegex.test(tel) && position && level ? false : true} onClick={submitData}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && telRegex.test(tel) && position && level? false : true} onClick={submitData}/>
                 </div>
             </PlayerRegisterFooter>
         </PlayerRegisterContainer>

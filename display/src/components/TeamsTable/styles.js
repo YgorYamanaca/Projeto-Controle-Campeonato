@@ -5,6 +5,7 @@ export const TeamTableContainer = styled.div`
     position:relative;
     flex-direction: column;
     min-width: 850px;
+    min-height: 500px;
     background-color: #ffff;
     color: #ffff;
     margin: 10px;

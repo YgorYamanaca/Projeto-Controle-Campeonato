@@ -160,6 +160,8 @@ export default function PlayerTable() {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
+                            maxDate={new Date().setFullYear(new Date().getFullYear() - 16)}
+                            placeholderText="Clique para começar..."
                             />
                     </InputBox>
                      <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} />
