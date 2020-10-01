@@ -264,7 +264,7 @@ export default function TeamsTable() {
             </DialogSty>
         )
     }
-    
+
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
@@ -283,7 +283,7 @@ export default function TeamsTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => expandGroup(championship)} onMouseOut={() => expandGroup(false)}>  
+                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => expandGroup(championship)}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
                         </ChampionshipCell>

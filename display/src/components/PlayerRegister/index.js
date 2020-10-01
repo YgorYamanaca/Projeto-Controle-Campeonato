@@ -96,6 +96,7 @@ export default function PlayerRegister() {
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
+                            placeholderText="Clique para começar"
                             />
                     </InputBox>
                     
