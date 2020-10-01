@@ -19,7 +19,6 @@ export default function PlayerRegister() {
     const [tel, setTel] = useState("");
     const [level, setLevel] = useState("");
     const [position, setPosition] = useState();
-    const birthRegex = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const telRegex = (/^\([0-9]{2}(?:\))\s?[0-9]{4}(?:-)[0-9]{4}$/);
     const regexName = (/^[a-zA-Z áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/);
     const futebolPositionOptions = [

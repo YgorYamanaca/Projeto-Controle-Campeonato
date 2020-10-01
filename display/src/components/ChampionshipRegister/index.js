@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import AppStylizedButton from '../AppStylizedButton/'
 import { useDispatch, useSelector } from 'react-redux';
 import { addChampionshipRequest } from '../../store/modules/championshipData/actions';
-import MaskedInput from 'react-input-mask'
 import { ChampionshipRegisterContainer,ChampionshipRegisterTitle, ChampionshipRegisterContent,
     ChampionshipInfo, InputBox, ChampionshipRegisterFooter,
      TeamRegisterContent, OptionsBox, EmpetyRow, RowOPT } from './styles';
@@ -12,20 +11,12 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function ChampionshipRegister() {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
-    const [inicio, setInicio] = useState("");
-    const [fim, setFim] = useState("");
+    const [inicio, setInicio] = useState();
+    const [fim, setFim] = useState();
     const [teamRegister, setTeam] = useState([]);
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ 0-9]+$/);
     const teamsData = useSelector(state => state.teamsData.data)
     const submitData = (e) => {
-        let dayInicio = inicio.getDate();
-        let monthInicio = inicio.getMonth();
-        let yearInicio = inicio.getFullYear();
-        let dayFim = fim.getDate();
-        let monthFim = fim.getMonth();
-        let yearFim = fim.getFullYear();
-        let newDataInicio = new Date(yearInicio, monthInicio, dayInicio );
-        let newDataFim = new Date(yearFim, monthFim, dayFim);
         let teams = [];
         e.preventDefault();
         teamRegister.forEach(team => {
@@ -33,8 +24,8 @@ export default function ChampionshipRegister() {
         })
         const formData = {
             'nome' : name,
-            'dt_inicio' : newDataInicio,
-            'dt_fim' :  newDataFim,
+            'dt_inicio' : inicio,
+            'dt_fim' :  fim,
             'times':teams
         }
         dispatch(addChampionshipRequest(formData))
@@ -46,6 +37,7 @@ export default function ChampionshipRegister() {
     const removeTeam = (team) => {
         setTeam(teamRegister.filter(teamReg => teamReg.id_time !== team.id_time))
     }
+    console.log(inicio? true : false)
     return (
         <ChampionshipRegisterContainer>
             <ChampionshipRegisterTitle>Cadastro de Campeonato</ChampionshipRegisterTitle>
@@ -72,9 +64,10 @@ export default function ChampionshipRegister() {
                             dateFormat="dd/MM/yyy"
                             selected={fim}
                             onChange={date => setFim(date)}
-                            minDate={new Date()}
+                            minDate={inicio? inicio.getTime() + 7 * 24 * 60 * 60 * 1000 : ""}
                             showDisabledMonthNavigation
                             placeholderText="Clique para começar..."
+                            disabled={inicio? false : true}
                         />
                     </InputBox>
                    

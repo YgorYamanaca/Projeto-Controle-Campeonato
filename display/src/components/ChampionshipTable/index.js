@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
 import { useSelector } from 'react-redux'
-import MaskedInput from 'react-input-mask'
 import AppStylizedButton from '../AppStylizedButton'
 import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableContent, ChampionshipHeader, ChampionshipCell,
     ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,

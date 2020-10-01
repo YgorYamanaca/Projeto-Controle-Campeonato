@@ -27,7 +27,6 @@ export default function MainApp() {
                             <Link to="/teamTable">Times</Link>
                             <Link to="/playerTable">Jogadores</Link>
                             <Link to="/championshipTable">Campeonatos</Link>
-
                         </HomeTopSty>
                     <HomeContentSty>
                         <Switch>
