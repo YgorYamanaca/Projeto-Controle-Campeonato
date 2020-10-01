@@ -5,7 +5,6 @@ export const PlayerTableContainer = styled.div`
     position:relative;
     flex-direction: column;
     min-width: 850px;
-    height: 500px;
     background-color: #ffff;
     color: #ffff;
     margin: 10px;
@@ -14,7 +13,6 @@ export const PlayerTableContainer = styled.div`
     font-family: "Roboto Condensed";
     font-weight: 700;
     font-size:20px;
-    overflow: hidden;
 `;
 export const PlayerTableTitle = styled.div`
     display: flex;
@@ -24,7 +22,7 @@ export const PlayerTableTitle = styled.div`
     align-items: center;
 `;
 export const PlayerTableContent = styled.div`
-    margin:15px 15px 0 15px;
+    margin:15px 15px 15px 15px;
     display: flex;
     flex-direction: column;
 `;
@@ -133,7 +131,7 @@ export const DialogBoxSty = styled.div`
     justify-content:center;
     align-items:center;
     color: #003049;
-    height:25%;
+    height:95px;
     width:50%;
     border-radius: 10px;
     box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.5);

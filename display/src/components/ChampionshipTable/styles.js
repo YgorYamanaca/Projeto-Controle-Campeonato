@@ -22,7 +22,7 @@ export const ChampionshipTableTitle = styled.div`
     align-items: center;
 `;
 export const ChampionshipTableContent = styled.div`
-    margin:15px 15px 0 15px;
+    margin:15px 15px 15px 15px;
     display: flex;
     flex-direction: column;
 `;
@@ -132,7 +132,7 @@ export const DialogBoxSty = styled.div`
     justify-content:center;
     align-items:center;
     color: #003049;
-    height:25%;
+    height:95px;
     width:50%;
     border-radius: 10px;
     box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.5);
@@ -240,45 +240,22 @@ export const ExpandTeamRow = styled.div`
     border-right: 1px solid #003049;
 `;
 
-export const StatusContent = styled.div`
-    display: flex;
-    border-left: 1px solid #003049;
-    border-bottom: 1px solid #003049;
-    border-right: 1px solid #003049;
-    justify-content: space-between;
-`
 export const GroupchampionshipTableContent = styled.div`
     margin:5px 15px 5px 15px;
     display: flex;
     flex-grow: 1;
     flex-direction:column;
 `;
-export const GroupchampionshipTableHeader = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    font-family: "Roboto Condensed";
-    font-weight: 500;
-    font-size:18px;
-    border-top: 1px solid #003049;
-    border-right: 1px solid #003049;
-    cursor:default;
-`;
-export const GroupchampionshipHeader = styled.div`
+export const GroupChampionshipEditTableRowSty = styled.div`
     display: flex;
     justify-content: center;
-    background-color: #00527E;
-    border-left: 1px solid #003049;
-    border-bottom: 1px solid #003049;
-    padding:2px 6px;
-    color: white;
-`;
-export const GroupChampionshipEditTableRowSty = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;
     border-right: 1px solid #003049;
+    border-left: 1px solid #003049;
+    border-bottom: 1px solid #003049;
+    margin: 0px 5px;
 `;
 export const GroupchampionshipTablename = styled.div`
     display: flex;
