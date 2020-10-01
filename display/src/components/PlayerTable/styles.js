@@ -23,7 +23,7 @@ export const PlayerTableTitle = styled.div`
     align-items: center;
 `;
 export const PlayerTableContent = styled.div`
-    margin:15px 15px 15px 15px;
+    margin:15px 15px 0px 15px;
     display: flex;
     flex-direction: column;
 `;
