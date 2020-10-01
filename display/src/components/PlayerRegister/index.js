@@ -8,6 +8,8 @@ import { PlayerRegisterContainer, PlayerRegisterTitle, PlayerRegisterContent,
      PlayerInfo, InputBox, PlayerTeamInfo, PlayerRegisterFooter } from './styles';
 import { addTeamsData } from '../../store/modules/teamsData/actions';
 import api from '../../services/api'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function PlayerRegister() {
     const dispatch = useDispatch();
@@ -41,7 +43,10 @@ export default function PlayerRegister() {
     }, [dispatch]);
     const submitData = (e) => {
         e.preventDefault()
-        let [day, month, year] = birth.split("/")
+        let day = birth.getDate();
+        let month = birth.getMonth();
+        let year = birth.getFullYear();
+        let fulldata = new Date(year, month, day);
         const formData = {
             'nome' : name,
             'apelido' : nick,
@@ -83,15 +88,14 @@ export default function PlayerRegister() {
 
                     <InputBox>
                         <label>Data de Nascimento:</label>
-                        <MaskedInput
-                            mask="99/99/9999"
-                            className="TextInput"
-                            placeholder="Insira a data..."
-                            value={birth}
-                            id="AgeInput"
-                            maskChar={null}
-                            onChange={(event) => setBirth(event.target.value)}
-                            style={{width: '100px'}}
+                        <DatePicker
+                            dateFormat="dd/MM/yyyy"
+                            selected={birth}
+                            onChange={date => setBirth(date)}
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
                             />
                     </InputBox>
                     
@@ -125,13 +129,13 @@ export default function PlayerRegister() {
                         handleFunction = {setLevel}
                         options = {generateTeamLabel(teamsOption)} 
                         defaultSelectedLabel={level}
-                        />
+                        /> 
                 </PlayerTeamInfo>
             </PlayerRegisterContent>
 
             <PlayerRegisterFooter>
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && birthRegex.test(birth) && telRegex.test(tel) && position && level? false : true} onClick={submitData}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && regexName.test(nick) && telRegex.test(tel) && position && level ? false : true} onClick={submitData}/>
                 </div>
             </PlayerRegisterFooter>
         </PlayerRegisterContainer>

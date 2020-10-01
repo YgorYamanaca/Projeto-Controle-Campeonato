@@ -12,7 +12,8 @@ import {PlayerTableContainer, PlayerTableTitle, PlayerTableContent, PlayerHeader
     PlayerTableRowSty, PlayerTableFooter, PlayerRowEmpety, PlayerTableHeader, DialogSty,
      DialogBoxSty, ContentSty, FooterSty, EditBox, Edit, EditTitle, PlayerEditTableRowSty, PlayerEditCell,
      EditContent, InputBox} from './styles.js'
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 export default function PlayerTable() {
     const dispatch = useDispatch();
     const [renderDialog, setDialog] = useState({player:'', status:false});
@@ -151,18 +152,17 @@ export default function PlayerTable() {
                 <div>
                     <InputBox>
                         <label>Data de Nascimento:</label>
-                        <MaskedInput
-                            mask="99/99/9999"
-                            className="TextInput"
-                            placeholder="Insira a data..."
-                            value={birth}
-                            id="AgeInput"
-                            maskChar={null}
-                            onChange={(event) => setBirth(event.target.value)}
-                            style={{width: '100px'}}
+                        <DatePicker
+                            dateFormat="dd/MM/yyyy"
+                            selected={birth}
+                            onChange={date => setBirth(date)}
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
                             />
                     </InputBox>
-                     <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} disabled={birthRegex.test(birth)?false : true}/>
+                     <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditPlayer(); clearEdit()}} />
                 </div>
             );
             case 'tel':
@@ -218,7 +218,6 @@ export default function PlayerTable() {
     const handleEditPlayer = () =>
     {
         dispatch(editDataPlayerRequest(rowEdit.row, name, tel, teamsOption[teamsOption.findIndex(element => element.id_time === level.value)], position, nick, birth))
-        
         setDialog({team:'', status:false});
         setRowEdit({row:'', rowType:'', status:false})
     }

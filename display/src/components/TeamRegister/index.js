@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import AppStylizedSelect from '../AppStylizedSelect/'
 import AppStylizedButton from '../AppStylizedButton/'
+import Calendar from 'react-calendar'
 import { useDispatch } from 'react-redux';
 import { addTeamRequest } from '../../store/modules/teamsData/actions';
 import { TeamRegisterContainer, TeamRegisterTitle, TeamRegisterContent,
