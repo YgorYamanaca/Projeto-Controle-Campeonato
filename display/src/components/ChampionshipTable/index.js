@@ -135,6 +135,7 @@ export default function TeamsTable() {
                             onChange={date => setFim(date)}
                             minDate={new Date()}
                             showDisabledMonthNavigation
+                            placeholderText="Clique para começar..."
                         />
                     </InputBox>
                     <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio)? false : true}/>
