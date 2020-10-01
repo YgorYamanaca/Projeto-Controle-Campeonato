@@ -12,6 +12,8 @@ import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRe
 import api from '../../services/api'
 import { useDispatch } from 'react-redux' 
 import getGroupIDRequest from '../../services/getGroupIDRequest';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function TeamsTable() {
     const [expandTeam,  setExpand] = useState(false);
@@ -127,15 +129,13 @@ export default function TeamsTable() {
                 <div>
                     <InputBox>
                         <label>Data de início:</label>
-                        <MaskedInput
-                            mask="99/99/9999"
-                            className="TextInput"
-                            placeholder="Insira a data..."
-                            value={inicio}
-                            maskChar={null}
-                            onChange={(event) => setInicio(event.target.value)}
-                            style={{width: '100px'}}
-                            />
+                        <DatePicker
+                            dateFormat="dd/MM/yyy"
+                            selected={fim}
+                            onChange={date => setFim(date)}
+                            minDate={new Date()}
+                            showDisabledMonthNavigation
+                        />
                     </InputBox>
                     <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio)? false : true}/>
                 </div>
@@ -146,15 +146,14 @@ export default function TeamsTable() {
                     <div>
                         <InputBox>
                             <label>Data de Encerramento:</label>
-                            <MaskedInput
-                                mask="99/99/9999"
-                                className="TextInput"
-                                placeholder="Insira a data..."
-                                value={fim}
-                                maskChar={null}
-                                onChange={(event) => setFim(event.target.value)}
-                                style={{width: '100px'}}
-                                />
+                            <DatePicker
+                            dateFormat="dd/MM/yyy"
+                            selected={fim}
+                            onChange={date => setFim(date)}
+                            minDate={new Date()}
+                            showDisabledMonthNavigation
+                            placeholderText="Clique para começar..."
+                        />
                         </InputBox>
                         <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(fim) && validaData(inicio,fim)? false : true}/>
                     </div>
