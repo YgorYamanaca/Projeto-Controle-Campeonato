@@ -22,11 +22,11 @@ export default function MainApp() {
                 <Provider store={store}>
                     <HomePageSty>
                         <HomeTopSty>
-                            <Link to="/">Home</Link>
-                            <Link to="/register">Cadastrar</Link>
-                            <Link to="/teamTable">Times</Link>
-                            <Link to="/playerTable">Jogadores</Link>
-                            <Link to="/championshipTable">Campeonatos</Link>
+                            <Link to="/" replace >Home</Link>
+                            <Link to="/register" replace >Cadastrar</Link>
+                            <Link to="/teamTable" replace >Times</Link>
+                            <Link to="/playerTable" replace >Jogadores</Link>
+                            <Link to="/championshipTable" replace >Campeonatos</Link>
                         </HomeTopSty>
                     <HomeContentSty>
                         <Switch>
