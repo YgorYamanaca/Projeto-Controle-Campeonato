@@ -23,6 +23,7 @@
     "cross-env": "^7.0.2",
     "electron-is-dev": "^1.2.0",
     "immer": "^7.0.8",
+    "multiselect-react-dropdown": "^1.6.1",
     "react": "^16.13.1",
     "react-calendar": "^3.1.0",
     "react-datepicker": "^3.2.2",

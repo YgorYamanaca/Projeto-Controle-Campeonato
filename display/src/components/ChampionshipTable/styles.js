@@ -246,6 +246,9 @@ export const GroupchampionshipTableContent = styled.div`
     display: flex;
     flex-grow: 1;
     flex-direction:column;
+    :hover{
+        cursor: pointer;
+    }
 `;
 export const GroupChampionshipEditTableRowSty = styled.div`
     display: flex;
@@ -256,7 +259,6 @@ export const GroupChampionshipEditTableRowSty = styled.div`
     border-right: 1px solid #003049;
     border-left: 1px solid #003049;
     border-bottom: 1px solid #003049;
-    margin: 0px 5px;
 `;
 export const GroupchampionshipTablename = styled.div`
     display: flex;
@@ -267,6 +269,42 @@ export const GroupchampionshipTablename = styled.div`
     background-color: #00527E;
     cursor:default;
     padding:5px;
-    margin: 5px 5px 0px 5px;
+    margin-top: 5px;
     justify-content:center;
+`;
+
+export const GamesTable = styled.div`
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    margin: 0px 15px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+
+    & > div
+    {
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+    }
+`;
+export const GamesTableHeader = styled.div`
+    display:flex;
+    justify-content:center;
+    background-color: #00527E;
+    font-family: "Roboto Condensed";
+    font-weight: 500;
+    font-size:18px;
+`;
+export const GamesTableGroupHeader = styled.div`
+    display:flex;
+    justify-content:center;
+    background-color: #00527E;
+    color:#f1f1f1;
+    margin: 0px 15px;
+`;
+export const GamesTableRow = styled.div`
+    display:flex;
+    justify-content:center;
+    color:#081D16;
+    font-size:14px;
+    font-family: "Roboto Condensed", sans-serif;
 `;

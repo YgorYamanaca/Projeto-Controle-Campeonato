@@ -1,21 +1,32 @@
-import React, {useState} from 'react'
-import AppStylizedButton from '../AppStylizedButton/'
+import React, {useState} from 'react';
+import AppStylizedButton from '../AppStylizedButton/';
 import { useDispatch, useSelector } from 'react-redux';
 import { addChampionshipRequest } from '../../store/modules/championshipData/actions';
 import { ChampionshipRegisterContainer,ChampionshipRegisterTitle, ChampionshipRegisterContent,
     ChampionshipInfo, InputBox, ChampionshipRegisterFooter,
      TeamRegisterContent, OptionsBox, EmpetyRow, RowOPT } from './styles';
+import MultiSelectBox from '../MultiSelectBox';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
      
 export default function ChampionshipRegister() {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
+    const [selectedWeek, setWeek] = useState("");
     const [inicio, setInicio] = useState();
     const [fim, setFim] = useState();
     const [teamRegister, setTeam] = useState([]);
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ 0-9]+$/);
     const teamsData = useSelector(state => state.teamsData.data)
+    const weekOptions = [
+        {label:'Segunda-feira', value:1},
+        {label:'Terça-feira', value:2},
+        {label:'Quarta-feira', value:3},
+        {label:'Quinta-feira', value:4},
+        {label:'Sexta-feira', value:5},
+        {label:'Sábado', value:6},
+        {label:'Domingo', value:7},
+    ]
     const submitData = (e) => {
         let teams = [];
         e.preventDefault();
@@ -37,7 +48,7 @@ export default function ChampionshipRegister() {
     const removeTeam = (team) => {
         setTeam(teamRegister.filter(teamReg => teamReg.id_time !== team.id_time))
     }
-    console.log(inicio? true : false)
+    console.log(selectedWeek);
     return (
         <ChampionshipRegisterContainer>
             <ChampionshipRegisterTitle>Cadastro de Campeonato</ChampionshipRegisterTitle>
@@ -66,13 +77,22 @@ export default function ChampionshipRegister() {
                             onChange={date => setFim(date)}
                             minDate={inicio? inicio.getTime() + 7 * 24 * 60 * 60 * 1000 : ""}
                             showDisabledMonthNavigation
-                            placeholderText="Clique para começar..."
+                            placeholderText="Insira a data de início..."
                             disabled={inicio? false : true}
                         />
                     </InputBox>
-                   
                 </ChampionshipInfo>
-               
+
+                <ChampionshipInfo>
+                <InputBox>
+                    <label>Dias em que ocorrem os jogos:</label>
+                    <MultiSelectBox
+                        options={weekOptions}
+                        handleFunction={setWeek}
+                        placeHolder={"Clieque para selecionar o dia da semana..."}
+                    />
+                </InputBox>
+                </ChampionshipInfo>
             </ChampionshipRegisterContent>
             <TeamRegisterContent>
                 <ChampionshipRegisterTitle>
