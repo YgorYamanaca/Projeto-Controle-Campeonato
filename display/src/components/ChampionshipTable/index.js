@@ -12,7 +12,6 @@ import api from '../../services/api'
 import { useDispatch } from 'react-redux' 
 import getGroupIDRequest from '../../services/getGroupIDRequest';
 import getGamesbyGroup from '../../services/getGamesbyGroup';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function ChampionshipTable() {
@@ -26,7 +25,7 @@ export default function ChampionshipTable() {
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ0-9]+$/);
-    const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
+    //const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
     const userMessage = useSelector(state => state.championshipData.userMessage)
@@ -98,19 +97,19 @@ export default function ChampionshipTable() {
     {
         dispatch(removeChampionshipDataRequest(idChamp));
         setDialog({championShip:'', status:false});
-    }
-    const validaData = (inicio, fim)=>{ 
-        let [dayInicio, monthInicio, yearInicio] = inicio.split("/")
-        let [dayFim, monthFim, yearFim] = fim.split("/") 
-        let newDataInicio = new Date(yearInicio, monthInicio-1, dayInicio );
-        let newDataFim = new Date(yearFim, monthFim-1, dayFim);
-        if(newDataInicio > new Date() && newDataInicio<newDataFim && regexDate.test(inicio) && regexDate.test(fim)){
-            return true
-        }
-       else{
-            return false
-       }   
-    }
+     }
+    // const validaData = (inicio, fim)=>{ 
+    //     let [dayInicio, monthInicio, yearInicio] = inicio.split("/")
+    //     let [dayFim, monthFim, yearFim] = fim.split("/") 
+    //     let newDataInicio = new Date(yearInicio, monthInicio-1, dayInicio );
+    //     let newDataFim = new Date(yearFim, monthFim-1, dayFim);
+    //     if(newDataInicio > new Date() && newDataInicio<newDataFim && regexDate.test(inicio) && regexDate.test(fim)){
+    //         return true
+    //     }
+    //    else{
+    //         return false
+    //    }   
+    // }
     const generateEditContent = (row) => 
     {
         switch(row)
@@ -125,41 +124,41 @@ export default function ChampionshipTable() {
                 </div>             
             );
             
-            case 'dt_inicio':
-            return (
-                <div>
-                    <InputBox>
-                        <label>Data de início:</label>
-                        <DatePicker
-                            dateFormat="dd/MM/yyy"
-                            selected={fim}
-                            onChange={date => setFim(date)}
-                            minDate={new Date()}
-                            showDisabledMonthNavigation
-                            placeholderText="Clique para começar..."
-                        />
-                    </InputBox>
-                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio)? false : true}/>
-                </div>
-                );
+            // case 'dt_inicio':
+            // return (
+            //     <div>
+            //         <InputBox>
+            //             <label>Data de início:</label>
+            //             <DatePicker
+            //                 dateFormat="dd/MM/yyy"
+            //                 selected={fim}
+            //                 onChange={date => setFim(date)}
+            //                 minDate={new Date()}
+            //                 showDisabledMonthNavigation
+            //                 placeholderText="Clique para começar..."
+            //             />
+            //         </InputBox>
+            //         <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(inicio)? false : true}/>
+            //     </div>
+            //     );
 
-            case 'dt_fim':
-                return (
-                    <div>
-                        <InputBox>
-                            <label>Data de Encerramento:</label>
-                            <DatePicker
-                            dateFormat="dd/MM/yyy"
-                            selected={fim}
-                            onChange={date => setFim(date)}
-                            minDate={new Date()}
-                            showDisabledMonthNavigation
-                            placeholderText="Clique para começar..."
-                        />
-                        </InputBox>
-                        <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(fim) && validaData(inicio,fim)? false : true}/>
-                    </div>
-                    );
+            // case 'dt_fim':
+            //     return (
+            //         <div>
+            //             <InputBox>
+            //                 <label>Data de Encerramento:</label>
+            //                 <DatePicker
+            //                 dateFormat="dd/MM/yyy"
+            //                 selected={fim}
+            //                 onChange={date => setFim(date)}
+            //                 minDate={new Date()}
+            //                 showDisabledMonthNavigation
+            //                 placeholderText="Clique para começar..."
+            //             />
+            //             </InputBox>
+            //             <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexDate.test(fim) && validaData(inicio,fim)? false : true}/>
+            //         </div>
+            //         );
 
             default:
                 return '';
@@ -190,11 +189,6 @@ export default function ChampionshipTable() {
         const jogos = await getGamesbyGroup(championShip.id_campeonato);
         setExpandGames(jogos)
         setExpand(groups)
-    }
-
-    const setGames = async (idChampionShip) => {
-        const jogos = await getGamesbyGroup(idChampionShip);
-        setExpandGames(jogos)
     }
 
     const generateGames = () => {
@@ -229,7 +223,7 @@ export default function ChampionshipTable() {
             <div style={{display:'flex'}}>
                 {expandTeam? expandTeam.map((grup, index) => {
                     return(
-                        <GroupchampionshipTableContent key={grup.nome + index} onClick={() => setGames(expandTeam.id_campeonato)}>
+                        <GroupchampionshipTableContent key={grup.nome + index}>
                             <GroupchampionshipTablename key={grup.nome + index}>{grup.nome}</GroupchampionshipTablename>
                                 {grup.times.map(time => {
                                     return(

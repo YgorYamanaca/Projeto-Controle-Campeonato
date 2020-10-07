@@ -246,9 +246,6 @@ export const GroupchampionshipTableContent = styled.div`
     display: flex;
     flex-grow: 1;
     flex-direction:column;
-    :hover{
-        cursor: pointer;
-    }
 `;
 export const GroupChampionshipEditTableRowSty = styled.div`
     display: flex;
