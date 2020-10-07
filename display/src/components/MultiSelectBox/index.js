@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { ComponentContainer, SelectedBox, OptionsBox, OptionBox } from './styles';
+import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 
 export default function MultiSelectBox({options, handleFunction, placeHolder}) {
     const [isExpandBox, setExpand] = useState(false);
     const [optionsBox, setOptions] = useState(options.map(option => (
-        { ...option, Selected: true}
+        { ...option, selected: false}
     )));
-        console.log(isExpandBox)
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -30,17 +30,36 @@ export default function MultiSelectBox({options, handleFunction, placeHolder}) {
         }, [ref]);
     }
 
+    useEffect(() => {
+        let aux = []
+        optionsBox.forEach(option => {
+            if(option.selected)
+            {
+                aux.push(option.value);
+            }
+        });
+
+        handleFunction(aux);
+    }, [optionsBox, handleFunction])
+
+    const checkBox = (index) => {
+        let newArray = [...optionsBox];
+        newArray[index].selected = !newArray[index].selected;
+        setOptions(newArray);
+    } 
+
     return (
         <ComponentContainer>
-            <SelectedBox onClick={() => setExpand(true)}>
-                {optionsBox.findIndex(option => option.Selected === true) !== -1? optionsBox.map((option, index) => {
-                    if(option.Selected)
+            <SelectedBox onClick={() =>  setExpand(true)} placeHolder={optionsBox.findIndex(option => option.selected === true) !== -1? true : false}>
+                {optionsBox.findIndex(option => option.selected === true) !== -1? optionsBox.map((option, index) => {
+                    if(option.selected)
                     {
-                        if(index === optionsBox.length - 1)
-                        {
-                            return option.label
-                        }
-                        return option.label + ', '   
+                        return (
+                            <div key={index} style={{margin:'0px 3px', backgroundColor:'#00527E', color:'#fff', padding:'0px 2px'}}>
+                                {option.label}
+                            </div>
+                            )
+
                     }
                     return "";
                     }) : placeHolder}
@@ -49,10 +68,13 @@ export default function MultiSelectBox({options, handleFunction, placeHolder}) {
             {isExpandBox?
                 <OptionsBox ref={wrapperRef}>
                     {optionsBox.map((option, index) => {
-                        console.log(option)
                         return(
-                            <OptionBox key={'optionWeek' + index}>
-                                {option.label}
+                            <OptionBox key={'optionWeek' + index} onClick={() => checkBox(index)}>
+                                {option.selected? <GrCheckboxSelected/> :  <GrCheckbox/> }
+
+                                <div style={{marginLeft:'10px'}}>
+                                    {option.label}
+                                </div>
                             </OptionBox>
                         )
                     })}

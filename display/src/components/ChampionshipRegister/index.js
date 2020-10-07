@@ -37,7 +37,8 @@ export default function ChampionshipRegister() {
             'nome' : name,
             'dt_inicio' : inicio,
             'dt_fim' :  fim,
-            'times':teams
+            'times':teams,
+            'semana':selectedWeek,
         }
         dispatch(addChampionshipRequest(formData))
         setName("");
@@ -48,7 +49,6 @@ export default function ChampionshipRegister() {
     const removeTeam = (team) => {
         setTeam(teamRegister.filter(teamReg => teamReg.id_time !== team.id_time))
     }
-    console.log(selectedWeek);
     return (
         <ChampionshipRegisterContainer>
             <ChampionshipRegisterTitle>Cadastro de Campeonato</ChampionshipRegisterTitle>
@@ -133,7 +133,7 @@ export default function ChampionshipRegister() {
             </TeamRegisterContent>
             <ChampionshipRegisterFooter>
                 <div style={{marginLeft:'auto'}}>     
-                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && inicio && fim && (teamRegister.length > 0 && teamRegister.length%4 === 0) && (teamRegister.length>=4)? false:true} onClick={submitData}/>
+                    <AppStylizedButton contentText="Cadastrar" disabled={regexName.test(name) && inicio && fim && (teamRegister.length > 0 && teamRegister.length%4 === 0) && (teamRegister.length>=4) && selectedWeek.length > 0? false:true} onClick={submitData}/>
                 </div>
             </ChampionshipRegisterFooter>
         </ChampionshipRegisterContainer>

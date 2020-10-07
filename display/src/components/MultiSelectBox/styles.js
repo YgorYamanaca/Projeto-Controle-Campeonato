@@ -14,7 +14,8 @@ export const SelectedBox = styled.div`
     background-color: #f1f1f1;
     align-items: center;
     padding:5px 7px;
-    color: grey;
+    
+    color: ${props => props.placeHolder? 'black' : 'grey'};
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
     font-weight:500;
