@@ -19,13 +19,13 @@ export default function ChampionshipRegister() {
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ 0-9]+$/);
     const teamsData = useSelector(state => state.teamsData.data)
     const weekOptions = [
+        {label:'Domingo', value:0},
         {label:'Segunda-feira', value:1},
         {label:'Terça-feira', value:2},
         {label:'Quarta-feira', value:3},
         {label:'Quinta-feira', value:4},
         {label:'Sexta-feira', value:5},
-        {label:'Sábado', value:6},
-        {label:'Domingo', value:7},
+        {label:'Sábado', value:6},  
     ]
     const submitData = (e) => {
         let teams = [];
