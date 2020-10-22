@@ -129,12 +129,12 @@ export const DialogSty = styled.div`
 export const DialogBoxSty = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: #ffff;
     justify-content:center;
     align-items:center;
     color: #003049;
-    height:95px;
-    width:50%;
+    height:auto;
+    width:auto;
     border-radius: 10px;
     box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.5);
     padding:25px 10px;
@@ -148,6 +148,7 @@ export const ContentSty = styled.div`
 export const FooterSty = styled.div`
     display: flex;
     justify-content: space-around;
+    align-items: center;
     width:100%;
     margin-top:25px;
 `;
@@ -304,4 +305,9 @@ export const GamesTableRow = styled.div`
     color:#081D16;
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
+    :hover
+    {
+        cursor: pointer;
+        background-color:#f1f1f1;
+    }
 `;

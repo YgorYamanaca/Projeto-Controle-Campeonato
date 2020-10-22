@@ -7,15 +7,19 @@ import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableCon
     ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, GroupchampionshipTableContent, 
     GroupChampionshipEditTableRowSty, GroupchampionshipTablename, GamesTable, GamesTableHeader, GamesTableRow} from './styles.js'
 import UserMessage from '../UserMessage/'
+import { addPlayerData } from '../../store/modules/playerData/actions';
 import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRequest } from '../../store/modules/championshipData/actions';
 import api from '../../services/api'
 import { useDispatch } from 'react-redux' 
 import getGroupIDRequest from '../../services/getGroupIDRequest';
 import getGamesbyGroup from '../../services/getGamesbyGroup';
 import "react-datepicker/dist/react-datepicker.css";
+import AppStylizedSelect from '../AppStylizedSelect/'
 
 export default function ChampionshipTable() {
+    const [players, setPlayers] = useState(false);
     const [expandGames,  setExpandGames] = useState(false);
+    const [expand, setGamesDetail] = useState(false);
     const [expandTeam,  setExpand] = useState(false);
     const [renderDialog, setDialog] = useState({championShip:'', status:false});
     const [editEnable, setEdit] = useState(false);
@@ -28,7 +32,18 @@ export default function ChampionshipTable() {
     //const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
+    const playersData = useSelector(state => state.playerData.data);
     const userMessage = useSelector(state => state.championshipData.userMessage)
+    useEffect(() => {
+        api.get("/jogador")
+        .then(res => {
+            dispatch(addPlayerData(res.data));
+        })
+        .catch(error => {
+            setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
+        })
+    }, [dispatch, setMessage]);
+
     const generateDataAge = (date) =>
     {
         let auxDate = new Date(date);
@@ -50,7 +65,8 @@ export default function ChampionshipTable() {
 
     const wrapperRef = useRef(null);
     const wrapperRef2 = useRef(null);
-    
+    const wrapperRef3 = useRef(null);
+
     useOutsideAlerter(wrapperRef);
     function useOutsideAlerter(ref) {
         useEffect(() => {
@@ -81,6 +97,27 @@ export default function ChampionshipTable() {
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
                      setEdit(false)
+                }
+            }
+    
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
+    useOutsideAlerter3(wrapperRef3);
+    function useOutsideAlerter3(ref) {
+        useEffect(() => {
+            /**
+             * Alert if clicked on outside of element
+             */
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                     setGamesDetail(false)
                 }
             }
     
@@ -209,7 +246,7 @@ export default function ChampionshipTable() {
                                         {formatDate(games.data)}
                                     </GamesTableRow>
 
-                                    <GamesTableRow key={'gameTeam' + index}>
+                                    <GamesTableRow key={'gameTeam' + index} onClick={() => setGamesDetail(games)}>
                                         {games.time1.nome} - {games.time2.nome}
                                     </GamesTableRow>
                                 </React.Fragment>    )})
@@ -284,6 +321,7 @@ export default function ChampionshipTable() {
                         </ChampionshipTableFooter>
                     </Edit>
                 </EditBox> : null}
+
                 <DialogBoxSty ref={!editEnable? wrapperRef : null}>
                     <ContentSty>
                         {`Deseja exluir ou editar ${championShip.nome}.`}
@@ -297,9 +335,75 @@ export default function ChampionshipTable() {
         )
     }
 
+    const generatePlayerTable = (player) => {
+        let newPlayer = player;
+        newPlayer = newPlayer.filter(element => {return (element.Time.id_time === expand.time1.id_time || element.Time.id_time === expand.time2.id_time)})
+        return newPlayer.map(element => {return({value:element.id_jogador, label:element.nome})})
+    }
+
+    const sendData = (data, type) => {
+        switch(type)
+        {
+            case 'gol':
+                return(
+                    api.post(`/jogo/${data.id_jogo}/gol`, {id_jogador:data.id_jogador})
+                    .then(res => {
+                    })
+                    .catch(error => {
+                        setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
+                    })
+                )
+            case 'cardYellow':
+                return(
+                    api.post(`/jogo/${data.id_jogo}/cartao`, {id_jogador:data.id_jogador, tipo:'Amarelo'})
+                    .then(res => {
+                    })
+                    .catch(error => {
+                        setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
+                    })
+                )
+            case 'cardRed':
+                return(
+                    api.post(`/jogo/${data.id_jogo}/cartao`, {id_jogador:data.id_jogador, tipo:'Vermelho'})
+                    .then(res => {
+                    })
+                    .catch(error => {
+                        setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
+                    })
+                )
+            default:    
+        }   
+    }
+
+    const renderDialogComponentGames = () => {
+        return(
+            <DialogSty>
+                <DialogBoxSty ref={expand? wrapperRef3 : null}>
+                    <ContentSty>
+                        {`Selecione o jogador para atribuir um cartão ou gol.`}
+                    </ContentSty>
+                    <FooterSty>
+                        <AppStylizedSelect
+                        id="Player" 
+                        title="Jogador"
+                        placeholder="Selecione o time..."
+                        handleFunction = {setPlayers}
+                        options = {generatePlayerTable(playersData)}                
+                        />
+
+                        <AppStylizedButton contentText="Inserir Gol" onClick={() => sendData({id_jogador:players.value, id_jogo:expand.id_jogo}, 'gol')} disabled={players? false:true}/>
+                        <AppStylizedButton contentText="Inserir Cartão Amarelo" onClick={() => sendData({id_jogador:players.value, id_jogo:expand.id_jogo, tipo:'Amarelo'}, 'cardYellow')} disabled={players? false:true}/>
+                        <AppStylizedButton contentText="Inserir Cartão Vermelho" onClick={() => sendData({id_jogador:players.value, id_jogo:expand.id_jogo, tipo:'Vermelho'}, 'cardRed')} disabled={players? false:true}/>
+                    </FooterSty>
+                </DialogBoxSty>
+            </DialogSty>
+        )
+    }
+
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
+            {expand? renderDialogComponentGames() : null}
             <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
             <ChampionshipTableContent>
                 <ChampionshipTableHeader>
@@ -307,7 +411,7 @@ export default function ChampionshipTable() {
                         Nome do Campeonato
                     </ChampionshipHeader>
                     <ChampionshipHeader key={"championShipdata1"}>
-                        Data de inicio
+                        Data de Inicio
                     </ChampionshipHeader> 
                     <ChampionshipHeader key={"championShipdata2"}>
                         Data de Final

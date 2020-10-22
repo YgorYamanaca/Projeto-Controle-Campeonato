@@ -7,7 +7,6 @@ function AppStylizedSelect({id, title, options, placeholder, disabled, handleFun
     const [expand, setExpand] = useState(false);
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
-
     function useOutsideAlerter(ref) {
         useEffect(() => {
             /**

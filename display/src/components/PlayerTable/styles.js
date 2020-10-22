@@ -128,7 +128,7 @@ export const DialogSty = styled.div`
 export const DialogBoxSty = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: #f1f1f1;
+    background-color: #ffff;
     justify-content:center;
     align-items:center;
     color: #003049;
