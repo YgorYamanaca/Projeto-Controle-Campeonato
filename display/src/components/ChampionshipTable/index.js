@@ -13,6 +13,7 @@ import api from '../../services/api'
 import { useDispatch } from 'react-redux' 
 import getGroupIDRequest from '../../services/getGroupIDRequest';
 import getGamesbyGroup from '../../services/getGamesbyGroup';
+import getPontuationbyGroup from '../../services/getPontuationbyGroup';
 import "react-datepicker/dist/react-datepicker.css";
 import AppStylizedSelect from '../AppStylizedSelect/'
 
@@ -21,6 +22,7 @@ export default function ChampionshipTable() {
     const [expandGames,  setExpandGames] = useState(false);
     const [expand, setGamesDetail] = useState(false);
     const [expandTeam,  setExpand] = useState(false);
+    const [gamesPoints, setPoint] = useState(false);
     const [renderDialog, setDialog] = useState({championShip:'', status:false});
     const [editEnable, setEdit] = useState(false);
     const [name, setName] = useState("");
@@ -28,12 +30,15 @@ export default function ChampionshipTable() {
     const [fim, setFim] = useState("");
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
+    const [expandGols, setGolsDialog] = useState(false);
+    const [expandCards, setcardsDialog] = useState(false);
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ0-9]+$/);
     //const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
     const playersData = useSelector(state => state.playerData.data);
     const userMessage = useSelector(state => state.championshipData.userMessage)
+
     useEffect(() => {
         api.get("/jogador")
         .then(res => {
@@ -157,7 +162,7 @@ export default function ChampionshipTable() {
                     <InputBox>
                         <label>Nome:</label> <input id="NameInput" placeholder="Insira o nome do Campeonato..." type="text"  maxLength={50} value={name} onChange={event => setName(event.target.value)} style={{width: '250px'}}/>
                     </InputBox>
-                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={regexName.test(name)? false : true}/>
+                    <AppStylizedButton contentText="Salvar" onClick={() => {setRowEdit({row:'', rowType:'', status:false}); handleEditChampionShip(); clearEdit();}} disabled={name !== ''? false : true}/>
                 </div>             
             );
             
@@ -206,6 +211,12 @@ export default function ChampionshipTable() {
         return new Date(date).toLocaleDateString()
     }
     
+    const compareDate = (date) =>
+    {
+        let toDay = new Date().setHours(0,0,0,0);
+        return new Date(date).setHours(0,0,0,0) === toDay? true : false
+    }
+
     const handleEditChampionShip = () =>
     {
         dispatch(editChampionShipRequest(rowEdit.row, name, inicio, fim))
@@ -224,30 +235,42 @@ export default function ChampionshipTable() {
     async function expandGroup(championShip) {
         const groups = await getGroupIDRequest(championShip.id_campeonato);
         const jogos = await getGamesbyGroup(championShip.id_campeonato);
-        setExpandGames(jogos)
-        setExpand(groups)
+        const pontos = await getPontuationbyGroup(championShip.id_campeonato);
+        
+        setPoint(pontos);
+        setExpandGames(jogos);
+        setExpand(groups);
     }
-
     const generateGames = () => {
         return (
-                expandGames? expandGames.map((grupo, index) => {
+                expandGames? expandGames.map((grupo, indexGrupo) => {
                     return(
-                    <div style={{margin:'10px 0'}} key={'div' + index}>
-                        <GamesTableGroupHeader key={'text' + index}>   
+                    <div style={{margin:'10px 0'}} key={'div' + indexGrupo}>
+                        <GamesTableGroupHeader key={'text' + indexGrupo}>   
                             Jogos do {grupo.nome}
                         </GamesTableGroupHeader>
-                        <GamesTable key={'table' + index}>
-                            <GamesTableHeader key={'date' + index}>Datas</GamesTableHeader>
-                            <GamesTableHeader key={'games' + index}>Jogos</GamesTableHeader>
+                        <GamesTable key={'table' + indexGrupo}>
+                            <GamesTableHeader key={'date' + indexGrupo}>Datas</GamesTableHeader>
+                            <GamesTableHeader key={'games' + indexGrupo}>Jogos</GamesTableHeader>
+                            <GamesTableHeader key={'gols' + indexGrupo}>Gols</GamesTableHeader>
+                            <GamesTableHeader key={'cards' + indexGrupo}>Cartões</GamesTableHeader>
                             {grupo? grupo.jogos.map((games, index) => {
                             return(
-                                <React.Fragment key={index}>
+                                <React.Fragment key={index + 'ReactFragment'}>
                                     <GamesTableRow key={'gameDate' + index}>
                                         {formatDate(games.data)}
                                     </GamesTableRow>
 
-                                    <GamesTableRow key={'gameTeam' + index} onClick={() => setGamesDetail(games)}>
-                                        {games.time1.nome} - {games.time2.nome}
+                                    <GamesTableRow className='teamGame' key={'gameTeam' + index} onClick={() => {games.grupoIndex = indexGrupo; setGamesDetail(games)}}>
+                                        {games.time1.nome} X {games.time2.nome}
+                                    </GamesTableRow>
+
+                                    <GamesTableRow className='teamGols' key={'teamGols' + index}>
+                                        {games.Gols.length}
+                                    </GamesTableRow>
+
+                                    <GamesTableRow className='teamCards' key={'teamCards' + index}>
+                                        {games.Cartaos.length}
                                     </GamesTableRow>
                                 </React.Fragment>    )})
                                 : null}
@@ -258,15 +281,25 @@ export default function ChampionshipTable() {
     const generateTeamState = () => {
         return(
             <div style={{display:'flex'}}>
-                {expandTeam? expandTeam.map((grup, index) => {
+                {gamesPoints? gamesPoints.map((grup, index) => {
                     return(
-                        <GroupchampionshipTableContent key={grup.nome + index}>
-                            <GroupchampionshipTablename key={grup.nome + index}>{grup.nome}</GroupchampionshipTablename>
-                                {grup.times.map(time => {
+                        <GroupchampionshipTableContent key={grup.grupo + index + 'content'}>
+                            <GroupchampionshipTablename key={grup.grupo + index + 'name'}>
+                                {grup.grupo}
+                            </GroupchampionshipTablename>
+                            <GroupchampionshipTablename key={grup.grupo + index + 'name2'}>
+                                {'Pontos'}
+                            </GroupchampionshipTablename>
+                                {grup.times.map((time, index) => {
                                     return(
-                                        <GroupChampionshipEditTableRowSty key={time.nome + index} style={{color:'black'}}>
-                                            {time.nome}
-                                        </GroupChampionshipEditTableRowSty>
+                                        <React.Fragment  key={index + 'ReactFragment2'}>
+                                            <GroupChampionshipEditTableRowSty key={time.nome + index} style={{color:'black'}}>
+                                                {time.time}
+                                            </GroupChampionshipEditTableRowSty>
+                                            <GroupChampionshipEditTableRowSty key={time.pontos + index} style={{color:'black'}}>
+                                                {time.pontos + ' pontos'}
+                                            </GroupChampionshipEditTableRowSty>
+                                        </React.Fragment>
                                     )
                                 })}
                         </GroupchampionshipTableContent>
@@ -338,16 +371,20 @@ export default function ChampionshipTable() {
     const generatePlayerTable = (player) => {
         let newPlayer = player;
         newPlayer = newPlayer.filter(element => {return (element.Time.id_time === expand.time1.id_time || element.Time.id_time === expand.time2.id_time)})
-        return newPlayer.map(element => {return({value:element.id_jogador, label:element.nome})})
+        return newPlayer.map(element => {return({value:[element.id_jogador, element.Time.id_time], label:element.nome})})
     }
-
-    const sendData = (data, type) => {
+   const sendData = async (data, type) => {
         switch(type)
         {
             case 'gol':
                 return(
-                    api.post(`/jogo/${data.id_jogo}/gol`, {id_jogador:data.id_jogador})
-                    .then(res => {
+                    api.post(`/jogo/${data.id_jogo}/gol`, {id_jogador:data.id_jogador[0], id_time:data.id_jogador[1]})
+                    .then(async res => {                     
+                        const pontos = await getPontuationbyGroup(expandGames[expand.grupoIndex].id_campeonato);
+                        setPoint(pontos);
+                        const jogos = await getGamesbyGroup(expandGames[expand.grupoIndex].id_campeonato);
+                        setExpandGames(jogos);
+                        setGamesDetail(false);
                     })
                     .catch(error => {
                         setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
@@ -355,8 +392,11 @@ export default function ChampionshipTable() {
                 )
             case 'cardYellow':
                 return(
-                    api.post(`/jogo/${data.id_jogo}/cartao`, {id_jogador:data.id_jogador, tipo:'Amarelo'})
-                    .then(res => {
+                    api.post(`/jogo/${data.id_jogo}/cartao`, {id_jogador:data.id_jogador[0], id_time:data.id_jogador[1], tipo:'Amarelo'})
+                    .then(async res => {
+                        const jogos = await getGamesbyGroup(expandGames[expand.grupoIndex].id_campeonato);
+                        setExpandGames(jogos);
+                        setGamesDetail(false);
                     })
                     .catch(error => {
                         setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
@@ -364,8 +404,11 @@ export default function ChampionshipTable() {
                 )
             case 'cardRed':
                 return(
-                    api.post(`/jogo/${data.id_jogo}/cartao`, {id_jogador:data.id_jogador, tipo:'Vermelho'})
-                    .then(res => {
+                    api.post(`/jogo/${data.id_jogo}/cartao`, {id_jogador:data.id_jogador[0], id_time:data.id_jogador[1], tipo:'Vermelho'})
+                    .then(async res => {
+                        const jogos = await getGamesbyGroup(expandGames[expand.grupoIndex].id_campeonato);
+                        setExpandGames(jogos);
+                        setGamesDetail(false);
                     })
                     .catch(error => {
                         setMessage({message:"Não foi possível receber os dados do servidor", status:'Error'});
@@ -400,10 +443,30 @@ export default function ChampionshipTable() {
         )
     }
 
+    const renderGolsComponent = (content) => {
+        console.log(content)
+        return(
+            <DialogSty>
+
+            </DialogSty>
+        );
+    }
+
+    const renderCardsComponentexpandCards = (content) => {
+        console.log(content)
+        return(
+            <DialogSty>
+
+            </DialogSty>
+        );
+    }
+
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
             {expand? renderDialogComponentGames() : null}
+            {expandGols? renderGolsComponent(expandGols) : null}
+            {expandCards? renderCardsComponentexpandCards(expandCards) : null}
             <ChampionshipTableTitle>Campeonatos Cadastrados</ChampionshipTableTitle>
             <ChampionshipTableContent>
                 <ChampionshipTableHeader>
@@ -419,7 +482,7 @@ export default function ChampionshipTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <ChampionshipTeamTableRowSty key={index} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => expandGroup(championship)}>  
+                    <ChampionshipTeamTableRowSty key={championship.nome + index * 2} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => expandGroup(championship)}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
                         </ChampionshipCell>

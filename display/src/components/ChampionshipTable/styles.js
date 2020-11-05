@@ -244,7 +244,8 @@ export const ExpandTeamRow = styled.div`
 
 export const GroupchampionshipTableContent = styled.div`
     margin:5px 15px 5px 15px;
-    display: flex;
+    display:grid;
+    grid-template-columns: 1fr 2fr;
     flex-grow: 1;
     flex-direction:column;
 `;
@@ -257,9 +258,10 @@ export const GroupChampionshipEditTableRowSty = styled.div`
     border-right: 1px solid #003049;
     border-left: 1px solid #003049;
     border-bottom: 1px solid #003049;
+    
 `;
 export const GroupchampionshipTablename = styled.div`
-    display: flex;
+    display:flex;
     font-family: "Roboto Condensed";
     font-weight: 500;
     font-size:18px;
@@ -273,7 +275,7 @@ export const GroupchampionshipTablename = styled.div`
 
 export const GamesTable = styled.div`
     display:grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 2fr 0.5fr 0.5fr;
     margin: 0px 15px;
     border-top: 1px solid black;
     border-left: 1px solid black;
@@ -305,9 +307,14 @@ export const GamesTableRow = styled.div`
     color:#081D16;
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
-    :hover
+    /* background-color: ${props => props.toDay? 'green' : '#D62828'};
+    pointer-events: ${props => props.toDay? 'auto' : 'none'}; */
+    &.teamGame
     {
-        cursor: pointer;
-        background-color:#f1f1f1;
+        :hover
+        {
+            background-color:#00F7BD;
+            cursor: pointer;
+        }
     }
 `;

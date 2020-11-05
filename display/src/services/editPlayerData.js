@@ -1,9 +1,10 @@
 import {serverIP, serverPort} from '../config/config.js'
 
 export default async (player, name, tel, level, position, nick, birth) => {
-  let day = birth.getDate();
-  let month = birth.getMonth();
-  let year = birth.getFullYear();
+  console.log(birth)
+  let day = birth? birth.getDate() : null;
+  let month = birth?birth.getMonth() : null;
+  let year = birth?birth.getFullYear() : null;
   const response = await fetch(`http://${serverIP}:${serverPort}/jogador/`,{
     method: 'PATCH',
     headers: {
