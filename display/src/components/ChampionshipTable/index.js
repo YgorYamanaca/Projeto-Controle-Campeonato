@@ -31,7 +31,7 @@ export default function ChampionshipTable() {
     const [message, setMessage] = useState({message:'', status:''});
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     const [expandGols, setGolsDialog] = useState(false);
-    const [expandCards, setcardsDialog] = useState(false);
+    const [expandCards, setCardsDialog] = useState(false);
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ0-9]+$/);
     //const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const dispatch = useDispatch();
@@ -71,6 +71,8 @@ export default function ChampionshipTable() {
     const wrapperRef = useRef(null);
     const wrapperRef2 = useRef(null);
     const wrapperRef3 = useRef(null);
+    const wrapperRef4 = useRef(null);
+    const wrapperRef5 = useRef(null);
 
     useOutsideAlerter(wrapperRef);
     function useOutsideAlerter(ref) {
@@ -134,7 +136,47 @@ export default function ChampionshipTable() {
             };
         }, [ref]);
     }
-        
+
+    useOutsideAlerter4(wrapperRef4);
+    function useOutsideAlerter4(ref) {
+        useEffect(() => {
+            /**
+             * Alert if clicked on outside of element
+             */
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setGolsDialog(false)
+                }
+            }
+    
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+    useOutsideAlerter5(wrapperRef5);
+    function useOutsideAlerter5(ref) {
+        useEffect(() => {
+            /**
+             * Alert if clicked on outside of element
+             */
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setCardsDialog(false)
+                }
+            }
+    
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
     const excludeChamp = (idChamp) =>
     {
         dispatch(removeChampionshipDataRequest(idChamp));
@@ -265,11 +307,11 @@ export default function ChampionshipTable() {
                                         {games.time1.nome} X {games.time2.nome}
                                     </GamesTableRow>
 
-                                    <GamesTableRow className='teamGols' key={'teamGols' + index}>
+                                    <GamesTableRow className='teamGols' key={'teamGols' + index} onClick={() => setGolsDialog(games.Gols)}>
                                         {games.Gols.length}
                                     </GamesTableRow>
 
-                                    <GamesTableRow className='teamCards' key={'teamCards' + index}>
+                                    <GamesTableRow className='teamCards' key={'teamCards' + index} onClick={() => setCardsDialog(games.Cartaos)}>
                                         {games.Cartaos.length}
                                     </GamesTableRow>
                                 </React.Fragment>    )})
@@ -444,19 +486,30 @@ export default function ChampionshipTable() {
     }
 
     const renderGolsComponent = (content) => {
-        console.log(content)
+        // console.log(playersData.filter(player => content.map(gol => gol.id_jogador).includes(player.id_jogador)))
         return(
             <DialogSty>
-
+                <DialogBoxSty ref={expandGols? wrapperRef4 : null}>
+                    {content.length > 0? 
+                    playersData.filter(player => content.map(gol => gol.id_jogador).includes(player.id_jogador)).map(player => {
+                        return <div>{player.nome} do time {player.Time.nome}</div>
+                    })
+                     : 'Não há nenhum cartão para ser exibido.'}
+                </DialogBoxSty>
             </DialogSty>
         );
     }
 
     const renderCardsComponentexpandCards = (content) => {
-        console.log(content)
         return(
             <DialogSty>
-
+                <DialogBoxSty ref={expandCards? wrapperRef5 : null}>
+                {content.length > 0? 
+                    playersData.filter(player => content.map(card => card.id_jogador).includes(player.id_jogador)).map((player, index) => {
+                        return <div>{player.nome} do time {player.Time.nome} com o cartão {content[index].tipo}</div>
+                    })
+                     : 'Não há nenhum gol para ser exibido.'}
+                </DialogBoxSty>
             </DialogSty>
         );
     }

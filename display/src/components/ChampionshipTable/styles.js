@@ -317,4 +317,20 @@ export const GamesTableRow = styled.div`
             cursor: pointer;
         }
     }
+    &.teamGols
+    {
+        :hover
+        {
+            background-color:#00F7BD;
+            cursor: pointer;
+        }
+    }
+    &.teamCards
+    {
+        :hover
+        {
+            background-color:#00F7BD;
+            cursor: pointer;
+        }
+    }
 `;
