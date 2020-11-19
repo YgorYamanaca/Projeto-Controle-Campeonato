@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import MainApp from './MainApp.js'
 
 ReactDOM.render(
-    <MainApp />,
+    <React.StrictMode>
+      <MainApp />
+    </React.StrictMode>,
   document.getElementById('root')
 );

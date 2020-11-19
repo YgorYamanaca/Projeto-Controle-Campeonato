@@ -5,7 +5,7 @@ import {ChampionshipTableContainer, ChampionshipTableTitle, ChampionshipTableCon
     ChampionshipTeamTableRowSty, ChampionshipTableFooter, ChampionshipTeamRowEmpety, ChampionshipTableHeader,
     EditBox, Edit, DialogSty, DialogBoxSty, ContentSty, FooterSty, GamesTableGroupHeader,
     ChampionshipEditTableRowSty, ChampionshipEditCell, EditContent, InputBox, GroupchampionshipTableContent, 
-    GroupChampionshipEditTableRowSty, GroupchampionshipTablename, GamesTable, GamesTableHeader, GamesTableRow} from './styles.js'
+    GroupChampionshipEditTableRowSty, GroupchampionshipTablename, GamesTable, GamesTableHeader, GamesTableRow, TopScorer} from './styles.js'
 import UserMessage from '../UserMessage/'
 import { addPlayerData } from '../../store/modules/playerData/actions';
 import { editChampionShipRequest, addMultiChampionship, removeChampionshipDataRequest } from '../../store/modules/championshipData/actions';
@@ -32,13 +32,14 @@ export default function ChampionshipTable() {
     const [rowEdit, setRowEdit] = useState({row:'', rowType:'', status:false});
     const [expandGols, setGolsDialog] = useState(false);
     const [expandCards, setCardsDialog] = useState(false);
+    const [topScorer, setTopScorer] = useState(null);
     const regexName = (/^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ0-9]+$/);
     //const regexDate = (/([0-2]\d{1}|3[0-1])\/(0\d{1}|1[0-2])\/(19|20)\d{2}/);
     const dispatch = useDispatch();
     const championships = useSelector(state=>state.championshipData.data)
     const playersData = useSelector(state => state.playerData.data);
     const userMessage = useSelector(state => state.championshipData.userMessage)
-
+    
     useEffect(() => {
         api.get("/jogador")
         .then(res => {
@@ -253,11 +254,11 @@ export default function ChampionshipTable() {
         return new Date(date).toLocaleDateString()
     }
     
-    const compareDate = (date) =>
-    {
-        let toDay = new Date().setHours(0,0,0,0);
-        return new Date(date).setHours(0,0,0,0) === toDay? true : false
-    }
+    // const compareDate = (date) =>
+    // {
+    //     let toDay = new Date().setHours(0,0,0,0);
+    //     return new Date(date).setHours(0,0,0,0) === toDay? true : false
+    // }
 
     const handleEditChampionShip = () =>
     {
@@ -278,7 +279,7 @@ export default function ChampionshipTable() {
         const groups = await getGroupIDRequest(championShip.id_campeonato);
         const jogos = await getGamesbyGroup(championShip.id_campeonato);
         const pontos = await getPontuationbyGroup(championShip.id_campeonato);
-        
+        findNumberOneGol(championShip)
         setPoint(pontos);
         setExpandGames(jogos);
         setExpand(groups);
@@ -415,6 +416,7 @@ export default function ChampionshipTable() {
         newPlayer = newPlayer.filter(element => {return (element.Time.id_time === expand.time1.id_time || element.Time.id_time === expand.time2.id_time)})
         return newPlayer.map(element => {return({value:[element.id_jogador, element.Time.id_time], label:element.nome})})
     }
+
    const sendData = async (data, type) => {
         switch(type)
         {
@@ -514,6 +516,25 @@ export default function ChampionshipTable() {
         );
     }
 
+     function findNumberOneGol(champ) 
+    {
+        let golsOfChampionChip = champ.grupos.map(grupo => {
+            return grupo.jogos.map(jogo => 
+                {
+                    return jogo.Gols
+                }
+            ).filter(el => el.length >= 1)}
+        ).flat(Infinity);
+        const result = golsOfChampionChip.reduce((r, o) => {
+            r[`${o.id_jogador}`] = (r[`${o.id_jogador}`] || 0 ) + 1
+            return r;
+            }, {});
+        const topScorerAux = Object.keys(result).reduce((a, b) => result[a] > result[b] ? a : b);
+        const topGols = Math.max.apply( null, Object.keys( result ).map(function ( key ) { return result[key]; }));
+        const topGolsPlayer = playersData.find(el => el.id_jogador === parseInt(topScorerAux)).nome
+        setTopScorer({name:topGolsPlayer , gols:topGols})
+    } 
+
     return (
         <ChampionshipTableContainer>
             {renderDialog.status? renderDialogComponent(renderDialog.championship) : null}
@@ -535,7 +556,7 @@ export default function ChampionshipTable() {
                 </ChampionshipTableHeader>
                 {championships?
                     championships.map((championship, index) => 
-                    <ChampionshipTeamTableRowSty key={championship.nome + index * 2} onClick={() => setDialog({championship:championship, status:true})} onMouseOver={() => expandGroup(championship)}>  
+                    <ChampionshipTeamTableRowSty key={championship.nome + index * 2} onClick={() => setDialog({championship:championship, status:true})} onAuxClick={() => {expandGroup(championship);}}>  
                         <ChampionshipCell key={championship.nome + index} styless={index % 2 === 0? 'Par' : ''}>
                             {championship.nome}
                         </ChampionshipCell>
@@ -548,6 +569,9 @@ export default function ChampionshipTable() {
                     </ChampionshipTeamTableRowSty>)
                 :null}
             {championships && championships.length > 0? null:<ChampionshipTeamRowEmpety> Não há nenhum dado cadastrado</ChampionshipTeamRowEmpety>}
+            {topScorer && 
+                <TopScorer>{`Artilheiro do campeonato: ${topScorer.name} com ${topScorer.gols}.`}</TopScorer>
+            }
             {expandTeam.length > 0? 
             generateTeamState()
             : null}

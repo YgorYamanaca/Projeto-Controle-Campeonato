@@ -294,6 +294,14 @@ export const GamesTableHeader = styled.div`
     font-weight: 500;
     font-size:18px;
 `;
+
+export const TopScorer = styled.div`
+    display:flex;
+    justify-content:center;
+    color:#00527E;
+    margin:10px;
+`;
+
 export const GamesTableGroupHeader = styled.div`
     display:flex;
     justify-content:center;
