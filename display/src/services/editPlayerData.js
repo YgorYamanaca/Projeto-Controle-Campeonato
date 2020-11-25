@@ -1,7 +1,6 @@
 import {serverIP, serverPort} from '../config/config.js'
 
 export default async (player, name, tel, level, position, nick, birth) => {
-  console.log(birth)
   let day = birth? birth.getDate() : null;
   let month = birth?birth.getMonth() : null;
   let year = birth?birth.getFullYear() : null;

@@ -315,8 +315,8 @@ export const GamesTableRow = styled.div`
     color:#081D16;
     font-size:14px;
     font-family: "Roboto Condensed", sans-serif;
-    /* background-color: ${props => props.toDay? 'green' : '#D62828'};
-    pointer-events: ${props => props.toDay? 'auto' : 'none'}; */
+    background-color: ${props => props.toDay? 'green' : 'rgba(255, 0, 0, 0.15)'};
+    pointer-events: ${props => props.toDay? 'auto' : 'none'};
     &.teamGame
     {
         :hover
